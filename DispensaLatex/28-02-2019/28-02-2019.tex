@@ -1,0 +1,74 @@
+
+
+\newpage
+\section{28-02-2019}
+\par
+
+\textit{COVARIANZA e CONTROVARIANZA} dei tipi \newline
+$C_{1} <\tau_{1}> \leq C_{2}<\tau_{2}> \Leftrightarrow C_{1} \leq C_{2} \bigwedge \tau_{1}\equiv \tau_{2} $
+
+Questa regola del type system di java si dice che il linguaggio NON è COVARIANTE, in quanto i generics non cambiano. \newline
+
+\begin{lstlisting}[basicstyle=\small,]
+
+@Override
+public PastoreTedesco m(Animale c){ return new PastoreTedesco;}
+\\ il tipo di ritorno del metodo (PastoreTedesco) scende (sottoclassi)
+\\ il tipo del parametro di ingresso (Animale) sale (superclasse)
+
+\end{lstlisting}
+
+In java è possibile controvariare solo il tipo di ritorno del metodo, solo scendendo (sottotipo) \newline
+
+
+\begin{lstlisting}[basicstyle=\small,]
+
+public Cane m (Cane c){return c;}
+
+@Override
+public PastoreTedesco m(Cane c){return new PastoreTedesco();}
+
+\end{lstlisting}
+
+
+SOUND: un programma che compila e termina, a meno di una eccezione. \newline
+In java è possibile avvenga un segmentation fault non per un problema di casting, ma solamente se accediamo ad un indice di un array non abbiamo allocato. \newline
+
+
+
+
+Ci sono linguaggi dove non esistono gli array, quindi non accadrà mai segmentation fault e il codice terminerà sempre, ovviamente senza fare i controlli di semantica. \newline
+Recentemente è stato inserito un pattern che qualcosa la covarianza: \newline
+
+
+\begin{lstlisting}[basicstyle=\small,]
+
+Arraylisti<? extends Animale> m = new Arraylist<Cane>();
+
+\end{lstlisting}
+
+Da questo si capisce che la covarianza può essere usata, ma solamente se esplicitata con il wildcard. \newline
+Sono molto usati perchè non sono tipi del primo ordine \newline
+Non posso definire una variabile: \newline
+
+\begin{lstlisting}[basicstyle=\small,]
+? extends Animale m = new Cane();
+\\ questa sintassi si puo usare solo come type argument
+\end{lstlisting}
+
+Significato: permettono la covariamza, sono tipi temporanei che non possono essere scritti nel codice, però possono essere sostituiti con il get(). \newline
+Un altro DESIGN PATTERN: callback
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,104 @@
+
+
+\newpage
+\section{4-02-2019}
+\par
+\textbf{DICHIARAZIONE $\neq$ ASSEGNAMENTO} \newline
+L'assegnamento fa riferimento alla modifica di una variabile. \newline
+JAVA è un linguaggio \textit{imperattivo} ad oggetti.
+
+\begin{lstlisting}[basicstyle=\small,]
+
+int n		\\ Dichiarazione
+int m = n = 1; 	\\ Inizializzazione
+n = 2 		\\ Assegnamento
+
+\end{lstlisting}
+
+Java è stato realizzato con un compilatore integrato, che non compila in assembly, questo compilatore invece produce un file sorgente che non è eseguibile direttamente dalla macchina, bensi è eseguibile da una virtual machine, la JVM(\textit{java virtual machine}). In questo modo viene garantita la portabilità del codice in vari computer con CPU diversa (come il Phyton e .NET). \newline
+Questa separazione non conta niente per il linguaggio, si riflette solamente sul modello architetturale. \newline
+U.M.L. = unified model language $\Rightarrow$ rappresentazioni di gerarchie di classi. \newline
+
+\digraph{ao}{rankdir=LR;
+
+   a [label="Animali" shape = "record"]; 
+   c [label="Cani" shape = "record"]; 
+   g [label="Gatti" shape = "record"]; 
+   d [label="Dalmata" shape = "record"]; 
+   c->a; g->a; d->c;}
+   
+Tutte le sottoclassi sono dei sottoinsiemi. \newline
+Tutte le superclassi sono dei sovrainsiemi. \newline
+I linguaggi ad oggetti ci permettono di costruire \textit{tipi} e di definire \textit{valori}. \newline 
+
+\begin{lstlisting}[basicstyle=\small,]
+	Animale a = new Animale(); \\ in Java gli oggetti sono valori
+	\\ dove: Animale -> tipo -> CLASSE
+	\\ a = nome variabile
+	\\ new Animale() ha un valore -> OGGETTO
+\end{lstlisting}
+
+
+Compilatore(compiling time): \newline
+-> controllo sintattico \newline
+-> controllo dei tipi, cioè che gli insiemi siano corretti\newline
+\newline
+Esecuzione(RunTime):\newline
+-> Abbiamo a che fare con valori e non con tipi \newline
+\newline
+
+I tipi di fatto sono una astrazione del linguaggio. \newline
+Il senso di un compilatore è quello di evitare di scrivere castonerie che a livello di esecuzione non avrebbero senso. \newline
+
+\textit{SOUNDNESS} $\Rightarrow$ un linguaggio è sound quando il compilatore ti da la certezza che funzioni
+\newline
+
+\textit{METODI}: Ogni metodo dichiarato ha sempre un parametro implicito (il parametro \textit{this}). Esso è sottointeso e viene passato automaticamente, più eventuali parametri che vengono passati all'interno del metodo
+\newline
+
+\begin{lstlisting}[basicstyle=\small,]
+	public class Animal {
+		private int peso;
+		...
+		public void mangia(Animali a){
+			this.peso = this.peso + a.peso;
+		}
+	}
+	
+	Cane fido = new Cane();
+	a.mangia(fido); 			\\ SUBSUMPTION (assunzione)	
+	
+\end{lstlisting}
+
+
+L'eredità è un meccanismo che garantisce il funzionamento del \textit{polimorfismo}.Questa forma di
+polimorfismo è definita come \textit{SUBTYPING}. \newline
+L'altra forma di polimorfismo sono i \textit{GENERICS}, in modo tale da non perdere il tipo originario
+dell'oggetto passato al metodo. \newline
+
+\begin{lstlisting}[basicstyle=\small,]
+	\\ POLIMORFISMO SUBTYPING
+	\\ basato sui sottotipi ereditarieta
+	Object ident (Object x){
+		return x;
+	}
+\end{lstlisting}
+
+
+\begin{lstlisting}[basicstyle=\small,]
+	\\ POLIMORFISMO GENERICS (parametrico)
+	\\ non perdo informazioni sui tipi
+	<T> T ident (T x){
+		return x;
+	}
+	\\ questa funzione mi permette di riusare il metodo, in questo modo evito 
+	\\ di fare CAST, e di sbagliare a farli
+
+\end{lstlisting}
+
+ 
+
+
+
+\newpage
+

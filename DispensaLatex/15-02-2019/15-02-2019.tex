@@ -1,0 +1,59 @@
+
+
+\newpage
+\section{15-02-2019}
+\par
+
+\begin{lstlisting}[basicstyle=\small,]
+
+public interface Iterator<T>{}
+
+\end{lstlisting}
+
+L'interfaccia è un contratto, nel senso che ti promette di fare qualcosa. \newline
+In java si scrive il codice ancora prima di sapere cosa andrà a fare. \newline
+Il contratto di iteratore è il seguente: \newline
+->boolean hasNext(); \newline
+->T next(); \newline
+->void remove()\newline
+Non bisogna sapere necessariamente come sono stati implementati, ti basta sapere che esistono per poter dire che sia un iteratore. \newline
+Esempio di definizione di un metodo con iteratore come input: 
+
+\begin{lstlisting}[basicstyle=\small,]
+
+public statics void scorri(Iteratore <Integer> it){
+	while(it.hasnext()){
+		integer n = it.next();
+	}
+
+}
+
+\end{lstlisting}
+
+Esempio di utilizzo 
+
+\begin{lstlisting}[basicstyle=\small,]
+
+scorri(new Iterator<>(){
+	...
+	...
+	...
+
+});
+
+\end{lstlisting}
+
+Quest'ultima è un'espressione, o come meglio dire, un'oggetto fatto al volo. Questa sintassi è stata creata appositamente per le interfacce (dato che non si possono costruire), senza dover andare a definire una classe con la classica implementazione dell'interfaccia. \newline
+\textit{ANONYMOUS CLASS} meccanismo comodo per design pattern come le call-back. \newline
+Questa implementazione garantisce che la funzione sia \textit{SOUND}, e non crasherà mai a \textit{RunTime}
+\newline
+IMPLEMENTARE INTERFACCE \newline
+1) Con implements: \newline
+-> controlla i metodi che hai implementato all'interno della classe \newline
+-> assicura che siano implementati tutti \newline
+Tipi delle interfacce \newline
+Iterator $\Rightarrow$ non è un tipo \newline
+Iterator<T> $\Rightarrow$ è un tipo \newline
+
+\newpage
+

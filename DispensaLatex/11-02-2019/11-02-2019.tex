@@ -1,0 +1,25 @@
+
+
+\newpage
+\section{11-02-2019}
+\par
+
+\textit{ITERATORE}: E' un pattner, uno stile di programmazione. Il pattern degli iteratori esiste in tutti i linguaggi ad oggetti. Con iteratore intendiamo lo scorrimento di una collezione di elementi. \newline
+\textit{ITERABLE} è una super interfaccia, e l'interfaccia \textit{COLLECTION} implementa questa super interfaccia. Iterable è super tipo di tutte le interfacce. \newline
+<? extends E> \newline
+\textit{SOTTOTIPO} = 1) sei una sottoclasse (extends) 2) sei una sottointerfaccia (implements)
+\newline
+La \textit{SUBSUMPTION} non funziona tra GENERICS. Per il parametro stesso c'è subsumption, ma non per le collection.
+\newline
+TIPO ESTERNO: funziona sempre la subsumption \newline
+TIPO INTERNO: non funziona, solo con <? extends E> \newline
+[Invarianza del subtyping]: Se ciò non fosse le assunzioni funzionerebbero anche nel tipo di ritorno e questo rischierebbe la totale spaccatura \newline
+Se cosi non fosse in java non verrebbero mai rispettate le regole delle classi. \newline
+Java di unico ha che esiste il wildchart (?), che è un modo controllato per risolvere questo problemino. \newline
+Prima dei generics (2003/2004) in java si programmava tutto a typecast. Per motivi di retrocompatibilità è possibile programmare in tutti e due i modi. E' comunque consigliato usare la porgrammazione con i GENERICS. \newline
+Metodi che ritornano un booleano iniziano con sempre come se fossero domande; es: hasNext, isEmpty etc.. \newline
+Un iteratore non può essere costruito con un new perchè è un'interfaccia. 
+
+
+
+\newpage
