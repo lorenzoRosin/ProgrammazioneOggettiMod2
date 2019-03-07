@@ -12,13 +12,17 @@ Definire sottoclassi significa definire sottoinsiemi nell'ambito dell'ereditarie
 L'\textit{OVERRIDING} è il punto cruciale di tutta la programmazione ad oggetti. Se non potessi farlo significa che nelle sottoclassi non posso andare a specializzare un metodo. Specializzare un metodo significa cambiare l'implementazione della super classe senza cambiarne la firma. \newline
 @ serve per creare delle annotazioni nel codice, serve per il compilatore (es: @ override)
 \newline
-\textit{DINAMIC DISPATCHING}: in fase di runtime serve a scegliere la versione giusta 
-del metodo se ho degli over ride nelle mie classi. Se nella mia classe non esiste il metodo richiamato, il dinamic dispatching va a prendere l'implementazione del metodo dalla superclasse.
+\textit{IL POLIMORFISMO} è uno strumento molto utile perchè ci permette di scrivere codice, funzioni che posso adoperare anche con tipi diversi!
 \newline
-Le classi \textit{STATICHE} sono quelle classi in cui non si può fare riferimento a se stessi. (Un esempio possono essere i metodi statici) \newline
+\textit{DINAMIC DISPATCHING}: in fase di runtime serve a scegliere la versione giusta 
+del metodo se ho degli over ride nelle mie classi. Se nella mia classe non esiste il metodo richiamato, il dinamic dispatching va a prendere l'implementazione del metodo dalla superclasse. In memoria infatti ci sono tutti i puntatori ai metodi di una classe, durante il run time viene eseguito il codice del puntatore corretto. (\textit{vedere: virtual table})
+\newline
+Le classi \textit{STATICHE} sono quelle classi in cui non si può fare riferimento a se stessi. (Un esempio possono essere i metodi statici). Il riferimento a \textit{this} nei metodi statici è assente. I metodi statici "appartengono" alla classe, non ad una sua istanza! Una classe statica interna non vede il riferimento this dell'altra classe. \newline
 Le \textit{COLLECTION} sono delle interfacce della libreria di JAVA e non si possono costruire.
 \newline
 Un \textit{OGGETTO} è costituito da un insieme dei suoi campi e da puntatori ai metodi della classe $\Rightarrow$ grazie a questo il dispatching funziona, funziona perchè il compilatore ha controllato i tipi e garantisce che nel compiling time tutto questo funzioni. \newline
+Ogni espressione ha un tipo!
+\newline
 JAVA SE $\Rightarrow$ Standard Edition \newline
 JAVA EE $\Rightarrow$ Enterprise Edition \newline
 JAVA ME $\Rightarrow$ Mobile Edition \newline

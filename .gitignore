@@ -1,0 +1,14 @@
+
+*.aux
+
+*.log
+
+*.gz
+
+*.dot
+
+DispensaLatex/ao\.pdf
+
+*.out
+
+*.toc

@@ -4,11 +4,16 @@
 \section{21-02-2019}
 \par
 
+\textit{REFLECTION} è una tecnica per conoscere i tipi e il contenuto delle classi  a runtime. \newline
+Se voglio conoscere il tipo dell'enclosing class (classe che contiene) posso fare : nome.classe.this.nome \newline
 
 \textit{BINDING} avviene anche con i tipi \newline
+I parametri di una funzione sono binding nello scope della funzione.\newline
 I type argument fanno binding con i type parameter, esattamente come avviene per le funzioni tra argomenti e parametri. \newline
+
 Quando si programma con i generics si PROPAGANO. \newline
-TYPE ERASURE: cancellazione dei tipi: java lo fa quando compila i generics mettendoci Object: il motivo è per mantenere la compatiblità con il vecchio codice che non aveva generics. Quindi i generics sono verificati dal compilatore e poi cancellati per eseguire.
+
+TYPE ERASURE: cancellazione dei tipi: java lo fa quando compila butta via i generics generando classi non anonime e li sostituisce con Object: il motivo è per mantenere la compatiblità con il vecchio codice che non aveva generics. Quindi i generics sono verificati dal compilatore e poi cancellati per eseguire.
 
 
 

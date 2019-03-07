@@ -4,15 +4,28 @@
 \section{11-02-2019}
 \par
 
-\textit{ITERATORE}: E' un pattner, uno stile di programmazione. Il pattern degli iteratori esiste in tutti i linguaggi ad oggetti. Con iteratore intendiamo lo scorrimento di una collezione di elementi. \newline
+\textit{ITERATORE}: E' un pattner, uno stile di programmazione. Il pattern degli iteratori esiste in tutti i linguaggi ad oggetti. Con iteratore intendiamo lo scorrimento di una collezione di elementi. L'iteratore serve quindi a scorrere una collection.\newline
 \textit{ITERABLE} è una super interfaccia, e l'interfaccia \textit{COLLECTION} implementa questa super interfaccia. Iterable è super tipo di tutte le interfacce. \newline
+Se una interfaccia rappresenta una super interfaccia significa che non ha un genitore, anche se in realtà estende \textit{Object}
+\newline
+Una mappa è una struttura dati che mappa chiavi e valori, ha quindi due parametri: il tipo della chiave e il tipo del valore. Una mappa è una collection solo se vista come una collection di coppie. \newline
+Una collection è figlia di iterable (la posizione più alta nella gerarchia)\newline
+<? extends classe> rappresenta un tipo. \newline
+
 <? extends E> \newline
 \textit{SOTTOTIPO} = 1) sei una sottoclasse (extends) 2) sei una sottointerfaccia (implements)
 \newline
-La \textit{SUBSUMPTION} non funziona tra GENERICS. Per il parametro stesso c'è subsumption, ma non per le collection.
+
+
+ArrayList ha come superclasse abstract arrayList. ArrayList implementa collection, quindi ne è sottotipo ma non sottoclasse.
 \newline
-TIPO ESTERNO: funziona sempre la subsumption \newline
-TIPO INTERNO: non funziona, solo con <? extends E> \newline
+
+
+La \textit{SUBSUMPTION} non funziona tra GENERICS. Per il parametro stesso c'è subsumption, ma non per le collection. Il tipo con
+ il ? accetta sottotipi di parametri.
+\newline
+TIPO ESTERNO: gode sempre della la subsumption, il tipo interno NO, solo con<? extends E>  \newline
+
 [Invarianza del subtyping]: Se ciò non fosse le assunzioni funzionerebbero anche nel tipo di ritorno e questo rischierebbe la totale spaccatura \newline
 Se cosi non fosse in java non verrebbero mai rispettate le regole delle classi. \newline
 Java di unico ha che esiste il wildchart (?), che è un modo controllato per risolvere questo problemino. \newline
