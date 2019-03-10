@@ -2,11 +2,8 @@
 
 \newpage
 \section{4-02-2019}
-\par
 \textbf{DICHIARAZIONE $\neq$ ASSEGNAMENTO} \newline
-L'assegnamento fa riferimento alla modifica di una variabile. \newline
-JAVA è un linguaggio \textit{imperattivo} ad oggetti.
-
+L'assegnamento fa riferimento alla modifica di una variabile.
 \begin{lstlisting}[basicstyle=\small,]
 
 int n		\\ Dichiarazione
@@ -14,23 +11,23 @@ int m = n = 1; 	\\ Inizializzazione
 n = 2 		\\ Assegnamento
 
 \end{lstlisting}
+JAVA è un linguaggio \textit{imperattivo} ad oggetti.
 
 \noindent Java è stato realizzato con un compilatore integrato, che non compila in assembly, questo compilatore invece produce un file sorgente che non è eseguibile direttamente dalla macchina, bensi è eseguibile da una virtual machine, la JVM(\textit{java virtual machine}). In questo modo viene garantita la portabilità del codice in vari computer con CPU diversa (come il Phyton e .NET). \newline
-Questa separazione non conta niente per il linguaggio, si riflette solamente sul modello architetturale. \newline
-U.M.L. = unified model language $\Rightarrow$ rappresentazioni di gerarchie di classi. \newline
+Questa separazione non conta niente per il linguaggio, si riflette solamente sul modello architetturale.
 
+\noindent U.M.L. = unified model language $\Rightarrow$ rappresentazioni di gerarchie di classi. \newline
 \digraph{ao}{rankdir=LR;
 
    a [label="Animali" shape = "record"]; 
    c [label="Cani" shape = "record"]; 
    g [label="Gatti" shape = "record"]; 
    d [label="Dalmata" shape = "record"]; 
-   c->a; g->a; d->c;}
-   
-Tutte le sottoclassi sono dei sottoinsiemi. \newline
-Tutte le superclassi sono dei sovrainsiemi. \newline
-I linguaggi ad oggetti ci permettono di costruire \textit{tipi} e di definire \textit{valori}. \newline 
+   c->a; g->a; d->c;} \newline
+\textbullet\ Tutte le sottoclassi sono dei sottoinsiemi. \newline
+\textbullet\ Tutte le superclassi sono dei sovrainsiemi. 
 
+\noindent I linguaggi ad oggetti ci permettono di costruire \textit{tipi} e di definire \textit{valori}. 
 \begin{lstlisting}[basicstyle=\small,]
 	Animale a = new Animale(); \\ in Java gli oggetti sono valori
 	\\ dove: Animale -> tipo -> CLASSE
@@ -38,24 +35,19 @@ I linguaggi ad oggetti ci permettono di costruire \textit{tipi} e di definire \t
 	\\ new Animale() ha un valore -> OGGETTO
 \end{lstlisting}
 
-
-Compilatore(compiling time): \newline
--> controllo sintattico \newline
--> controllo dei tipi, cioè che gli insiemi siano corretti\newline
-\newline
+\noindent Compilatore(compiling time): \newline
+\textbullet\ controllo sintattico \newline
+\textbullet\ controllo dei tipi, cioè che gli insiemi siano corretti \newline
 Esecuzione(RunTime):\newline
--> Abbiamo a che fare con valori e non con tipi \newline
-\newline
+\textbullet\ Abbiamo a che fare con valori e non con tipi
 
-I tipi di fatto sono una astrazione del linguaggio. \newline
-Il senso di un compilatore è quello di evitare di scrivere castonerie che a livello di esecuzione non avrebbero senso. \newline
+\noindent I tipi di fatto sono una astrazione del linguaggio. \newline
+Il senso di un compilatore è quello di evitare di scrivere castonerie che a livello di esecuzione non avrebbero senso.
 
-\textit{SOUNDNESS} $\Rightarrow$ un linguaggio è sound quando il compilatore ti da la certezza che funzioni
-\newline
+\noindent \textit{SOUNDNESS}: un linguaggio è sound quando il compilatore ti da la certezza che funzioni
 
-\textit{METODI}: Ogni metodo dichiarato ha sempre un parametro implicito (il parametro \textit{this}). Esso è sottointeso e viene passato automaticamente, più eventuali parametri che vengono passati all'interno del metodo
-\newline
-
+\noindent \textbf{PARAMETRO IMPLICITO} \newline
+ Ogni metodo dichiarato ha sempre un parametro implicito (il parametro \textit{this}). Esso è sotto inteso e viene passato automaticamente, più eventuali parametri che vengono passati all'interno del metodo.
 \begin{lstlisting}[basicstyle=\small,]
 	public class Animal {
 		private int peso;
@@ -70,22 +62,17 @@ Il senso di un compilatore è quello di evitare di scrivere castonerie che a liv
 	
 \end{lstlisting}
 
-
-L'eredità è un meccanismo che garantisce il funzionamento del \textit{polimorfismo}.Questa forma di
-polimorfismo è definita come \textit{SUBTYPING}. \newline
-L'altra forma di polimorfismo sono i \textit{GENERICS}, in modo tale da non perdere il tipo originario
-dell'oggetto passato al metodo. \newline
-
+\noindent \textbf{POLIMORFISMO} \newline
+L'eredità è un meccanismo che garantisce il funzionamento del \textit{polimorfismo}.\newline
+\textbullet\ Polimorfismo per \textit{SUBTYPING} o anche polimorfismo per inclusione: si riferisce al fatto che una espressione il cui tipo sia descritto da una classe A può assumere valori di un qualunque tipo descritto da una classe B sottoclasse di A (Vedi codice appena sopra)\newline 
+\textbullet\ Polimorfismo dei \textit{GENERICS}: si riferisce al fatto che il codice del programma può ricevere un tipo come parametro invece che conoscerlo a priori (polimorfismo parametrico). In questo modo non si perde il tipo originario passato dall'oggetto al metodo \newline
 \begin{lstlisting}[basicstyle=\small,]
 	\\ POLIMORFISMO SUBTYPING
 	\\ basato sui sottotipi ereditarieta
 	Object ident (Object x){
 		return x;
 	}
-\end{lstlisting}
 
-
-\begin{lstlisting}[basicstyle=\small,]
 	\\ POLIMORFISMO GENERICS (parametrico)
 	\\ non perdo informazioni sui tipi
 	<T> T ident (T x){
@@ -95,10 +82,6 @@ dell'oggetto passato al metodo. \newline
 	\\ di fare CAST, e di sbagliare a farli
 
 \end{lstlisting}
-
- 
-
-
 
 \newpage
 

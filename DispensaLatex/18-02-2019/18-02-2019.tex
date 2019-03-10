@@ -1,15 +1,12 @@
 
-
 \newpage
 \section{18-02-2019}
-\par
+\textbf{CLASSE ASTRATTA} \newline
+Una classe si dice astratta quando ha almeno un metodo astratto, essa serve per impedire la sua costruzione (non posso quindi istanziarla). Delle classi vengono definite astratte se anche un solo metodo è astratto. Una delle maggiori differenze tra classi astratte ed interfacce è che una classe può implementare molte interfacce ma può estendere una sola classe astratta. Una interfaccia è zucchero sintattico di una classe astratta con soli metodi astratti. Zucchero sintattico (Syntactic sugar) è un termine coniato dall'informatico inglese Peter J. Landin per definire costrutti sintattici di un linguaggio di programmazione che non hanno effetto sulla funzionalità del linguaggio, ma ne rendono più facile ("dolce") l'uso per gli esseri umani. La differenza tra classe ed interfaccia in realtà non esiste.
 
-una è \textit{CLASSE ASTRATTA} quando ha almeno un metodo astratto, serve per impedire la sua costruzione (non ne posso costruire quindi una istanza) e vengono definite astratte se  anche un solo metodo è astratto. \newline
-Un array è una struttura dati lineare, omogenea e contigua in memoria. \newline
-Una interfaccia è zucchero sintattico di una classe astratta con soli metodi astratti. \newline
-La differenza tra classe ed interfaccia non esiste. \newline
-Per leggere una collection si usano gi iteratori che servono per gettare in sequenza.
+\noindent Un array è una struttura dati lineare, omogenea e contigua in memoria. \newline
 
+\noindent Per leggere una \textit{collection} si usano gli iteratori che servono per farnel il get in sequenza.
 \begin{lstlisting}[basicstyle=\small,]
 
 public static class Animale(){
@@ -26,8 +23,7 @@ public static class PastoreTedesco extends Cane{
 }
 
 \end{lstlisting}
-
-Se costruisco un oggetto di tipo pastoreTedesco, esso sarà grande quanto un tipo int (32 bit) ed una stringa (un puntatore).
+Se costruisco un oggetto di tipo PastoreTedesco, esso sarà grande quanto un tipo int (32 bit) ed una stringa (un puntatore).
 Il tutto grazie alla virtual table che tiene in memoria i puntatori dei vari campi di uno oggetto.
 
 
