@@ -1,0 +1,142 @@
+
+
+\newpage
+\section{7-03-2019}
+\par
+
+
+
+
+\begin{lstlisting}[basicstyle=\small,]
+
+List<?> l1 = new ArrayList<Cane>();
+\\ ? -> Da solo significa che indica un tipo che gerarchicamente
+\\ e pie in alto di Object, viene detto top type
+
+l1.get(int index) \\ritorna un capture of ? , qualcosa che sia figlio del top type 
+
+\end{lstlisting}
+
+il tipo ? non può essere usato come tipo per una variabile, ? x non si può fare, però posso fare
+ Object x = l1.get(..) \newline
+ 
+Mentre ? extends Animale -> qualsiasi cosa che sia figlio di animale \newline
+l2.get(0) -> ritorna un capture of ? extends Animale -> qualsiasi cosa figlia di animale (posso però fare Binding di qualcosa che sia al massimo Animale) \newline
+
+Posso subsumero solo il tipo esterno, se voglio subsumere anche il tipo interno devo usare le wildcards. \newline
+? super Animale -> qualcosa che sia più su di Animale (più generale) \newline
+l2.add(new Animale) -> ?? non compila perchè... \newline
+
+Riprenderemo la map vista l'altra volta. Ad esempio, per trasformare animali in piante: 
+
+
+
+\begin{lstlisting}[basicstyle=\small,]
+
+public static class Vegetale{}
+
+public static void main_map(){
+	List<cani> l1 = new ArrayList<>();
+	List<Vegetali> l2 = map(l1, new func<Animale, Vegetale>(){
+		@Override
+		public Vegetale execute(Animale a){
+			return null;
+		}
+	
+	});
+}
+
+\end{lstlisting}
+
+Questo non compila in quanto i generics non sono soggetti alla subsumption. \newline
+Per farlo compilare modifichiamo la funzione map: 
+
+
+\begin{lstlisting}[basicstyle=\small,]
+
+
+public static  <x, y> List<x> map(List<x>, Func(? super <x, y> f)){
+...
+
+}
+
+\end{lstlisting}
+
+
+
+NESTED CLASS \newline
+La Nested Class è totalmente senza relazione rispetto alla enclosed class.\newline
+Nel caso precedente main{\_}functional è la enclosed class, in quanto sto lavorando su quella. \newline
+Le nested class vedono i campi della enclosing class, ma se sono statiche non vedono i campi. 
+
+\begin{lstlisting}[basicstyle=\small,]
+
+
+public static  <x, y> List<y> map(List<x>, Func<? super x ,? extends y> f)){
+...
+
+}
+
+\end{lstlisting}
+Questa è la versione più generale possibile. \newline
+
+Overloading \newline
+Permette di definire metodi con stesso nome ma firma diversa. 
+
+\begin{lstlisting}[basicstyle=\small,]
+
+
+public static class c{
+	public int m(){
+		return 1;
+	}
+	public int m(int x){
+		return x+1;
+	}
+	public int m(float x){
+		return (int)(x-1.0f);
+	}
+	public int m(int x, int y){
+		return x+y;
+	}		
+}
+
+\end{lstlisting}
+
+L'overloading non è permesso cambiando il tipo di ritorno e lasciando il resto inalterato. Devono essere diversi i parametri! \newline
+-ordine \newline
+-tipi \newline
+-numeri \newline
+
+
+\begin{lstlisting}[basicstyle=\small,]
+
+
+public Number m(Number x){
+	return x;
+}
+
+\end{lstlisting}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
