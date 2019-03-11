@@ -2,20 +2,21 @@
 
 \newpage
 \section{4-03-2019}
-\par
+\textbf{DESIGN PATTERN} \newline
+\textbullet\ Iteratore \newline
+\textbullet\ Compact o callback ounary function 
 
-\textit{DESIGN PATTERN} dei tipi \newline
-->Iteratore \newline
-->Compact\\callback\\unary function \newline
-LAMBDA ASTRAZIONI -> servono per fare funzioni \newline	
-FUNZIONI DI ORDINE SUPERIORE \newline
+\noindent Le \textit{LAMBDA ASTRAZIONI} servono per fare funzioni al "volo", senza dover implementare in classi separate delle interfacce	
+
+\noindent \textbf{FUNZIONI DI ORDINE SUPERIORE} \newline
 Sono delle funzioni che prendono delle funzioni come parametri di ingresso 
-
-
 \begin{lstlisting}[basicstyle=\small,]
 
+\\ questa interfaccia essere equivalente alla interfaccia java.util.Functional
 public interface Func<A, B>{
-	B execute(A a);
+	B execute(A a); \\ questa essere l unica funzione esposta dalla interfaccia
+	\\un altro nome ragionevole per il metodo execute() essere apply() oppure call()
+	\\il nome deve ricordare il fatto di richiamare la funzione 
 }
 
 public static <A,B> List<B> map(List<A> I, Func<A,B> f){
@@ -27,23 +28,20 @@ public static <A,B> List<B> map(List<A> I, Func<A,B> f){
 }
 
 \end{lstlisting}
-
 A e B sono \textit{generics} locali al metodo(e solo al metodo) \newline
 I generics sulle classi servono per parametrizzare, non per fare polimorfismo \newline
-
-
 \begin{lstlisting}[basicstyle=\small,]
 
 public static <A,B> List<B> map(List<A> I, Func<A,B> f){
-\\ dove public static <A,B> dichiaro
-\\ mentre in List<a> .. Func <A,B> uso
+\\ dove in public static <A,B> dichiaro i parametri che useremo
+\\ mentre in List<a> .. Func <A,B> "uso" i parametri
 
 \end{lstlisting}
 
-Funzione FILTER: 
+\noindent Funzione FILTER: 
 \begin{lstlisting}[basicstyle=\small,]
 
-public static <A> List<A> Filter (List<A> I, Func<A,boolean> p){
+public static <A> List<A> Filter (List<A> l, Func<A,Boolean> p){
 	List<A> r = new ArrayList<>();
 	for(A x : l)
 		if(p.execute(x))
@@ -51,21 +49,25 @@ public static <A> List<A> Filter (List<A> I, Func<A,boolean> p){
 	return r;
 }
 
+\end{lstlisting}
+
+\noindent La seguente funzione NON funziona perché usa la remove() delle Collection, ma non è possibile rimuove un elemento in fase di scorrimento (è scritto nella documentazione)
+
+\begin{lstlisting}[basicstyle=\small,]
+
 public static <A> void Filter2 (List<A>, Func<A, boolean> p){
-	for(A a: l)
+	for(A a: l)  //il for each in Java essere zucchero sintattico
 		if(p.execute(a))
 			l.remove(a);
 
 }
 
 \end{lstlisting}
-
-Rimuovere un elemento da una coolection mentre la si usa è illegale \newline
-Posso chiedere all'iteratore di rimuovere l'elemento , esso rimuoverà quello a cui stiamo puntando \newline
-
+Se non posso rimuovere come ho fatto sopra un elemento posso invece chiedere all'iteratore di rimuovere l'elemento stesso, esso rimuoverà quello a cui stiamo puntando
 
 \begin{lstlisting}[basicstyle=\small,]
 
+// questo funziona perche chiama la remove() dell'iteratore
 public static <A> void Filter2 (List<A>, Func<A, boolean> p){
 	Iterator<A> it = l.iterator();
 	while(it.hasNext()){
@@ -73,20 +75,18 @@ public static <A> void Filter2 (List<A>, Func<A, boolean> p){
 		if(!(p.execute(a)))
 			it.remove();
 	}
-
 }
 
+\\volendo posso usare le funzionalita delle nuove API FUNZIONALI
+\\l.removeIf(a -> !p.execute(a));
 \end{lstlisting}
 
-
-
-
-Posso usare Function<A,B> di java come funziona func? \newline
+\noindent Posso usare Function<A,B> di java come funziona func? \newline
 Esempio di chiamata:
 
 \begin{lstlisting}[basicstyle=\small,]
 
-public static void main(String argv[]){
+public static void main(){
 	List<String> strings = new ArrayList<>();
 	string.add("ciao");
 	string.add("pippo");
@@ -101,11 +101,11 @@ public static void main(String argv[]){
 \end{lstlisting}
 
 
-Data una lista di interi scartare gli elementi minori di zero
+\noindent La seguente funzione data una lista di interi scarta gli elementi minori di zero: questo è il modo per non usare un for con un ciclo if innestato.
 
 \begin{lstlisting}[basicstyle=\small,]
 
-public static void main(String argv[]){
+public static void main__filter(){
 	 List<Integer> interi  = new ArrayList<>();
 	 interi.add(89);
 	 interi.add(34);
@@ -113,7 +113,8 @@ public static void main(String argv[]){
 	 interi.add(560);
 	 interi.add(-1);
 	 interi.add(46);
-	 List<Integer> l = Filter(int s, new Func<Integer, boolean>{
+	 //filter prende una lista e un predicato e produce una lista in uscita
+	 List<Integer> l = Filter(ints, new Func<Integer, boolean>(){
 	 	@Override
 	 	public Boolean execute (Integer a){
 	 		return a>=0;
@@ -132,17 +133,30 @@ Oppure
 	})
 \end{lstlisting}
 
-Generics Locali (Polimorfismo parametrico di primo ordine)
+\noindent \textbf{Generics Locali (Polimorfismo parametrico di primo ordine)} 
 
 \begin{lstlisting}[basicstyle=\small,]
-	public static <x> x ident2(x x){
-		return x;
-	}
+
+    public static Object ident__ugly(Object o) {
+        return o;
+    }   
+    //con metodo di subtyping che è POLIMORFISMO VERTICALE, 
+    //questa funzione NON è sound perché sono costretto a castare ciò che ricevo
+
+    public static <X> X ident(X x) {
+        return x;
+    }   //con i generics che è POLIMORFISMO PARAMETRICO
+
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+
 	
-	public static void main(){
+	public static void main__ident	(){
 		Cane fido = new Cane();
-		Cane c2 = ident2(Fido);
-		Gatto g = ident2(new Gatto());
+		Cane c = (Cane) ident__ugly(fido);  //ritorna un cane castando
+		Cane c2 = ident(fido);  //ritorna un cane senza dover castare
+		Gatto g = ident(new Gatto());
 	}
 \end{lstlisting}
 

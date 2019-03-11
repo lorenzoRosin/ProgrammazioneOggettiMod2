@@ -2,8 +2,11 @@
 
 \newpage
 \section{7-03-2019}
-\par
 
+i tre tipi possibili di wildcards sono: \newline
+\textbullet\ <?> top type
+\textbullet\ <? extends nametype>
+\textbullet\ <? super nametype >
 
 
 
@@ -11,7 +14,7 @@
 
 List<?> l1 = new ArrayList<Cane>();
 \\ ? -> Da solo significa che indica un tipo che gerarchicamente
-\\ e pie in alto di Object, viene detto top type
+\\ e piu in alto di Object, viene detto top type
 
 l1.get(int index) \\ritorna un capture of ? , qualcosa che sia figlio del top type 
 
@@ -23,8 +26,21 @@ il tipo ? non può essere usato come tipo per una variabile, ? x non si può far
 Mentre ? extends Animale -> qualsiasi cosa che sia figlio di animale \newline
 l2.get(0) -> ritorna un capture of ? extends Animale -> qualsiasi cosa figlia di animale (posso però fare Binding di qualcosa che sia al massimo Animale) \newline
 
+\begin{lstlisting}[basicstyle=\small,]
+
+	List<Animale> t3 = new ArrayList<Gatto>();
+	// essere errato, si puo subscrivere solamente il guscio esterno, la versione corretta essere fatta con il 
+	// wildcard
+	
+	List<? extends Animale> t3 = new ArrayList<Gatto>();
+
+\end{lstlisting}
+
 Posso subsumero solo il tipo esterno, se voglio subsumere anche il tipo interno devo usare le wildcards. \newline
+
+Il caso simmetrico è il seguente:
 ? super Animale -> qualcosa che sia più su di Animale (più generale) \newline
+In questo caso posso passare animale a tutto quello che sta sopra
 l2.add(new Animale) -> ?? non compila perchè... \newline
 
 Riprenderemo la map vista l'altra volta. Ad esempio, per trasformare animali in piante: 
@@ -65,9 +81,12 @@ public static  <x, y> List<x> map(List<x>, Func(? super <x, y> f)){
 
 
 NESTED CLASS \newline
-La Nested Class è totalmente senza relazione rispetto alla enclosed class.\newline
+La Nested Class (o Inner Class) è totalmente senza relazione rispetto alla enclosed class (outer class).\newline
 Nel caso precedente main{\_}functional è la enclosed class, in quanto sto lavorando su quella. \newline
 Le nested class vedono i campi della enclosing class, ma se sono statiche non vedono i campi. 
+
+
+Normalmente le nested class vedono il "this" della classe che le contiene (outer class), se pero sono statiche non vede il this.
 
 \begin{lstlisting}[basicstyle=\small,]
 
@@ -82,6 +101,8 @@ Questa è la versione più generale possibile. \newline
 
 Overloading \newline
 Permette di definire metodi con stesso nome ma firma diversa. 
+
+
 
 \begin{lstlisting}[basicstyle=\small,]
 
@@ -108,6 +129,7 @@ L'overloading non è permesso cambiando il tipo di ritorno e lasciando il resto 
 -tipi \newline
 -numeri \newline
 
+L'overloading è del tutto gestito dal compilatore.
 
 \begin{lstlisting}[basicstyle=\small,]
 

@@ -18,16 +18,12 @@ Una mappa è una struttura dati che mappa chiavi e valori, ha quindi due paramet
 \noindent \textbf{GENERICS}\newline
 <? extends classe> rappresenta un tipo. \newline
 <? extends E> \newline
-\textit{SOTTOTIPO} = 1) sei una sottoclasse (extends) 2) sei una sottointerfaccia (implements)
-\newline
+Ci riferiamo ad un oggetto usando la parola \textit{sottotipo} quando esso è:\newline
+\textbullet\ O una sottoclasse (extends) \newline
+\textbullet\ O una sotto interfaccia (implements) \newline
+Ad esempio ArrayList ha come superclasse abstract arrayList. ArrayList implementa collection. Quindi ne è sottotipo ma non sottoclasse.
 
-
-ArrayList ha come superclasse abstract arrayList. ArrayList implementa collection, quindi ne è sottotipo ma non sottoclasse.
-\newline
-
-
-La \textit{SUBSUMPTION} non funziona tra GENERICS. Per il parametro stesso c'è subsumption, ma non per le collection. Il tipo con
- il ? accetta sottotipi di parametri.
+\noindent La \textit{SUBSUMPTION} non funziona tra GENERICS. Per il parametro stesso c'è subsumption, ma non per le collection. Il tipo con il ? accetta sottotipi di parametri.
 \newline
 TIPO ESTERNO: gode sempre della la subsumption, il tipo interno NO, solo con<? extends E>  \newline
 
