@@ -8,6 +8,7 @@
 \usepackage{geometry}
 \usepackage{booktabs}
 \usepackage{color}
+\usepackage{xcolor}
 \usepackage{gensymb}
 \usepackage{colortbl}
 \usepackage{wrapfig}
@@ -20,7 +21,26 @@
 \graphicspath{{7-02-2019/},{4-02-2019/},{11-02-2019/}}
 \setlength{\parskip}{10pt plus 1pt minus 1pt}
 
-
+\lstset{
+    language=bash, %% Troque para PHP, C, Java, etc... bash é o padrão
+    basicstyle=\ttfamily\small,
+    numberstyle=\footnotesize,
+    numbers=left,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    tabsize=2,
+    rulecolor=\color{black!30},
+    title=\lstname,
+    escapeinside={\%*}{*)},
+    breaklines=true,
+    breakatwhitespace=true,
+    framextopmargin=2pt,
+    framexbottommargin=2pt,
+    inputencoding=utf8,
+    extendedchars=true,
+    showstringspaces = false,
+    literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1 {è}{{\'e}}1 {ò}{{\'o}}1,  
+}
 
 \begin{document}
 

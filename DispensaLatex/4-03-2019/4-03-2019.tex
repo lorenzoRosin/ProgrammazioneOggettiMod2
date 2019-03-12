@@ -91,7 +91,11 @@ public static void main(){
 	string.add("ciao");
 	string.add("pippo");
 	string.add("unive");
-	List<Integer> r = map(strings, new Func<String, Integers>{
+	//voglio calcolare la lunghezza della mia lista
+	List<Integer> r = map(strings, new Func<String, Integers>{ // "String" essere la lista, "Integers" essere la funzione
+            // In realta devo passare un oggetto di tipo Func<>, percio passo una classe anonima, all'interno 
+            // trovo solo un metodo (che essere il metodo di Func, che essere esattamente)
+            // il corpo del ciclo for	
 		@Override 
 		public Integer execute(String a){
 			return a.length();
