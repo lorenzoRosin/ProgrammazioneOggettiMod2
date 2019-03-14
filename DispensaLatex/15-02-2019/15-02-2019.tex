@@ -4,9 +4,7 @@
 \section{15-02-2019}
 \textbf{INTERFACCE}\newline
 \begin{lstlisting}[basicstyle=\small,]
-
 	public interface Iterator<T>{}
-
 \end{lstlisting}
 L'interfaccia è un contratto, nel senso che mette a disposizione una serie di metodi che ogni classe che estende quell'interfaccia deve obbligatoriamente implementare, pena un errore durante la fase di compilazione.In java quindi si può scrivere del codice ancora prima di sapere come si potrebbe implementare.
 
@@ -17,23 +15,19 @@ L'interfaccia è un contratto, nel senso che mette a disposizione una serie di m
 Data una certa classe che può non essere sotto al nostro controllo non abbiamo bisogna sapere necessariamente come sono stati implementati i suoi metodi, ma ci ti basta sapere che esistono per poter dire se sia o meno un iteratore. \newline
 Esempio di definizione di un metodo con iteratore come input: 
 \begin{lstlisting}[basicstyle=\small,]
-
 	public statics void scorri(Iteratore <Integer> it){
 		while(it.hasnext()){
 			integer n = it.next();
 		}
 	}
-
 \end{lstlisting}
 Esempio di utilizzo 
 \begin{lstlisting}[basicstyle=\small,]
-
 	scorri(new Iterator<>(){
 		...
 		...
 		...
 	});
-
 \end{lstlisting}
 Quest'ultima è un'espressione, o come meglio dire, un'oggetto fatto al volo. Questa sintassi è stata creata appositamente per le interfacce (dato che non si possono istanziare direttamente), senza dover andare a definire una classe con la classica implementazione dell'interfaccia. 
 

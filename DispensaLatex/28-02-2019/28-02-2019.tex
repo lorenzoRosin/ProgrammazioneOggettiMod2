@@ -2,77 +2,63 @@
 
 \newpage
 \section{28-02-2019}
-\par
-
 \textit{COVARIANZA e CONTROVARIANZA} dei tipi \newline
-\textit{VARIANZA} : \newline
-$C_{1} <\tau_{1}> \leq C_{2}<\tau_{2}> \Leftrightarrow C_{1} \leq C_{2} \bigwedge \tau_{1}\equiv \tau_{2} $
-Questa regola del type system di java si dice che il linguaggio NON è COVARIANTE, in quanto i generics non cambiano. \newline
+Scrivendo  $C \leq A$ intendiamo che C è sottotipo di A. Definito l'operatore minore uguale passiamo alle definizioni.
 
-Esempio: ArrayList<cane> è minore uguale a List<cane> (sottotipo) \newline
-Esempio: ArrayList<cane> NON è minore uguale a List<Animali> \newline
+\noindent \textit{VARIANZA} : \newline
+
+$C_{1} <\tau_{1}> \leq C_{2}<\tau_{2}> \Leftrightarrow C_{1} \leq C_{2} \bigwedge \tau_{1}\equiv \tau_{2} $
+Questa regola del type system di java si dice che il linguaggio NON è COVARIANTE, in quanto i generics non cambiano. 
+
+\noindent \textbullet\ Esempio: ArrayList<cane> $\leq$ List<cane> (sottotipo) \newline
+\textbullet\ Esempio: ArrayList<cane> $\nleq$ List<Animali> \newline
 L'ultima formula non è covariante, se fosse possibile si avrebbe una doppia soluzione sul guscio interno e il tipo esterno \newline
 
-\textit{CONTROVARIANZA} : \newline
-Quando eredito posso fare l'overide, quando lo faccio il tipo di ritorno è constrovariante (uno sale e uno scende. Il parametro sale ( si specializza) e il ritorno scende (si despecializza). \newline
-
-
-
-
+\noindent \textit{CONTROVARIANZA} : \newline
+Quando eredito posso fare l'override, quando lo faccio il tipo di ritorno è constrovariante (uno sale e uno scende. Il parametro sale ( si specializza) e il ritorno scende (si despecializza). 
 
 \begin{lstlisting}[basicstyle=\small,]
-
-\\nella classe Animale:
+/* nella classe Animale: */
 public Cane m(Cane c){
 	return c;
 }
 
-\\nella classe Cane:
+/* nella classe Cane: */
 @Override
 public PastoreTedesco m(Animale c){ return new PastoreTedesco;}
-\\ il tipo di ritorno del metodo (PastoreTedesco) scende (sottoclassi)
-\\ il tipo del parametro di ingresso (Animale) sale (superclasse)
-
+/* il tipo di ritorno del metodo 
+ *		(PastoreTedesco) scende (sottoclassi)
+ * il tipo del parametro di ingresso 
+ * 		(Animale) sale (superclasse) */
 \end{lstlisting}
-
 In java è possibile controvariare solo il tipo di ritorno del metodo, solo scendendo (sottotipo) \newline
 
-
 \begin{lstlisting}[basicstyle=\small,]
-
 public Cane m (Cane c){return c;}
 
 @Override
 public PastoreTedesco m(Cane c){return new PastoreTedesco();}
-
 \end{lstlisting}
 
-SOUND : un programma che compila può essere eseguito \newline
-SOUND JAVA: un programma che compila e termina, a meno di una eccezione. \newline
+\noindent \textbullet\ SOUND : un programma che compila può essere eseguito \newline
+\textbullet\ SOUND JAVA: un programma che compila e termina, a meno di una eccezione. \newline
 In java è possibile avvenga un segmentation fault non per un problema di casting, ma solamente se accediamo ad un indice di un array non abbiamo allocato. \newline
 
-
-
-
-Ci sono linguaggi dove non esistono gli array, quindi non accadrà mai segmentation fault e il codice terminerà sempre, ovviamente senza fare i controlli di semantica. \newline
-Recentemente è stato inserito un pattern che qualcosa la covarianza: \newline
-
+\noindent Ci sono linguaggi dove non esistono gli array, quindi non accadrà mai segmentation fault e il codice terminerà sempre, ovviamente senza fare i controlli di semantica. \newline
+Recentemente è stato inserito un pattern che qualcosa la covarianza: 
 
 \begin{lstlisting}[basicstyle=\small,]
-
 Arraylisti<? extends Animale> m = new Arraylist<Cane>();
-
 \end{lstlisting}
 
 Da questo si capisce che la covarianza può essere usata, ma solamente se esplicitata con il wildcard. \newline
 Sono molto usati perchè non sono tipi del primo ordine \newline
-Non posso definire una variabile: \newline
+Non posso definire una variabile: 
 
 \begin{lstlisting}[basicstyle=\small,]
 ? extends Animale m = new Cane();
-\\ questa sintassi si puo usare solo come type argument
+/* questa sintassi si può usare solo come type argument */
 \end{lstlisting}
-
 Significato: permettono la covarianza, sono tipi temporanei che non possono essere scritti nel codice, però possono essere sostituiti con il get(). \newline
 Un altro DESIGN PATTERN: callback
 

@@ -6,9 +6,9 @@
 L'assegnamento fa riferimento alla modifica di una variabile.
 \begin{lstlisting}[basicstyle=\small,]
 
-int n		\\ Dichiarazione
-int m = n = 1; 	\\ Inizializzazione
-n = 2 		\\ Assegnamento
+int n		   /* Dichiarazione */
+int m = n = 1; /* Inizializzazione */
+n = 2 		   /* Assegnamento */
 
 \end{lstlisting}
 JAVA è un linguaggio \textit{imperattivo} ad oggetti.
@@ -29,10 +29,11 @@ Questa separazione non conta niente per il linguaggio, si riflette solamente sul
 
 \noindent I linguaggi ad oggetti ci permettono di costruire \textit{tipi} e di definire \textit{valori}. 
 \begin{lstlisting}[basicstyle=\small,]
-	Animale a = new Animale(); \\ in Java gli oggetti sono valori
-	\\ dove: Animale -> tipo -> CLASSE
-	\\ a = nome variabile
-	\\ new Animale() ha un valore -> OGGETTO
+	Animale a = new Animale();
+	/* in Java gli oggetti sono valori
+	 * dove: Animale -> tipo -> CLASSE
+	 * a = nome variabile
+	 * new Animale() ha un valore -> OGGETTO */
 \end{lstlisting}
 
 \noindent Compilatore(compiling time): \newline
@@ -58,8 +59,7 @@ Il senso di un compilatore è quello di evitare di scrivere castonerie che a liv
 	}
 	
 	Cane fido = new Cane();
-	a.mangia(fido); 			\\ SUBSUMPTION (assunzione)	
-	
+	a.mangia(fido); 			/* SUBSUMPTION (assunzione)	*/
 \end{lstlisting}
 
 \noindent \textbf{POLIMORFISMO} \newline
@@ -67,20 +67,20 @@ L'eredità è un meccanismo che garantisce il funzionamento del \textit{polimorf
 \textbullet\ Polimorfismo per \textit{SUBTYPING} o anche polimorfismo per inclusione: si riferisce al fatto che una espressione il cui tipo sia descritto da una classe A può assumere valori di un qualunque tipo descritto da una classe B sottoclasse di A (Vedi codice appena sopra)\newline 
 \textbullet\ Polimorfismo dei \textit{GENERICS}: si riferisce al fatto che il codice del programma può ricevere un tipo come parametro invece che conoscerlo a priori (polimorfismo parametrico). In questo modo non si perde il tipo originario passato dall'oggetto al metodo \newline
 \begin{lstlisting}[basicstyle=\small,]
-	\\ POLIMORFISMO SUBTYPING
-	\\ basato sui sottotipi ereditarieta
+	/* POLIMORFISMO SUBTYPING
+	 * basato sui sottotipi ereditarietà */
 	Object ident (Object x){
 		return x;
 	}
 
-	\\ POLIMORFISMO GENERICS (parametrico)
-	\\ non perdo informazioni sui tipi
+	/* POLIMORFISMO GENERICS (parametrico)
+	 * non perdo informazioni sui tipi */
 	<T> T ident (T x){
 		return x;
 	}
-	\\ questa funzione mi permette di riusare il metodo, in questo modo evito 
-	\\ di fare CAST, e di sbagliare a farli
-
+	/* questa funzione mi permette di riusare il 
+	 * metodo, in questo modo evito di fare CAST,
+	 * e di sbagliare a farli */
 \end{lstlisting}
 
 \newpage
