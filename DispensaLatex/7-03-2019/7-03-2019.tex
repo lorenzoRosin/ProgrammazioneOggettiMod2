@@ -2,21 +2,24 @@
 
 \newpage
 \section{7-03-2019}
+\textbf{WILDCARDS} \newline
 I tre tipi possibili di wildcards sono: \newline
-\textbullet\ <?> top type \newline
-\textbullet\ <? extends nametype> \newline
-\textbullet\ <? super nametype > \newline
+\textbullet\ \textit{<?> top type} (o chiamato Unbounded Wildcard) \newline
+\textbullet\ \textit{<? extends nametype>} (o chiamato Upper Bounded Wildcards)\newline
+\textbullet\ \textit{<? super nametype >} (o chiamato Lower Bounded Wildcards)\newline
 
 
 
 \begin{lstlisting}[basicstyle=\small,]
-
+/* TOP TYPE*/ 
 List<?> l1 = new ArrayList<Cane>();
-\\ ? -> Da solo significa che indica un tipo che gerarchicamente
-\\ e piu in alto di Object, viene detto top type
+/* Il "?" da solo indica un tipo che gerarchicamente
+ * e più in alto di Object, viene detto top type.
+ * In poche parole indica che non ci sono 
+ * restrizioni sul tipo di parametro passato */
 
-l1.get(int index) \\ritorna un capture of ? , qualcosa che sia figlio del top type 
-
+l1.get(int index) /* il compilatore ritorna " capture of ? " 
+				   * qualcosa che sia figlio del top type */
 \end{lstlisting}
 
 \noindent Il tipo ? non può essere usato come tipo per una variabile, ? x non si può fare, però posso fare

@@ -20,9 +20,9 @@
 \usepackage[pdf]{graphviz} 
 \graphicspath{{7-02-2019/},{4-02-2019/},{11-02-2019/}}
 \setlength{\parskip}{10pt plus 1pt minus 1pt}
-
+\definecolor{xanadu}{rgb}{0.45, 0.53, 0.47}
 \lstset{
-    language=bash, %% Troque para PHP, C, Java, etc... bash é o padrão
+    language=JAVA, %% Troque para PHP, C, Java, etc... bash é o padrão
     basicstyle=\ttfamily\small,
     numberstyle=\footnotesize,
     numbers=left,
@@ -39,7 +39,8 @@
     inputencoding=utf8,
     extendedchars=true,
     showstringspaces = false,
-    literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1 {è}{{\'e}}1 {ò}{{\'o}}1,  
+    literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1 {è}{{\'e}}1 {ò}{{\'o}}1  {ù}{{\'u}}1 {à}{{\'a}}1 ,   
+    commentstyle=\color{xanadu},
 }
 
 \begin{document}
