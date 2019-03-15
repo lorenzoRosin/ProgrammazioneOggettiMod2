@@ -8,8 +8,9 @@ I tre tipi possibili di wildcards sono: \newline
 \textbullet\ \textit{<? extends nametype>} (o chiamato Upper Bounded Wildcards)\newline
 \textbullet\ \textit{<? super nametype >} (o chiamato Lower Bounded Wildcards)\newline
 
+\noindent \textbf{Top Type} \newline
+Il tipo "?" non può essere usato come tipo per una variabile quindi dichiarare"? x" non si può fare. Posso però dichiarare questo: "Object x = l1.get(..)"
 \begin{lstlisting}[basicstyle=\small,]
-/* TOP TYPE*/ 
 List<?> l1 = new ArrayList<Cane>();
 /* Il "?" da solo indica un tipo che gerarchicamente
  * e più in alto di Object, viene detto top type.
@@ -31,31 +32,30 @@ l1.get(int index) /* il compilatore ritorna l'errore in
 			   
 \end{lstlisting}
 
-\noindent Il tipo "?" non può essere usato come tipo per una variabile quindi dichiarare"? x" non si può fare. Posso però dichiarare questo: "Object x = l1.get(..)" \newline
-
-
-
-
-Mentre ? extends Animale -> qualsiasi cosa che sia figlio di animale \newline
+\noindent \textbf{Upper Bounded Wildcards} \newline
+"? extends Animale" indica che come parametro posso passare un qualsiasi tipo che sia figlio di Animale \newline
 l2.get(0) -> ritorna un capture of ? extends Animale -> qualsiasi cosa figlia di animale (posso però fare Binding di qualcosa che sia al massimo Animale) \newline
 
 \begin{lstlisting}[basicstyle=\small,]
 	List<Animale> t3 = new ArrayList<Gatto>();
 	/* è errato, si può subscrivere solamente il guscio
-	 * esterno, la versione corretta è fatta con il 
-	 * wildcard */
+	 * esterno,per farlo con il guscio (tipo) interno
+	 * la versione corretta è fatta con il wildcard */
 	
 	List<? extends Animale> t3 = new ArrayList<Gatto>();
 \end{lstlisting}
 
-\noindent Posso subsumero solo il tipo esterno, se voglio subsumere anche il tipo interno devo usare le wildcards. \newline
 
-\noindent Il caso simmetrico è il seguente: \newline
-? super Animale -> qualcosa che sia più su di Animale (più generale) \newline
+\noindent \textbf{Lower Bounded Wildcards} \newline
+"? super Animale" indica che come parametro posso passare qualsiasi tipo che sia più su di Animale (più generale).\newline
 In questo caso posso passare animale a tutto quello che sta sopra
 l2.add(new Animale) -> ?? non compila perchè... \newline
 
-\noindent Riprenderemo la map vista nella lezione scorsa. Ad esempio, per trasformare animali in piante: 
+\noindent Riprenderemo la map vista nella lezione scorsa.
+\begin{lstlisting}[basicstyle=\small,]
+public static <A,B> List<B> map(List<A> I, Func<A,B> f)();
+\end{lstlisting}
+Ad esempio, per trasformare animali in piante: 
 
 \begin{lstlisting}[basicstyle=\small,]
 public static class Vegetale{}
@@ -81,7 +81,7 @@ public static  <x, y> List<x> map(List<x>, Func(? super <x, y> f)){
 }
 \end{lstlisting}
 
-Riporto anche una versione il più generale possibile: \newline
+\noindent Riporto anche una versione il più generale possibile: \newline
 
 \begin{lstlisting}[basicstyle=\small,]
     public static <X, Y> List<Y> map(List<X> l, Func<? super X, ? extends Y> f) {

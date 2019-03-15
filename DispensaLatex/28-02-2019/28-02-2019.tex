@@ -2,19 +2,20 @@
 
 \newpage
 \section{28-02-2019}
-\textit{COVARIANZA e CONTROVARIANZA} dei tipi \newline
-Scrivendo  $C \leq A$ intendiamo che C è sottotipo di A. Definito l'operatore minore uguale passiamo alle definizioni.
+\textbf{COVARIANZA e CONTROVARIANZA DEI TIPI }\newline
+Scrivendo  $C \leq A$ intendiamo che C è sottotipo di A. Definito l'operatore minore uguale passiamo alle definizioni vere e propie.
 
-\noindent \textit{VARIANZA} : \newline
-
+\noindent \textbf{VARIANZA} \newline
 $C_{1} <\tau_{1}> \leq C_{2}<\tau_{2}> \Leftrightarrow C_{1} \leq C_{2} \bigwedge \tau_{1}\equiv \tau_{2} $
-Questa regola del type system di java si dice che il linguaggio NON è COVARIANTE, in quanto i generics non cambiano. 
+\newline
+Questa regola del type system di \textit{java} ci dice che il linguaggio non è COVARIANTE, in quanto i generics non cambiano. 
 
 \noindent \textbullet\ Esempio: ArrayList<cane> $\leq$ List<cane> (sottotipo) \newline
 \textbullet\ Esempio: ArrayList<cane> $\nleq$ List<Animali> \newline
 L'ultima formula non è covariante, se fosse possibile si avrebbe una doppia soluzione sul guscio interno e il tipo esterno \newline
 
-\noindent \textit{CONTROVARIANZA} : \newline
+\noindent \textbf{CONTROVARIANZA} \newline
+Java supports* covariant return types for overridden methods. This means an overridden method may have a more specific return type. That is, as long as the new return type is assignable to the return type of the method you are overriding, it's allowed.\newline
 Quando eredito posso fare l'override, quando lo faccio il tipo di ritorno è constrovariante (uno sale e uno scende. Il parametro sale ( si specializza) e il ritorno scende (si despecializza). 
 
 \begin{lstlisting}[basicstyle=\small,]
