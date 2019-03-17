@@ -96,7 +96,7 @@ public static <A> List<A> Filter (List<A> l, Func<A,Boolean> p){
 \noindent La seguente \textit{Filter2} NON funziona perché usa la \textit{remove()} delle Collection, ma non è possibile rimuove un elemento in fase di scorrimento (è scritto nella documentazione)
 
 \begin{lstlisting}[basicstyle=\small,]
-public static <A> void Filter2 (List<A>, Func<A, boolean> p){
+public static <A> void Filter2 (List<A>, Func<A, Boolean> p){
 	for(A a: l)   /* il for each in Java essere zucchero sintattico */
 		if(p.execute(a))
 			l.remove(a);
@@ -108,7 +108,7 @@ Se non posso rimuovere come ho fatto sopra un elemento posso invece chiedere all
 \begin{lstlisting}[basicstyle=\small,]
 /* questo funziona perchè chiama la remove() dell'iteratore
  * mentre prima chiamavo il remove della lista */
-public static <A> void Filter2 (List<A>, Func<A, boolean> p){
+public static <A> void Filter2 (List<A>l, Func<A, Boolean> p){
 	Iterator<A> it = l.iterator();
 	while(it.hasNext()){
 		A a = it.next();
@@ -125,7 +125,7 @@ public static <A> void Filter2 (List<A>, Func<A, boolean> p){
 Esempio di chiamata:
 
 \begin{lstlisting}[basicstyle=\small,]
-public static void main(){
+public static void main(String argv[]){
 	List<String> strings = new ArrayList<>();
 	string.add("ciao");
 	string.add("pippo");
@@ -160,7 +160,7 @@ public static void main__filter(){
 	 interi.add(-1);
 	 interi.add(46);
 	 /* filter prende una lista e un predicato e produce una lista in uscita */
-	 List<Integer> l = Filter(ints, new Func<Integer, boolean>(){
+	 List<Integer> l = Filter(ints, new Func<Integer, Boolean>(){
 	 	@Override
 	 	public Boolean execute (Integer a){
 	 		return a>=0;
@@ -179,7 +179,7 @@ public static void main__filter(){
 	})
 \end{lstlisting}
 
-\noindent \textbf{Generics Locali (Polimorfismo parametrico di primo ordine)} 
+\noindent \textbf{GENERICS LOCALI (Polimorfismo parametrico di primo ordine)} 
 
 \begin{lstlisting}[basicstyle=\small,]
     public static Object ident__ugly(Object o) {

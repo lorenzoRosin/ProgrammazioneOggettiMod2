@@ -44,11 +44,17 @@ l2.get(0) -> ritorna un capture of ? extends Animale -> qualsiasi cosa figlia di
 	
 	List<? extends Animale> t3 = new ArrayList<Gatto>();
 \end{lstlisting}
-
+Vediamo ora un'altro esempio:
+\begin{lstlisting}[basicstyle=\small,]
+	List<?> l1 = new ArrayList<Cane>();
+	List<? extends Animale> l2 = new ArrayList<Gatto>();
+	l1 = l2 /* è assegnazione valida */
+	l2 = l1 /* NON è assegnazione valida */
+\end{lstlisting}
 
 \noindent \textbf{Lower Bounded Wildcards} \newline
 "? super Animale" indica che come parametro posso passare qualsiasi tipo che sia più su di Animale (più generale).\newline
-In questo caso posso passare animale a tutto quello che sta sopra
+In questo caso posso passare animale a tutto quello che sta sopra. \newline
 l2.add(new Animale) -> ?? non compila perchè... \newline
 
 \noindent Riprenderemo la map vista nella lezione scorsa.
@@ -94,8 +100,16 @@ public static  <x, y> List<x> map(List<x>, Func(? super <x, y> f)){
 \end{lstlisting}
 
 \noindent \textbf{NESTED CLASS}\newline
+\begin{lstlisting}[basicstyle=\small,]
+public class Main__Functional {
+	public static void main__filter() {
+		...
+	}
+}
+\end{lstlisting}
 La Nested Class (o Inner Class) è totalmente senza relazione rispetto alla enclosed class (outer class).Nel caso precedente main{\_}functional è la enclosed class, in quanto sto lavorando su quella. \newline
-Le nested class vedono i campi della enclosing class, compreso il parametro implicito this, solamente se non sono \textit{statiche}.
+Le nested class vedono i campi della enclosing class, compreso il parametro implicito this, solamente se non sono \textit{statiche}.\newline
+Le due tipologie di classi (Inner e Outer) non servono a creare gerarchie, ma solo a creare ordine nel codice.
 
 \noindent \textbf{OVERLOADING} \newline
 Il meccanismo dell'overloading permette di definire metodi con stesso nome ma firma diversa. 
@@ -128,6 +142,19 @@ public static class c{
 public Number m(Number x){
 	return x;
 }
+\end{lstlisting}
+Vediamo un esempio:
+\begin{lstlisting}[basicstyle=\small,]
+	int foo(){...};
+	float foo(){...};
+	...
+	... = foo();
+	/* come fa il compilatore a sapere
+	 * quale foo deve richiamare se 
+	 * differiscono per il parametro di ritorno? 
+	 * Non può saperlo, ecco perchè 
+	 * overriding richiede i tipi di ritorno
+	 * uguali */
 \end{lstlisting}
 
 

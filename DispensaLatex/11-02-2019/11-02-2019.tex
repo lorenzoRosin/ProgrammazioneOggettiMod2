@@ -14,26 +14,21 @@ Una mappa è una struttura dati che mappa chiavi e valori, ha quindi due paramet
 \includegraphics[width=%
 0.6\textwidth]{MapInterface}
 \end{center} 
-
-\noindent \textbf{GENERICS}\newline
-<? extends classe> rappresenta un tipo. \newline
-<? extends E> \newline
 Ci riferiamo ad un oggetto usando la parola \textit{sottotipo} quando esso è:\newline
 \textbullet\ O una sottoclasse (extends) \newline
 \textbullet\ O una sotto interfaccia (implements) \newline
 Ad esempio ArrayList ha come superclasse abstract arrayList. ArrayList implementa collection. Quindi ne è sottotipo ma non sottoclasse.
 
-\noindent La \textit{SUBSUMPTION} non funziona tra GENERICS. Per il parametro stesso c'è subsumption, ma non per le collection. Il tipo con il ? accetta sottotipi di parametri.
-\newline
-TIPO ESTERNO: gode sempre della la subsumption, il tipo interno NO, solo con<? extends E>  \newline
-
-[Invarianza del subtyping]: Se ciò non fosse le assunzioni funzionerebbero anche nel tipo di ritorno e questo rischierebbe la totale spaccatura \newline
+\noindent \textbf{GENERICS}\newline
+<? extends classe> rappresenta un tipo. \newline
+<? extends E> \newline
+La \textit{SUBSUMPTION} non funziona tra GENERICS. Per il parametro stesso c'è subsumption, ma non per le collection. Il tipo con il ? accetta sottotipi di parametri.\newline
+\textbullet\ Il TIPO ESTERNO gode sempre della la subsumption, 
+\textbullet\ Il TIPO INTERNO non gode mai della subsumption, la subsumption si può fare solo usndo i generics( quindi con <? extends E>)  \newline
+[Invarianza del subtyping]: Se ciò non fosse le subsumption funzionerebbero anche nel tipo interno e questo rischierebbe la totale spaccatura \newline
 Se cosi non fosse in java non verrebbero mai rispettate le regole delle classi. \newline
-Java di unico ha che esiste il wildchart (?), che è un modo controllato per risolvere questo problemino. \newline
+Java di unico ha che esiste il wildchart (?), che è un modo controllato per risolvere il problema della subsumption dei tipi interni. \newline
 Prima dei generics (2003/2004) in java si programmava tutto a typecast. Per motivi di retrocompatibilità è possibile programmare in tutti e due i modi. E' comunque consigliato usare la porgrammazione con i \textit{generics}. \newline
 Metodi che ritornano un booleano iniziano con sempre come se fossero domande; es: hasNext, isEmpty etc.. \newline
 Un iteratore non può essere costruito con un new perchè è un'interfaccia. 
-
-
-
 \newpage

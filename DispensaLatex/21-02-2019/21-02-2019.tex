@@ -7,11 +7,11 @@ La \textit{reflection} è una \textit{features} del linguaggio java che non tutt
 Ad esempio se abbiamo degli oggetti che vengono passati dentro ad un metodo che come parametro ha il tipo Object, non saremo più in grado di distinguere il loro tipo di classe "originale", per superare questo problema possiamo invocare la funzione getClass() che ci ritorna il loro vero tipo.
 
 \noindent \textbf{BINDING} \newline
+Esistono due tipi di BINDING: static binding () e dynamic binding ( un esempio è l'override dei metodi di una classe ereditata).\newline
 \textit{BINDING} avviene anche con i tipi \newline
 I parametri di una funzione sono binding nello scope della funzione.\newline
 I type argument fanno binding con i type parameter, esattamente come avviene per le funzioni tra argomenti e parametri. \newline
-
-Quando si programma con i generics si PROPAGANO. 
+Quando si programma con i generics essi si PROPAGANO. 
 
 \noindent \textbf{TYPE ERASURE} \newline
 La cancellazione dei tipi in java avviene quando il compilatore "butta" via i generics generando classi non anonime e li sostituisce con Object: il motivo è per mantenere la compatiblità con il vecchio codice che non aveva generics. Quindi i generics sono verificati dal compilatore e poi cancellati per eseguire.

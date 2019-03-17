@@ -4,9 +4,13 @@
 \textbf{CLASSE ASTRATTA} \newline
 Una classe si dice astratta quando ha almeno un metodo astratto, essa serve per impedire la sua costruzione (non posso quindi istanziarla). Delle classi vengono definite astratte se anche un solo metodo è astratto. Una delle maggiori differenze tra classi astratte ed interfacce è che una classe può implementare molte interfacce ma può estendere una sola classe astratta. Una interfaccia è zucchero sintattico di una classe astratta con soli metodi astratti. Zucchero sintattico (Syntactic sugar) è un termine coniato dall'informatico inglese Peter J. Landin per definire costrutti sintattici di un linguaggio di programmazione che non hanno effetto sulla funzionalità del linguaggio, ma ne rendono più facile ("dolce") l'uso per gli esseri umani. La differenza tra classe ed interfaccia in realtà non esiste.
 
-\noindent Un array è una struttura dati lineare, omogenea e contigua in memoria. \newline
+\noindent Un array è una struttura dati lineare, omogenea e contigua in memoria.
 
 \noindent Per leggere una \textit{collection} si usano gli iteratori che servono per farnel il get in sequenza.
+
+\noindent \textbf{VTABLE E DIMENSIONE DI UNA CLASSE} \newline
+Una virtual Table, o dispatching table, è un meccanismo utilizzato per supportare il dynamic dispatching (o anche chiamato run-time method binding).Quando una classe definisce dei metodi virtuali, il compilatore nasconde all'interno dei membri della classe una variabile che punta ad un array di puntatori a funzioni. Questi puntatori sono poi usati a runtime per invocare l'implementazione della funzione appropiata, questo perchè in compile-time non è detto che si sappia se la funzione richiamata sia quella del tipo definito o sia derivata da un'altra classe.
+
 \begin{lstlisting}[basicstyle=\small,]
 public static class Animale(){
 	privae int peso;

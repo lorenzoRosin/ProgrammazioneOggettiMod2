@@ -12,28 +12,37 @@ Questa regola del type system di \textit{java} ci dice che il linguaggio non è 
 
 \noindent \textbullet\ Esempio: ArrayList<cane> $\leq$ List<cane> (sottotipo) \newline
 \textbullet\ Esempio: ArrayList<cane> $\nleq$ List<Animali> \newline
-L'ultima formula non è covariante, se fosse possibile si avrebbe una doppia soluzione sul guscio interno e il tipo esterno \newline
+L'ultima formula non è covariante, se fosse possibile si avrebbe una doppia subsunzione sul guscio interno e sul tipo esterno \newline
 
 \noindent \textbf{CONTROVARIANZA} \newline
-Java supports* covariant return types for overridden methods. This means an overridden method may have a more specific return type. That is, as long as the new return type is assignable to the return type of the method you are overriding, it's allowed.\newline
-Quando eredito posso fare l'override, quando lo faccio il tipo di ritorno è constrovariante (uno sale e uno scende. Il parametro sale ( si specializza) e il ritorno scende (si despecializza). 
-
+Quando eredito un metodo di una classe posso sovrascriverlo usando l'overriding. Quando lo faccio un linguaggio di programmazione si dice controvariante se mi è possibile far scendere (specializzare) il tipo di ritorno, e al contempo mi è possibile far salire (rendere più generico) l'argomento di ingresso. Vediamo un esempio (\textit{NON VALIDO IN JAVA}):
 \begin{lstlisting}[basicstyle=\small,]
-/* nella classe Animale: */
-public Cane m(Cane c){
-	return c;
-}
-
-/* nella classe Cane: */
-@Override
-public PastoreTedesco m(Animale c){ return new PastoreTedesco;}
-/* il tipo di ritorno del metodo 
- *		(PastoreTedesco) scende (sottoclassi)
- * il tipo del parametro di ingresso 
- * 		(Animale) sale (superclasse) */
+/* Data questa gerarchia di classi: */
+  public class Cane extends Animale{
+	/* nella classe Cane faccio l'override
+ 	 * del metodo ereditato dalla classe
+ 	 * Animale */  
+	public Cane m(Cane c){
+		return c;
+	}
+  }
+  
+ public class PastoreTedesco Extends Cane{
+ 	@Override
+	public PastoreTedesco m(Animale c){
+		return new PastoreTedesco;
+	}
+	/* rispetto al metodo originale
+	 * il tipo di ritorno del metodo 
+	 *		(PastoreTedesco) scende (sottoclassi)
+ 	 * il tipo del parametro di ingresso 
+ 	 * 		(Animale) sale (superclasse) */	
+ }
 \end{lstlisting}
-In java è possibile controvariare solo il tipo di ritorno del metodo, solo scendendo (sottotipo) \newline
 
+\noindent Detto questo è bene specificare che Java supporta i solo i tipi di ritorno controvarianti, è possibile controvariare SOLO il tipo di ritorno del metodo, ed è possibile farlo solamente scendendo (sottotipo). Ed è possibile Fare questo nella fase di overriding, non in quella di overloading.
+
+\noindent Il seguente è l'esempio corretto in java:
 \begin{lstlisting}[basicstyle=\small,]
 public Cane m (Cane c){return c;}
 
@@ -43,24 +52,20 @@ public PastoreTedesco m(Cane c){return new PastoreTedesco();}
 
 \noindent \textbullet\ SOUND : un programma che compila può essere eseguito \newline
 \textbullet\ SOUND JAVA: un programma che compila e termina, a meno di una eccezione. \newline
-In java è possibile avvenga un segmentation fault non per un problema di casting, ma solamente se accediamo ad un indice di un array non abbiamo allocato. \newline
+Un esempio di SOUND JAVA è il seguente:in java è possibile avvenga un segmentation fault non per un problema di casting, ma solamente se accediamo ad un indice di un array che non abbiamo allocato, quindi il programma termina a meno di una eccezione. Ci sono invece linguaggi dove non esistono gli array, quindi non accadrà mai segmentation fault e il codice terminerà sempre alla fine senza eccezioni, ovviamente senza fare i controlli di semantica. 
 
-\noindent Ci sono linguaggi dove non esistono gli array, quindi non accadrà mai segmentation fault e il codice terminerà sempre, ovviamente senza fare i controlli di semantica. \newline
-Recentemente è stato inserito un pattern che qualcosa la covarianza: 
 
+\noindent Recentemente è stato inserito un pattern che permette anche in Java la covarianza: sono i generics con i wildcards. 
 \begin{lstlisting}[basicstyle=\small,]
 Arraylisti<? extends Animale> m = new Arraylist<Cane>();
 \end{lstlisting}
-
 Da questo si capisce che la covarianza può essere usata, ma solamente se esplicitata con il wildcard. \newline
-Sono molto usati perchè non sono tipi del primo ordine \newline
-Non posso definire una variabile: 
-
+Sono molto usati perchè i wildcard non sono tipi del primo ordine, infatti il \textit{tipo} "? extends classe" non esiste!!!Non posso definire una variabile come segue: 
 \begin{lstlisting}[basicstyle=\small,]
 ? extends Animale m = new Cane();
 /* questa sintassi si può usare solo come type argument */
 \end{lstlisting}
-Significato: permettono la covarianza, sono tipi temporanei che non possono essere scritti nel codice, però possono essere sostituiti con il get(). \newline
+Significato: permettono la covarianza, sono tipi temporanei che non possono essere scritti nel codice, però possono essere subsunti con il get(). \newline
 Un altro DESIGN PATTERN: callback
 
 
