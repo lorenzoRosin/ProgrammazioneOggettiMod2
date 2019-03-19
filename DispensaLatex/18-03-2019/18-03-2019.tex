@@ -1,0 +1,29 @@
+
+
+\newpage
+\section{18-03-2019}
+\textbf{ECCEZIONI} \newline
+Quando si lanciano eccezioni è bene ricordasi la differenza tra \textit{throw} e \textit{throws}
+\begin{lstlisting}[basicstyle=\small,]
+public void writeList() throws IOException {
+	if(true)
+		 throw new IOException("demo"); 
+}
+\end{lstlisting}
+\textbullet\ throws viene messa affianco alla firma del metodo, seguita da una lista dei eccezioni, e serve per dichiarare quali eccezioni possono essere lanciate da un determinato metodo. \newline
+\textbullet\ throw seguito da un oggetto di tipo eccezione, serve per lanciare l'eccezione. \newline
+Si possono lanciare eccezione dei tipi \textit{Throwable}. Throwable è un super tipo di Exception e di tutte le classi lanciabili. \newline
+Come regola generale quindi throw ha bisogno di essere seguito da un'espressione con tipo compatibile per poter essere lanciata.\newline
+Il catch è lo strumento di binding per il throw. \newline
+Le eccezioni non ritornano  per forza al chiamante se ritornano a chi se le prende. \newline
+Il sistema try-catch è stato ideato per evitare delle forti anomalie del programma. \newline
+Nel canale ufficiale del return vengo solamente ritornati i risultati "giusti", in caso contrario verrà lanciata un'eccezione: questo è lo stile richiesto per i linguaggi evoluti. Invece di complicare il tipo di ritorno usiamo le eccezioni. \newline
+Al posto delle eccezioni possiamo definire  un tipo di ritorno che codifica il fatto che hai trovato o meno quello che cercavi. Questa tecnica non è molto leggibile per chi non ha scritto il codice, sarebbe meglio usare il design pattern " tipo-eccezione". Esso è utile anche perchè in questo modo non si può scrivere codice che non funzioni, mentre definendo un nuovo tipo è possibile.
+
+\newpage
+
+
+
+
+
+
