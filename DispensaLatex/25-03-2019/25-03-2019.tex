@@ -1,0 +1,191 @@
+
+
+\newpage
+\section{25-02-2019}
+\noindent Ha continuato quello che ha fatto la scorsa lezione \newline
+Inserisco il codice caricato dal professore quel giorno: 
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: MySortedSet.java */
+public interface MySortedSet<T extends Comparable<T>> extends MySet<T> {
+
+}
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: MyArrayListSortedSet.java */
+import java.util.*;
+import java.util.function.Function;
+
+public class MyArrayListSortedSet<T extends Comparable<T>>
+        extends MyAbstractArrayListSet<T> {
+
+    public MyArrayListSortedSet() {
+        super();
+    }
+
+    @Override
+    protected void sort() {
+        Collections.sort(a);
+    }
+
+}
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: MyArrayListSet.java */
+/* è stata modificata la classe dell'altra volta*/
+
+import java.util.*;
+import java.util.function.Function;
+
+public class MyArrayListSet<T> extends MyAbstractArrayListSet<T> {
+
+    private final Comparator<T> p;
+
+    public MyArrayListSet(Comparator<T> p) {
+        super();
+        this.p = p;
+    }
+
+    @Override
+    protected void sort() {
+        Collections.sort(a, p);
+    }
+
+}
+
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: MyAbstractArrayListSet.java */
+import java.util.*;
+import java.util.function.Function;
+
+public abstract class MyAbstractArrayListSet<T> implements MySet<T> {
+    protected final ArrayList<T> a;
+
+    protected MyAbstractArrayListSet() {
+        this.a = new ArrayList<T>();
+    }
+
+    @Override
+    public void add(T x) {
+        if (!contains(x)) {
+            a.add(x);
+            sort();
+        }
+    }
+
+    protected abstract void sort();
+
+    @Override
+    public void clear() {
+        a.clear();
+    }
+
+    @Override
+    public void remove(T x) {
+        a.remove(x);
+    }
+
+    @Override
+    public boolean contains(T x) {
+        return a.contains(x);
+    }
+
+    @Override
+    public boolean contains(Function<T, Boolean> p) {
+        return a.contains(p);
+    }
+
+    @Override
+    public int size() {
+        return a.size();
+    }
+
+    @Override
+    public MyIterator<T> iterator() {
+        Iterator<T> it = a.iterator();
+        return new MyIterator<T>() {
+
+            @Override
+            public boolean hasNext() {
+                return it.hasNext();
+            }
+
+            @Override
+            public T next() {
+                return it.next();
+            }
+        };
+    }
+
+    @Override
+    public int find(T x) throws Exception {
+        int r = a.indexOf(x);
+        if (r < 0) throw new Exception("not found");
+        return r;
+    }
+}
+
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: Main.java */
+import java.util.*;
+
+public class Main {
+
+    public static class Plant {
+        private int height;
+
+    }
+
+    public static class Animal implements Comparable<Animal> {
+        private int weight;
+        private String name;
+
+        public Animal(String name, int w) {
+            this.name = name;
+            this.weight = w;
+        }
+
+        public int getWeight() { return weight; }
+
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public int compareTo(Animal o) {
+            return this.weight - o.weight;
+            /*if (this.weight == o.weight) return 0;
+            else if (this.weight > o.weight) return 1;
+            else return -1;*/
+        }
+    }
+
+    public static class Dog extends Animal {
+
+        public Dog(String name, int w) {
+            super(name, w);
+        }
+    }
+
+    public static void main(String[] args) {
+
+        List<Animal> a = new ArrayList<>();
+        Collections.sort(a);
+
+        List<Plant> b = new ArrayList<>();
+        Collections.sort(b, new Comparator<Plant>() {
+            @Override
+            public int compare(Plant x, Plant y) {
+                return x.height - y.height;
+            }
+        });
+
+    }
+}
+\end{lstlisting}
