@@ -2,4 +2,109 @@
 
 \newpage
 \section{4-04-2019}
-\noindent PLACE HOLDER
+\textbf{DESIGN PATTERN SINGLETON} \newline
+Si limita l'istanzazione di una classe a uan sola istanza. \newline
+Può servire per creare oggetti statici (per esempio un campo statico esiste anche prima dell'istanza dell'oggetto del tipo della classe a cui appartiene). \newline
+Un costruttore privato può essere accessibile solo dalla classe, e non dall'esterno. \newline
+I metodi statici che ritornano lo stesso tipo del costruttore della classe sono costruttori travestiti. \newline
+i costruttori sono metodi d'istanza. Non serve il modificatore di accesso static, anche se sono simili a metodi statici. \newline
+I metodi statici sono pseudo costruttori, se usati nel modo opportuno. \newline
+Un metodo statico è un metodo che non ha bisogno di istanza. un campo statico si può vedere anche se non ha istanza (da un metodo statico si può accedere solo a campi statici, poichè non ha riferimento al this).
+
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: Main.java */
+package patterns.singleton;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Singleton single1 = Singleton.getInstance();
+        Singleton single2 = Singleton.getInstance();
+        System.out.println("is it the same object? " + (single1 == single2));
+    }
+
+}
+
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: Singleton.java */
+package patterns.singleton;
+
+class Singleton {
+    private static Singleton instance = null;
+
+    // costruttore privato per non permettere a nessuno di costruire questa classe
+    private Singleton() {}
+
+    // metodo statico che funge da pseudo-costruttore
+    public static Singleton getInstance() {
+        if (instance == null)
+            instance = new Singleton();
+        return instance;
+    }
+}
+
+\end{lstlisting}
+
+
+\noindent \textbf{INTERFACCIA GRAFICA} \newline
+Un widget è un supertipo dell'interfaccia grafica. \newline
+Busy-Loop: ciclo che cicla a vuoto, non restituendo il controllo al S.O. \newline
+Le interfacce grafiche non si programmano a busy-loop. Si chiede al sistema operativo di "svegliarmi quando accade un evento". Dunque si programmano a suon di call-back. \newline
+un esempio di call-back è il ctr-c per interrompere un programma in una shell linux. Questa combinazione di tasti manda un segnale, ma in realtà viene invocata una call-back. \newline
+programmazion ad eventi: si programma con la call-back che vengono chaimate quando opportuno.
+
+\noindent \textbf{THREAD IN JAVA} \newline
+Esiste una classe Thread che si eredita e si ovverrida.
+
+
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: Main.java */
+package threads;
+
+public class Main {
+
+    private static void loop(int n, int ms) {
+        for (int i = 0; i < n; ++i) {
+            System.out.println(String.format("thread[%d]: #%d", Thread.currentThread().getId(), i));
+            try {
+                Thread.sleep(ms);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static class MyThread extends Thread {
+        private final int n;
+
+        public MyThread(int n) {
+            this.n = n;
+        }
+
+        @Override
+        public void run() {
+            Main.loop(n, 300);
+        }
+
+    }
+
+
+    public static void main(String[] args) {
+        MyThread th = new MyThread(23);
+        th.start();
+        th.run();
+        loop(11, 500);
+    }
+
+}
+
+
+\end{lstlisting}
+
+ 
+
+ 

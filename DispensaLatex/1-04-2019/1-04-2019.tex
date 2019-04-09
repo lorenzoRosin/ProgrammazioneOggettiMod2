@@ -2,6 +2,27 @@
 
 \newpage
 \section{1-04-2019}
+\textbf{HASH MAP} \newline
+Le hash Map sono sempre delle mappe, solo che il tipo di una chiave viene identificato con un interno. Questo può rendere a ricerca più veloce!. \newline
+Per cercare si esegue l'hash di quello che voglio cercare (per esempio hashare una stringa), poi vado a cercare in un array indicizzato ( questa operazione costa O(1) costante). \newline
+Le l'hash map sono però inefficienti in termini di memoria. 
+
+\noindent Il costruttore dell' hash map è il seguente: 
+\begin{lstlisting}[basicstyle=\small,]
+	HashMap(int initalcapacity, float loadFactor)
+\end{lstlisting}
+Esso costruisce una hash map vuota con una capacità iniziale uguale a quella specificatta e con un fattore di carico. Il fattore di carico (load factor) specifica di quanto si deve moltiplicare quando si ingrandisce la mappa. 
+\begin{lstlisting}[basicstyle=\small,]
+	HashMap(Map<? extends k, ? extends v> m)
+\end{lstlisting}
+Costruisce una nuova hash map, popolandola con i valori della mappa passata. Viene chiamato costruttore per copia.
+
+\noindent Si subsume fino al punto che serve (un buon compromesso è subsumere fino all'interfaccia). Se però mi servono dei metodi specifici, non possono subsumere. 
+
+\noindent La classe Object ha un metodo hashcode che tutti gli oggetti ereditano. Serve per hashare this.
+
+
+
 \noindent Il professore ha aggiunto il seguente codice nel suo repository github quel giorno: 
 
 \begin{lstlisting}[basicstyle=\small,]
