@@ -9,7 +9,8 @@ Solitamente si usa il modificatore protected invece che private in modo tale che
 Una mappa è un oggetto che mappa chiavi con valori. Non ci possono essere chiavi duplicate e ogni chiave può mappare al più un valore. \newline
 Una mappa rappresenta una collection associativa. \newline
 Una mappa è parametrica su due tipi di argomenti. Uno rappresenta il dominio (chiave), e l'altro rappresenta il codominio (valore). La gerarchia delle mappe è slegata dalla gerarchia delle collection. \newline
-Per la documentazione java sulle mappe consultare questo \href{https://docs.oracle.com/javase/8/docs/api/java/util/Map.html }{SITO}
+Per la documentazione java sulle mappe consultare questo \href{https://docs.oracle.com/javase/8/docs/api/java/util/Map.html }{SITO} \newline
+Una mappa è una collection associativa, con coppie associate a valori.
 
 \noindent Il foreach di JAVA funziona solo con le librerie del JDK originale di JAVA.\newline
 Super può essere usato per il costruttore o per metodi che eredito, non è di perse un metodo e non ha un tipo.
@@ -43,12 +44,15 @@ public class NotFoundException extends Exception {
 \begin{lstlisting}[basicstyle=\small,]
 /* Classe: MyMap.java */
 public interface MyMap<K, V> extends MyCollection<Pair<K, V>> {
-
+	/*K = sono le chiavi */
+	/*V = sono i valori  */
     void put(K key, V value);
     V get(K key) throws NotFoundException;
 
 }
 \end{lstlisting}
+
+\noindent Decidiamo di implementare la nostra mappa in due maniere diverse! 
 
 \begin{lstlisting}[basicstyle=\small,]
 /* Classe: MyListMap__old.java */

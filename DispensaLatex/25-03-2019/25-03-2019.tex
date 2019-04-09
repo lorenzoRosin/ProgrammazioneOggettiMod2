@@ -2,7 +2,18 @@
 
 \newpage
 \section{25-03-2019}
-\noindent Ha continuato quello che ha fatto la scorsa lezione \newline
+\noindent Ha continuato quello che ha fatto la scorsa lezione... in più ha spiegato le interfacce \textit{comparable} e \textit{comparator} \newline 
+\textbullet\ \textit{Comparable}: ha un unico metodo compareTo(T obj) che compara se stesso con un oggetto di tipo T \newline
+\textbullet\ \textit{Comparator}: ha molti metodi, il metodo compare(T a, T b) ci permette di realizzare una classe che compara oggetti tra di loro. \newline
+Vediamo un esempio della classe Sort: \newline
+\begin{lstlisting}[basicstyle=\small,]
+Sort(T a) /* Posso usare questo metodo quando 
+			 gli oggetti sono già comparabili */
+Sort(T a, Comparator<T>) /* Uso questo metodo 
+		     quando voglio rendere gli oggetti
+		     comparabili al momento */
+\end{lstlisting}
+
 Inserisco il codice caricato dal professore quel giorno, esso o modifica classi già definite la lezione precedente o ne aggiunge di nuove: 
 
 \begin{lstlisting}[basicstyle=\small,]
