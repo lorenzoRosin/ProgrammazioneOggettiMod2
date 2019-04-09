@@ -14,6 +14,384 @@ Per la documentazione java sulle mappe consultare questo \href{https://docs.orac
 \noindent Il foreach di JAVA funziona solo con le librerie del JDK originale di JAVA.\newline
 Super può essere usato per il costruttore o per metodi che eredito, non è di perse un metodo e non ha un tipo.
 
- 
+\noindent Durante la lezione il professore ha aggiunto nel repository di github il seguente codice: 
 
 
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: Pair.java */
+public class Pair<A, B> {
+    private A a;
+    private B b;
+
+    public Pair(A a, B b) {
+        this.a = a;
+        this.b = b;
+    }
+
+    public A getFirst() { return a; }
+    public B getSecond() { return b; }
+
+}
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: NotFoundException.java */
+public class NotFoundException extends Exception {
+}
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: MyMap.java */
+public interface MyMap<K, V> extends MyCollection<Pair<K, V>> {
+
+    void put(K key, V value);
+    V get(K key) throws NotFoundException;
+
+}
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: MyListMap__old.java */
+import java.util.function.Function;
+
+public class MyListMap__old<K, V> implements MyMap<K, V> {
+
+    private MyList<Pair<K, V>> l;
+
+    public MyListMap__old() {
+        this.l = new MyArrayList<>();
+    }
+
+    @Override
+    public void put(K key, V value) {
+        l.add(new Pair<K, V>(key, value));
+    }
+
+    @Override
+    public V get(K key) throws NotFoundException {
+        MyIterator<Pair<K, V>> it = l.iterator();
+        while (it.hasNext()) {
+            Pair<K, V> p = it.next();
+            if (key.equals(p.getFirst())) return p.getSecond();
+        }
+        throw new NotFoundException();
+    }
+
+    @Override
+    public void add(Pair<K, V> x) {
+        put(x.getFirst(), x.getSecond());
+    }
+
+    @Override
+    public void clear() {
+        l.clear();
+    }
+
+    @Override
+    public void remove(Pair<K, V> x) {
+        l.remove(x);
+    }
+
+    @Override
+    public boolean contains(Pair<K, V> x) {
+        return l.contains(x);
+    }
+
+    @Override
+    public boolean contains(Function<Pair<K, V>, Boolean> p) {
+        return l.contains(p);
+    }
+
+    @Override
+    public int size() {
+        return l.size();
+    }
+
+    @Override
+    public MyIterator<Pair<K, V>> iterator() {
+        return l.iterator();
+    }
+
+    @Override
+    public int find(Pair<K, V> x) throws Exception {
+        return l.find(x);
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: MyListMap.java */
+public class MyListMap<K, V> extends MyArrayList<Pair<K, V>>
+        implements MyMap<K, V> {
+
+    @Override
+    public void put(K key, V value) {
+        add(new Pair<K, V>(key, value));
+    }
+
+    @Override
+    public V get(K key) throws NotFoundException {
+        MyIterator<Pair<K, V>> it = iterator();
+        while (it.hasNext()) {
+            Pair<K, V> p = it.next();
+            if (key.equals(p.getFirst())) return p.getSecond();
+        }
+        throw new NotFoundException();
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: MyArrayListSortedSet.java */
+/* è stata modificata la classe dell'altra volta*/
+import java.util.*;
+import java.util.function.Function;
+
+public class MyArrayListSortedSet<T extends Comparable<T>>
+        extends MyAbstractArrayListSet<T>
+        implements MySortedSet<T> {
+
+    public MyArrayListSortedSet() {
+        super();
+    }
+
+    @Override
+    protected void sort() {
+        Collections.sort(a);
+    }
+
+}
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: MyArrayList.java */
+/* è stata modificata la classe dell'altra volta*/
+import java.util.function.Function;
+
+public class MyArrayList<T> implements MyList<T> {
+
+    private Object[] a;
+    private int actualSize;
+
+    public static class MyException extends Exception {
+        public MyException(String s) {
+            super(s);
+        }
+    }
+
+/*    T[] toArray() {
+        return (T[]) a;
+    }*/
+
+/*    public static Exception returnNow() {
+        return new Exception("msg");
+    }
+
+    public static void throwNow() throws Exception {
+        throw new Exception("msg");
+    }
+
+    public static void caller() throws Exception {
+        Exception e = returnNow();
+        throwNow();
+    }
+
+    public static void caller2() {
+        try {
+            caller();
+        }
+        catch (Exception e2) {
+            // fai qualcosa con e2
+        }
+
+    }
+
+    public void m(int x) throws Exception {
+        MyException e = new MyException("error messagge");
+        if (x < 0) throw e;
+    }
+  */
+
+    public MyArrayList() {
+        clear();
+    }
+
+    @Override
+    public int find(T x) throws NotFoundException {
+        int cnt = 0;
+        MyIterator<T> it = iterator();
+        while (it.hasNext())
+        {
+            T y = it.next();
+            if (x.equals(y)) return cnt;
+            ++cnt;
+        }
+        throw new NotFoundException();
+    }
+
+
+
+
+    public static void main3() {
+        MyArrayList<Integer> c = new MyArrayList<>();
+        try {
+            int index = c.find(6);
+            System.out.println("found at index = " + index);
+        } catch (NotFoundException e) {
+            try {
+                int index = c.find(7);
+            } catch (NotFoundException e1) {
+
+            }
+
+        }
+    }
+
+    @Override
+    public boolean contains(T x) {
+        for (int i = 0; i < actualSize; ++i) {
+            Object o = a[i];
+            if (o.equals(x)) return true;
+        }
+        return false;
+    }
+
+
+    @Override
+    public boolean contains(Function<T, Boolean> p) {
+        return false;
+    }
+
+    @Override
+    public int size() {
+        return actualSize;
+    }
+
+
+    @Override
+    public void clear() {
+        a = new Object[100];
+        actualSize = 0;
+    }
+
+    @Override
+    public void add(T o) {
+        a[actualSize++] = o;
+        if (actualSize >= a.length) {
+            Object[] u = new Object[a.length * 2];
+            for (int j = 0; j < a.length; ++j)
+                u[j] = a[j];
+            a = u;
+        }
+    }
+
+    @Override
+    public MyIterator<T> iterator() {
+        return new MyIterator<T>() {
+            private int pos = 0;
+
+            @Override
+            public boolean hasNext() {
+                return pos <= actualSize;
+            }
+
+            @Override
+            public T next() {
+                return (T) MyArrayList.this.a[pos++];
+            }
+        };
+    }
+
+    @Override
+    public void add(int i, T x) {
+
+    }
+
+    @Override
+    public T get(int i) {
+        return (T) a[i];
+    }
+
+    @Override
+    public void set(int i, T x) {
+        a[i] = x;
+    }
+
+    @Override
+    public void remove(T x) {
+
+    }
+
+}
+
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: Main.java */
+/* è stata modificata la classe dell'altra volta*/
+import java.util.*;
+
+public class Main {
+
+    public static class Plant {
+        private int height;
+
+    }
+
+    public static class Animal implements Comparable<Animal> {
+        private int weight;
+        private String name;
+
+        public Animal(String name, int w) {
+            this.name = name;
+            this.weight = w;
+        }
+
+        public int getWeight() { return weight; }
+
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public int compareTo(Animal o) {
+            return this.weight - o.weight;
+            /*if (this.weight == o.weight) return 0;
+            else if (this.weight > o.weight) return 1;
+            else return -1;*/
+        }
+    }
+
+    public static class Dog extends Animal {
+
+        public Dog(String name, int w) {
+            super(name, w);
+        }
+    }
+
+
+    public static void main2() {
+        MyCollection<Pair<String, Integer>> rubrica = new MyListMap<>();
+        rubrica.add(new Pair<>("Alvise", 34712345));
+        rubrica.add(new Pair<>("Diego", 987654321));
+    }
+
+
+    public static void main(String[] args) {
+
+        List<Animal> a = new ArrayList<>();
+        Collections.sort(a);
+
+        List<Plant> b = new ArrayList<>();
+        Collections.sort(b, new Comparator<Plant>() {
+            @Override
+            public int compare(Plant x, Plant y) {
+                return x.height - y.height;
+            }
+        });
+
+    }
+}
+\end{lstlisting}
+
+\noindent Finita la lezione il professore ha deprecato la classe: MyListMap\_ \_ old.java
