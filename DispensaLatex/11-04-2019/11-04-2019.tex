@@ -1,8 +1,113 @@
 
 
 \newpage
-\section{11-04-2019}
-\noindent PLACE HOLDER
+\section{11-04-2019: THREAD POOL}
+\noindent Gli appunti dell'altra volta sono gli stessi di questa lezione, il professore ha aggiunto un po di codice.
  
+
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: SynchronizedMain.java */
+/* ha modificato il codice della scorsa volta */
+/* riporto solo la modifica */
+    public static void main(String[] args) {
+//        MyThread th = new MyThread(500);
+//        th.start();
+        new MyThread(500).start();
+
+        new Thread(() -> loop(400)).start();
+
+        loop(300);
+    }
+\end{lstlisting}
+
+\noindent Sucecssivamente è tornato a concentrarsi sui thread pool.
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: ThreadPool.java */
+package threads;
+
+public class ThreadPool implements Queue<Thread> {
+
+
+
+}
+
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: ThreadPool.java */
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+public class ThreadPool {
+    private Queue<PooledThread> q = new ConcurrentLinkedQueue<>();
+
+    public static class PooledThread extends Thread {
+        private Runnable r;
+    }
+
+    public PooledThread acquire(Runnable cb) {
+        if (q.isEmpty()) {
+            return new PooledThread();
+        }
+        else {
+            PooledThread p = q.poll();
+            p.notify();
+        }
+    }
+
+    public void release(PooledThread t) {
+        q.add(t);
+    }
+
+    public static void threadMain(PooledThread p) {
+        while (true) {
+            try {
+                p.wait();
+                p.r.run();  // TODO: potrebbe essere null
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        ThreadPool pool = new ThreadPool();
+        Thread t1 = pool.acquire();
+        t1.
+    }
+}
+
+
+\end{lstlisting}
+
+
+
+
+\noindent Sucecssivamente ha modificato ancora la synconized main
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: SynchronizedMain.java */
+    public static void main(String[] args) {
+        MyThread th1 = new MyThread(500);
+        th1.start();    // spawn thread 1
+
+        // non serve conservare l'oggetto thread in una variabile se non è necessario
+        new Thread(() -> loop(400)).start();    // spawn thread 2 con un runnable in costruzione
+
+        // esegue lo stesso codice anche col main thread
+        loop(300);  
+    }
+
+\end{lstlisting}
+
+
+
+
+
+
+
+
 
 
