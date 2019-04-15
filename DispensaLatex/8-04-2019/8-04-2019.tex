@@ -1,4 +1,150 @@
 
 
 \newpage
-\section{8-04-2019}
+\section{8-04-2019: THREAD}
+
+\noindent Ai fini didattici andremo ad implementare una pool di thread, ovvero una coda dove sono tenuti dei thread "fermi" da un semaforo mutex. Quando avremo bisogno di un thread andremo a rendere verde il suo mutex e nel momento in cui non ci serve più, al posto di eliminarlo, andremo a rimetterlo in coda. \newline
+Una coda è una struttura FIFO, che nel nostro caso deve essere bloccante (blocking queue). Infatti si tratta di una coda che viene blocccata nel momento in cui è vuota e viene richiesto un elemento.Cosi facendo una get() non potrà mai fallire, dato che aspetta sempre che ci sia qualcosa. \newline
+Nella nostra versione: se il thread è presente nella coda lo usiamo e lo facciamo andare, se invece non è presente lo creiamo al momento. La pool di thread quindi crea thread al momento del bisogno, ed implica che la coda può ingigantirsi all'infinito. \newline
+L'interfaccia che più si avvicina alle nostre esigenze è: \textit{Queue<E>} \newline
+\textit{Synchronise} é una keyword di java che inserita nella firma di un metodo garantisce la mutua esclusione del metodo in modo tale che venga eseguito da un thread alla volta. La stessa keyword può essere usata anche come segue: syncronize(espressione(reference type)): questo implica che ogni oggetto può essere usato come un mutex (Object ha infatti i metodi "wait" e notify). \newline
+Il miglior metodo per gestire la concorrenza è usare syncronize all'iterno di un metodo e non nella sua firma. \newline
+Di sbagliato infatti c'è che non va mai bene proteggere tutto un metodo, ma andrebbe protetta soltanto la sezione critica!
+Notiamo che syncronize è uno statment e non un'espressione, quindi al posto di un for useremo un while.
+
+ 
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: Main.java */
+package threads;
+
+public class Main {
+    public static Integer i = 0;
+
+    private static void loop(int n, int ms) {
+
+        synchronized (i) { i = 0; }
+        while (i < n) {
+            System.out.println(String.format("thread[%d]: #%d", Thread.currentThread().getId(), i));
+            try {
+                Thread.sleep(ms);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            synchronized (i) { ++i; }
+        }
+
+    }
+
+    public static class MyThread extends Thread {
+        private final int n;
+
+        public MyThread(int n) {
+            this.n = n;
+        }
+
+        @Override
+        public void run() {
+            Main.loop(n, 300);
+        }
+
+    }
+
+
+    public static void main(String[] args) {
+        MyThread th = new MyThread(23);
+        th.start();
+        // ha rimosso il run, non so perchè
+        loop(11, 500);
+    }
+
+}
+\end{lstlisting}
+
+\noindent Vediamo un modo migliore di sincronizzare il thread:
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: SynchronizedMain.java */
+package threads;
+
+public class SynchronizedMain {
+    public static final Counter counter = new Counter();
+
+    private static class Counter {
+        public static final int MAX = 30;
+
+        private int value = 0;
+
+        public synchronized int get() {
+            return value;
+        }
+
+        public synchronized void set(int x) {
+            value = x;
+        }
+
+        // questo metodo fa la lettura e il post-incremento in maniera ATOMICA
+        public synchronized int getAndIncrement() {
+            return value++;
+        }
+    }
+
+    private static void printAndSleep(int counter, int delay) {
+        System.out.println(String.format("thread[%d]: #%d", Thread.currentThread().getId(), counter));
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // usando i metodi get() e set() di Counter, non è garantita l'atomicità dell'operazione di incremento
+    // non c'è corruzione di memoria perché sia le letture (get) sia le scritture (set) sono atomiche
+    // tuttavia il comportamento non è quello atteso e produce in output più thread che contemporaneamente stampano lo stesso counter
+    private static void loop__BAD(int delay) {
+        while (counter.get() < Counter.MAX) {
+            printAndSleep(counter.get(), delay);
+            counter.set(counter.get() + 1);
+        }
+    }
+
+    // qui invece usiamo un metodo apposito che legge e incrementa in modo ATOMICO
+    // in questo modo il comportamento è corretto
+    private static void loop__GOOD(int delay) {
+        int i;  // occorre una variabile di appoggio: è un binding nello scope locale di una copia dell'intero post-incrementato
+        while ((i = counter.getAndIncrement()) < Counter.MAX) {
+            printAndSleep(i, delay);    // se al posto della variabile di appoggio i usassimo direttamente counter.get() qui, potremmo ottenere un valore sbagliato        }
+        }
+    }
+
+    private static void loop(int delay) {
+        // cambiare la chiamata per provare entrambe le versioni
+        //loop__BAD(delay);
+        loop__GOOD(delay);
+    }
+
+    private static class MyThread extends Thread {
+        private final int delay;
+
+        public MyThread(int delay) {
+            this.delay = delay;
+        }
+
+        @Override
+        public void run() {
+            SynchronizedMain.loop(delay);
+        }
+
+    }
+
+    public static void main(String[] args) {
+        MyThread th = new MyThread(500);
+        th.start();
+        loop(300);
+    }
+
+}
+\end{lstlisting}
+
+
+
+
