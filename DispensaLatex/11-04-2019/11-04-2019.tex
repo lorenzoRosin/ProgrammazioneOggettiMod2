@@ -2,6 +2,14 @@
 
 \newpage
 \section{11-04-2019: THREAD POOL}
+\noindent \textbf{ConcurrentLinkedQueue} \newline
+Aggiunto appunti miei... ConcurrentLinkedQueue è semplicemente una coda di tipo FIFO, che può essere usata da più thread contemporaneamente.Essa ci garantisce che se un thread aggiunge un elemento mentre un'altro thread ne sta aggiungendo un'altro non si verifichino problemi di memoria. Nulla vieta però che se la coda ha un elemento e cerchiamo di leggerlo, un'altro thread non l'abbia già letto e ci ritroviamo a leggere da una coda vuota.
+
+\noindent \textbf{wait() and notify()} \newline
+\textbullet\ \textit{wait():} Forza il thread corrente ad aspettare. Il thread viene sospeso fino a che qualcuno non chiama notify \newline
+\textbullet\ \textit{notify():} Risveglia e mette in run i thread che erano stati fermati con wait.
+
+
 \noindent Gli appunti dell'altra volta sono gli stessi di questa lezione, il professore ha aggiunto un po di codice.
  
 
@@ -37,6 +45,9 @@ public class ThreadPool implements Queue<Thread> {
 
 \begin{lstlisting}[basicstyle=\small,]
 /* Classe: ThreadPool.java */
+/* Questa classe non è ancora completa 
+ * é una bozza, verrà completata nelle prossime
+ * lezioni */
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
