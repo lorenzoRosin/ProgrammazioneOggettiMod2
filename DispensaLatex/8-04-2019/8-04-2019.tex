@@ -1,18 +1,21 @@
 
 
 \newpage
-\section{8-04-2019: THREAD}
+\section{8-04-2019: THREAD SYNCHRONIZED}
 
 \noindent Ai fini didattici andremo ad implementare una pool di thread, ovvero una coda dove sono tenuti dei thread "fermi" da un semaforo mutex. Quando avremo bisogno di un thread andremo a rendere verde il suo mutex e nel momento in cui non ci serve più, al posto di eliminarlo, andremo a rimetterlo in coda. \newline
 Una coda è una struttura FIFO, che nel nostro caso deve essere bloccante (blocking queue). Infatti si tratta di una coda che viene blocccata nel momento in cui è vuota e viene richiesto un elemento.Cosi facendo una get() non potrà mai fallire, dato che aspetta sempre che ci sia qualcosa. \newline
 Nella nostra versione: se il thread è presente nella coda lo usiamo e lo facciamo andare, se invece non è presente lo creiamo al momento. La pool di thread quindi crea thread al momento del bisogno, ed implica che la coda può ingigantirsi all'infinito. \newline
-L'interfaccia che più si avvicina alle nostre esigenze è: \textit{Queue<E>} \newline
-\textit{Synchronise} é una keyword di java che inserita nella firma di un metodo garantisce la mutua esclusione del metodo in modo tale che venga eseguito da un thread alla volta. La stessa keyword può essere usata anche come segue: syncronize(espressione(reference type)): questo implica che ogni oggetto può essere usato come un mutex (Object ha infatti i metodi "wait" e notify). \newline
-Il miglior metodo per gestire la concorrenza è usare syncronize all'iterno di un metodo e non nella sua firma. \newline
-Di sbagliato infatti c'è che non va mai bene proteggere tutto un metodo, ma andrebbe protetta soltanto la sezione critica!
-Notiamo che syncronize è uno statment e non un'espressione, quindi al posto di un for useremo un while.
+L'interfaccia che più si avvicina alle nostre esigenze è: \textit{Queue<E>} 
 
- 
+
+\noindent \textbf{Synchronized} \newline
+\textbullet\ \textit{Synchronized come firma del metodo:} é una keyword di java che inserita nella firma di un metodo garantisce la mutua esclusione del metodo in modo tale che venga eseguito da un thread alla volta. Il Sync di sotto è uguale a questo solo che usa this come oggetto per il mutex, perciò garantisce la mutua esclusione per tutti i metodi dello stesso oggetto (anche metodi differenti della stessa istanza sono sincronizzati sul this e quindi si aspettano a vicenda), oggetti differenti funzionano senza "sentire il mutex".\newline
+\textbullet\ \textit{Synchronized come mutex di un oggetto:} la stessa keyword può essere usata anche come segue:\textit{Synchronized(Object){azioni da sincronizzare}} questo implica che ogni oggetto può essere usato come un mutex (Object ha infatti i metodi "wait" e "notify"). \newline
+Il miglior metodo per gestire la concorrenza è usare Synchronized all'iterno di un metodo e non nella sua firma. \newline
+Di sbagliato infatti c'è che non va mai bene proteggere tutto un metodo, ma andrebbe protetta soltanto la sezione critica!
+Notiamo che Synchronized è uno statement e non un'espressione, quindi al posto di un for useremo un while.
+
 \begin{lstlisting}[basicstyle=\small,]
 /* Classe: Main.java */
 /* è stata modificata la classe dell'altra volta  */
@@ -20,6 +23,9 @@ Notiamo che syncronize è uno statment e non un'espressione, quindi al posto di 
 package threads;
 
 public class Main {
+	/* avendolo messo static, se non sincronizzo
+	 * può essere che due thread si pestino i
+	 * piedi sul valore di "i" */ 
     public static Integer i = 0;
 
     private static void loop(int n, int ms) {
@@ -55,7 +61,8 @@ public class Main {
     public static void main(String[] args) {
         MyThread th = new MyThread(23);
         th.start();
-        // ha rimosso il run, non so perchè
+        /* ha rimosso il run perchè è già richiamato
+         * dalla th.start(); */
         loop(11, 500);
     }
 

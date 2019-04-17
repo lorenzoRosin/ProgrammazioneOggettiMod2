@@ -96,8 +96,19 @@ public class Main {
 
     public static void main(String[] args) {
         MyThread th = new MyThread(23);
+        /* thread start comincia un nuovo thread
+         * e poi invoca il run */
         th.start();
+        
+        /* Richiamare il run cosi avvia semplicemente 
+         * il metodo run, ma senza cominciare un nuovo 
+         * thread. infatti le chiamate di questo run
+         * si sovrappongono a quelle dello start */
         th.run();
+        
+        /* Questa procedura parte dopo che è stata 
+         * richiamata e terminata quella invocata
+         * da th.run() */
         loop(11, 500);
     }
 
