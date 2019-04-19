@@ -11,8 +11,11 @@ int m = n = 1; /* Inizializzazione */
 n = 2 		   /* Assegnamento */
 
 \end{lstlisting}
-JAVA è un linguaggio \textit{imperattivo} ad oggetti.
 
+\noindent \textbf{PROGRAMMAZIONE IMPEATTIVA VS FUNZIONALE} \newline
+JAVA è un linguaggio \textit{imperattivo} ad oggetti. Questo significa che si programma variando lo stato interno delle varie istanze. In contrapposizione troviamo la programmazione funzionale che si basa sul richiamare e scrivere funzioni che non variano gli stati interni delle istanze. Nella programmazione funzionale sono usati spesso metodi che ritornano copie modificate di un determinato oggetto, senza modificare l'oggetto attuale.
+
+\noindent \textbf{JAVA VIRTUAL MACHINE} \newline
 \noindent Java è stato realizzato con un compilatore integrato, che non compila in assembly, questo compilatore invece produce un file sorgente che non è eseguibile direttamente dalla macchina, bensi è eseguibile da una virtual machine, la JVM(\textit{java virtual machine}). In questo modo viene garantita la portabilità del codice in vari computer con CPU diversa (come il Phyton e .NET). \newline
 Questa separazione non conta niente per il linguaggio, si riflette solamente sul modello architetturale.
 
@@ -36,16 +39,19 @@ Questa separazione non conta niente per il linguaggio, si riflette solamente sul
 	 * new Animale() ha un valore -> OGGETTO */
 \end{lstlisting}
 
-\noindent Compilatore(compiling time): \newline
-\textbullet\ controllo sintattico \newline
-\textbullet\ controllo dei tipi, cioè che gli insiemi siano corretti \newline
-Esecuzione(RunTime):\newline
-\textbullet\ Abbiamo a che fare con valori e non con tipi
+\noindent \textbf{COMPILING TIME E RUNTIME} \newline
+La gestione di sintassi e di errori viene fatta in due fasi.
+Dal compilatore(compiling time): \newline
+\textbullet\ Viene eseuito un controllo sintattico \newline
+\textbullet\ Viene eseguito controllo dei tipi, cioè che gli insiemi siano corretti\newline
+In fase di esecuzione(RunTime):\newline
+\textbullet\ Abbiamo a che fare con valori e non con tipi, vengono controllati i "cast"
 
 \noindent I tipi di fatto sono una astrazione del linguaggio. \newline
 Il senso di un compilatore è quello di evitare di scrivere castonerie che a livello di esecuzione non avrebbero senso.
 
-\noindent \textit{SOUNDNESS}: un linguaggio è sound quando il compilatore ti da la certezza che funzioni
+\noindent \textbf{SOUNDNESS} \newline
+Un linguaggio si dice \textit{sound} quando il compilatore ti da la certezza che in fase di esecuzione il programma sia eseguito correttamente senza possibilità di errori.
 
 \noindent \textbf{PARAMETRO IMPLICITO} \newline
  Ogni metodo dichiarato ha sempre un parametro implicito (il parametro \textit{this}). Esso è sotto inteso e viene passato automaticamente, più eventuali parametri che vengono passati all'interno del metodo.

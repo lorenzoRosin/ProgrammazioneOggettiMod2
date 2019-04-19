@@ -40,7 +40,7 @@ Quando eredito un metodo di una classe posso sovrascriverlo usando l'overriding.
  }
 \end{lstlisting}
 
-\noindent Detto questo è bene specificare che Java supporta i solo i tipi di ritorno controvarianti, è possibile controvariare SOLO il tipo di ritorno del metodo, ed è possibile farlo solamente scendendo (sottotipo). Ed è possibile Fare questo nella fase di overriding, non in quella di overloading.
+\noindent Detto questo è bene specificare che Java supporta i solo i tipi di ritorno controvarianti, è possibile controvariare SOLO il tipo di ritorno del metodo, ed è possibile farlo solamente scendendo (sottotipo). Ed è possibile Fare questo nella fase di overriding, non in quella di overloading. In caso di overloading il tipo di ritorno deve essere lo stesso.
 
 \noindent Il seguente è l'esempio corretto in java:
 \begin{lstlisting}[basicstyle=\small,]
@@ -50,16 +50,17 @@ public Cane m (Cane c){return c;}
 public PastoreTedesco m(Cane c){return new PastoreTedesco();}
 \end{lstlisting}
 
-\noindent \textbullet\ SOUND : un programma che compila può essere eseguito \newline
-\textbullet\ SOUND JAVA: un programma che compila e termina, a meno di una eccezione. \newline
+\noindent \textbf{SOUNDNESS IN JAVA} \newline
+\textbullet\ SOUND : un programma che compila può essere eseguito senza errori \newline
+\textbullet\ SOUND JAVA: un programma compila e termina, a meno di una eccezione. \newline
 Un esempio di SOUND JAVA è il seguente:in java è possibile avvenga un segmentation fault non per un problema di casting, ma solamente se accediamo ad un indice di un array che non abbiamo allocato, quindi il programma termina a meno di una eccezione. Ci sono invece linguaggi dove non esistono gli array, quindi non accadrà mai segmentation fault e il codice terminerà sempre alla fine senza eccezioni, ovviamente senza fare i controlli di semantica. 
 
-
+\noindent \textbf{WILDCARDS} \newline
 \noindent Recentemente è stato inserito un pattern che permette anche in Java la covarianza: sono i generics con i wildcards. 
 \begin{lstlisting}[basicstyle=\small,]
-Arraylisti<? extends Animale> m = new Arraylist<Cane>();
+Arraylist<? extends Animale> m = new List<Cane>();
 \end{lstlisting}
-Da questo si capisce che la covarianza può essere usata, ma solamente se esplicitata con il wildcard. \newline
+\noindent Da questo si capisce che la covarianza può essere usata, ma solamente se esplicitata con il wildcard. \newline
 Sono molto usati perchè i wildcard non sono tipi del primo ordine, infatti il \textit{tipo} "? extends classe" non esiste!!!Non posso definire una variabile come segue: 
 \begin{lstlisting}[basicstyle=\small,]
 ? extends Animale m = new Cane();

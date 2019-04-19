@@ -6,14 +6,14 @@ Una classe si dice astratta quando ha almeno un metodo astratto, essa serve per 
 
 \noindent Un array è una struttura dati lineare, omogenea e contigua in memoria.
 
-\noindent Per leggere una \textit{collection} si usano gli iteratori che servono per farnel il get in sequenza.
+\noindent Per leggere una \textit{collection} si usano gli iteratori che servono per farne il get in sequenza.
 
 \noindent \textbf{VTABLE E DIMENSIONE DI UNA CLASSE} \newline
 Una virtual Table, o dispatching table, è un meccanismo utilizzato per supportare il dynamic dispatching (o anche chiamato run-time method binding).Quando una classe definisce dei metodi virtuali, il compilatore nasconde all'interno dei membri della classe una variabile che punta ad un array di puntatori a funzioni. Questi puntatori sono poi usati a runtime per invocare l'implementazione della funzione appropiata, questo perchè in compile-time non è detto che si sappia se la funzione richiamata sia quella del tipo definito o sia derivata da un'altra classe.
 
 \begin{lstlisting}[basicstyle=\small,]
 public static class Animale(){
-	privae int peso;
+	private int peso;
 }
 
 public static class Cane extends Animale{
