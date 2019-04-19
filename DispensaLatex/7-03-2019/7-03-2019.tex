@@ -8,7 +8,7 @@ I tre tipi possibili di wildcards sono: \newline
 \textbullet\ \textit{<? extends nametype>} (o chiamato Upper Bounded Wildcards)\newline
 \textbullet\ \textit{<? super nametype >} (o chiamato Lower Bounded Wildcards)\newline
 
-\noindent \textbf{Top Type} \newline
+\noindent \textbf{TOP TYPE} \newline
 Il tipo "?" non può essere usato come tipo per una variabile quindi dichiarare"? x" non si può fare. Posso però dichiarare questo: "Object x = l1.get(..)"
 \begin{lstlisting}[basicstyle=\small,]
 List<?> l1 = new ArrayList<Cane>();
@@ -26,16 +26,21 @@ l1.get(int index) /* il compilatore ritorna l'errore in
 /* List<?> significa che creo una lista di un tipo
  * sconosciuto. In conseguenza di ciò il compilatore 
  * mi segnala errore quando cerco di richiamare il
- * metodo l1.add("qualcosa") perchè non è di
- * tipo sconosciuto.	
+ * metodo l1.add("qualcosa") perchè non sa come
+ * proteggere la lista! Infatti una lista può
+ * avere un solo tipo per volta, se con il top
+ * type potessi aggiungere di tutto mi ritroverei una
+ * lista con elementi tutti diversi tra di loro. Non
+ * potendo però verificare di che tipo sia la lista,
+ * che potrebbe essere una lista di qualsiasi tipo,
+ * non mi lascia aggiungere niente.
 /*
 			   
 \end{lstlisting}
 
-\noindent \textbf{Upper Bounded Wildcards} \newline
-"? extends Animale" indica che come parametro posso passare un qualsiasi tipo che sia figlio di Animale \newline
+\noindent \textbf{UPPER BOUNDED WILDCARDS} \newline
+"? extends Animale" indica che come parametro posso passare un qualsiasi tipo che sia figlio di Animale. \newline
 l2.get(0) -> ritorna un capture of ? extends Animale -> qualsiasi cosa figlia di animale (posso però fare Binding di qualcosa che sia al massimo Animale) \newline
-
 \begin{lstlisting}[basicstyle=\small,]
 	List<Animale> t3 = new ArrayList<Gatto>();
 	/* è errato, si può subscrivere solamente il guscio
@@ -51,18 +56,42 @@ Vediamo ora un'altro esempio:
 	l1 = l2 /* è assegnazione valida */
 	l2 = l1 /* NON è assegnazione valida */
 \end{lstlisting}
+\noindent Continua a valere il discorso del top type. Data una lista di un upper bounded type il compilatore non mi lascia aggiungerci elementi perchè semplicemente non può verificare la loro correttezza! Un esempio è il seguente:
+\begin{lstlisting}[basicstyle=\small,]
+	List<Gatto> l1 = new ArrayList<Gatto>();
+	l1.add(new Gatto("bianco"));
+	List<? extends Animale> l2 = l1; /* operazione valida */
+	l2.add(new Cane("nero"));
+	/* il compilatore mi segnalerà un errore quando uso add, se cosi
+	 * non fosse avrei grossi problemi, avrei aggiunto alla
+	 * lista di gatti un cane !!! */
+\end{lstlisting}
+\noindent Questo tipo di liste vanno bene per poter schematizzare una funzione che riceve liste che poi userà per riempirne un'altra.
 
-\noindent \textbf{Lower Bounded Wildcards} \newline
+\noindent \textbf{LOWER BOUNDED WILDCARDS} \newline
 "? super Animale" indica che come parametro posso passare qualsiasi tipo che sia più su di Animale (più generale).\newline
 In questo caso posso passare animale a tutto quello che sta sopra. \newline
 l2.add(new Animale) -> ?? non compila perchè... \newline
+Questo genere di wildcards sono molto utili, perchè permettono di essere passati ad una funzione, la quale poi andrà ad aggiungerci dati. Vediamone un esempio:
+\begin{lstlisting}[basicstyle=\small,]
+	public static aFunc(List<? super Cane> l){
+		l.add(new Cane("nero")); /* valido */
+		l.add(new PastoreTedesco(nero)); /* valido */
+		l.add(new Animale()); /* NON VALIDO */
+	}
+	/* perchè è valido? perchè é una lista di un tipo che
+	 * non conosco di preciso, ma so che è super tipo 
+	 * di cane. Quindi ogni oggetto di sotto tipo di Cane
+	 * è sicuramente subsubimile al super tipo */
+\end{lstlisting}
 
+
+\noindent \textbf{ESEMPI} \newline
 \noindent Riprenderemo la map vista nella lezione scorsa.
 \begin{lstlisting}[basicstyle=\small,]
 public static <A,B> List<B> map(List<A> I, Func<A,B> f)();
 \end{lstlisting}
 Ad esempio, per trasformare animali in piante: 
-
 \begin{lstlisting}[basicstyle=\small,]
 public static class Vegetale{}
 
@@ -77,7 +106,6 @@ public static void main_map(){
 	});
 }
 \end{lstlisting}
-
 \noindent Questa funzione riportata sopra non compila in quanto i \textit{generics} non sono soggetti alla subsumption. Per farla compilare modifichiamo la funzione map come segue: 
 
 \begin{lstlisting}[basicstyle=\small,]
@@ -107,9 +135,11 @@ public class Main__Functional {
 	}
 }
 \end{lstlisting}
-La Nested Class (o Inner Class) è totalmente senza relazione rispetto alla enclosed class (outer class).Nel caso precedente main{\_}functional è la enclosed class, in quanto sto lavorando su quella. \newline
-Le nested class vedono i campi della enclosing class, compreso il parametro implicito this, solamente se non sono \textit{statiche}.\newline
-Le due tipologie di classi (Inner e Outer) non servono a creare gerarchie, ma solo a creare ordine nel codice.
+In java esistono due tipi di nested class (classi innestate): quelle statiche (nested class) e quelle non statiche(inner class).\newline
+\textbullet\ Le \textit{nested class} sono senza nessuna relazione con la outer class, o enclosing class, e quindi non hanno riferimento al this. Di esse posso istanziarne più oggetti senza che venga istanziata nessuna istanza dell'enclosing class. \newline
+\textbullet\ Le \textit{inner class} invece vedono i campi della enclosing class, compreso il parametro implicito this. Di esse posso crearne più istanze solo ed esclusivamente se sono istanziate con un riferimento ad una istanza della outer class. \newline
+Le due tipologie di classi (Inner e Outer) non servono a creare gerarchie, ma solo a creare ordine nel codice.\newline
+Se una classe innestata non ha relazioni con la enclosing class è meglio farla statica, risulta un codice più pulito e meno pesante, perchè non serve mantenere il riferimento al this ogni volta.
 
 \noindent \textbf{OVERLOADING} \newline
 Il meccanismo dell'overloading permette di definire metodi con stesso nome ma firma diversa. 
@@ -153,7 +183,7 @@ Vediamo un esempio:
 	 * quale foo deve richiamare se 
 	 * differiscono per il parametro di ritorno? 
 	 * Non può saperlo, ecco perchè 
-	 * overriding richiede i tipi di ritorno
+	 * l'overloading richiede i tipi di ritorno
 	 * uguali */
 \end{lstlisting}
 
