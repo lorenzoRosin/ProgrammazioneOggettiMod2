@@ -12,7 +12,7 @@ public void writeList() throws IOException {
 \end{lstlisting}
 \textbullet\ throws viene messa affianco alla firma del metodo, seguita da una lista delle eccezioni, e serve per dichiarare quali \textit{TIPI} di eccezioni possono essere lanciate da un determinato metodo. \newline
 \textbullet\ throw seguito da un oggetto di tipo eccezione, serve per lanciare l'eccezione. \newline
-Si noti quindi che con throws si dichiarao i tipi che verranno lanciati ma poi lanciamo oggetti: questo rappresenta un tipo di subtyping.
+Si noti quindi che con throws si dichiarano i tipi che verranno lanciati ma poi lanciamo oggetti: questo rappresenta un tipo di subtyping.
 \newline
 Si possono lanciare solo eccezione figlie del tipo \textit{Throwable}. Throwable è un super tipo di Exception e di tutte le classi lanciabili. \newline
 Come regola generale quindi throw ha bisogno di essere seguito da un'espressione con tipo compatibile per poter essere lanciata.\newline
@@ -22,6 +22,11 @@ Il sistema try-catch è stato ideato per evitare delle forti anomalie del progra
 Nel canale ufficiale del return vengo solamente ritornati i risultati "giusti", in caso contrario verrà lanciata un'eccezione: questo è lo stile richiesto per i linguaggi evoluti. Invece di complicare il tipo di ritorno usiamo le eccezioni. \newline
 Al posto delle eccezioni possiamo definire  un tipo di ritorno che codifica il fatto che hai trovato o meno quello che cercavi. Questa tecnica non è molto leggibile per chi non ha scritto il codice, sarebbe meglio usare il design pattern " tipo-eccezione". Esso è utile anche perchè in questo modo non si può scrivere codice che non funzioni, mentre definendo un nuovo tipo è possibile.
 
+
+\noindent \textbf{I TRE TIPI DI ECCEZIONE} \newline
+\textbullet\ Checked exception: Sono le condizioni di errore che l'utente deve poi obbligatoriamente gestire. Esse si usano per situazioni eccezionali in cui l'utente può ragionevolmente gestire il tutto con i try catch (ad esempio una selezione invalida in una interfaccia grafica).Questi tipi di errori devono necessariamente usare la clausola throws. \newline
+\textbullet\ Runtime exception: Sono le condizioni di errore a gestione non obbligatoria, che se non gestite, possono arrivare fino al main e chiudere il programma. Sono usate per quegli errori non recuperabili con la gestione try e catch e che si possono evitare prestando attenzione quando si scrive il codice (es: index out of bound exception). Questi tipi di errori NON devono necessariamente usare la clausola throws.\newline
+\textbullet\ Errors: Sono quegli errori irrecuperabili che l'utente non può gestire (memoria finita) \newline
 \newpage
 
 
