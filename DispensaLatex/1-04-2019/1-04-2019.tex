@@ -3,7 +3,7 @@
 \newpage
 \section{1-04-2019: HASH MAP}
 \textbf{HASH MAP} \newline
-Le hash Map sono sempre delle mappe, solo che il tipo di una chiave viene identificato con un interno. Questo può rendere a ricerca più veloce!. \newline
+Le hash Map sono sempre delle mappe, solo che il tipo di una chiave viene identificato con un interno. Questo può rendere la ricerca più veloce!. \newline
 Per cercare si esegue l'hash di quello che voglio cercare (per esempio hashare una stringa), poi vado a cercare in un array indicizzato ( questa operazione costa O(1) costante). \newline
 Le l'hash map sono però inefficienti in termini di memoria. 
 
@@ -11,7 +11,7 @@ Le l'hash map sono però inefficienti in termini di memoria.
 \begin{lstlisting}[basicstyle=\small,]
 	HashMap(int initalcapacity, float loadFactor)
 \end{lstlisting}
-Esso costruisce una hash map vuota con una capacità iniziale uguale a quella specificatta e con un fattore di carico. Il fattore di carico (load factor) specifica di quanto si deve moltiplicare quando si ingrandisce la mappa. 
+Esso costruisce una hash map vuota con una capacità iniziale uguale a quella specificatta e con un fattore di carico anch'esso specificato. Il fattore di carico (load factor) specifica di quanto si deve moltiplicare quando si ingrandisce la mappa. 
 \begin{lstlisting}[basicstyle=\small,]
 	HashMap(Map<? extends k, ? extends v> m)
 \end{lstlisting}
