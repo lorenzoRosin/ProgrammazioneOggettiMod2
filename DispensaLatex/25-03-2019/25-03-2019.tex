@@ -1,72 +1,26 @@
 
 
 \newpage
-\section{25-03-2019: LIST E SET}
+\section{25-03-2019: COMPARABLE, COMPARATOR, LIST E SET}
 \noindent Ha continuato quello che ha fatto la scorsa lezione... in più ha spiegato le interfacce \textit{comparable} e \textit{comparator} \newline 
-\textbullet\ \textit{Comparable}: ha un unico metodo compareTo(T obj) che compara se stesso con un oggetto di tipo T \newline
-\textbullet\ \textit{Comparator}: ha molti metodi, il metodo compare(T a, T b) ci permette di realizzare una classe che compara oggetti tra di loro. \newline
-Vediamo un esempio della classe Sort: \newline
+
+\noindent \textbf{COMPARABLE E COMPARATOR}\newline
+\textbullet\ \textit{Comparable}: è un'interfaccia con un unico metodo compareTo(T obj) che compara se stesso con un oggetto di tipo T. E' quindi interfaccia funzionale. \newline
+\textbullet\ \textit{Comparator}: è un interfaccia con molti metodi, il metodo compare(T a, T b) ci permette di realizzare una classe che compara oggetti tra di loro. \newline
+Vediamo un esempio di utilizzo preso dalla classe Sort: \newline
 \begin{lstlisting}[basicstyle=\small,]
-Sort(T a) /* Posso usare questo metodo quando 
-			 gli oggetti sono già comparabili */
-Sort(T a, Comparator<T>) /* Uso questo metodo 
-		     quando voglio rendere gli oggetti
-		     comparabili al momento */
+Sort(T a) /* Posso usare questo metodo quando gli oggetti sono 
+		   * sicuramente di tipo comparable. In fase di ordinamento
+		   * richiamerò il compare su ogni elemento */
+Sort(T a, Comparator<T>) /* Uso questo metodo quando voglio rendere
+		     * gli oggetti comparabili al momento, senza usare
+		     * l'interfaccia comparable  */
+		     
 \end{lstlisting}
 
-Inserisco il codice caricato dal professore quel giorno, esso o modifica classi già definite la lezione precedente o ne aggiunge di nuove: 
-
-\begin{lstlisting}[basicstyle=\small,]
-/* Classe: MySortedSet.java */
-public interface MySortedSet<T extends Comparable<T>> extends MySet<T> {
-
-}
-\end{lstlisting}
-
-\begin{lstlisting}[basicstyle=\small,]
-/* Classe: MyArrayListSortedSet.java */
-import java.util.*;
-import java.util.function.Function;
-
-public class MyArrayListSortedSet<T extends Comparable<T>>
-        extends MyAbstractArrayListSet<T> {
-
-    public MyArrayListSortedSet() {
-        super();
-    }
-
-    @Override
-    protected void sort() {
-        Collections.sort(a);
-    }
-
-}
-\end{lstlisting}
-
-\begin{lstlisting}[basicstyle=\small,]
-/* Classe: MyArrayListSet.java */
-/* è stata modificata la classe dell'altra volta*/
-
-import java.util.*;
-import java.util.function.Function;
-
-public class MyArrayListSet<T> extends MyAbstractArrayListSet<T> {
-
-    private final Comparator<T> p;
-
-    public MyArrayListSet(Comparator<T> p) {
-        super();
-        this.p = p;
-    }
-
-    @Override
-    protected void sort() {
-        Collections.sort(a, p);
-    }
-
-}
-
-\end{lstlisting}
+\noindent \textbf{RIPRENDO IL CODICE VISTO L'ALTRA VOLTA + ESEMPIO COMPARATOR}\newline
+L'altra volta ho realizzato direttamente la classe \textit{MyArrayListSet.java} implementando \textit{MySet}.
+Un modo alternativo di farlo consiste nel creare una classe astratta con dei metodi di default ed estenderla. 
 
 \begin{lstlisting}[basicstyle=\small,]
 /* Classe: MyAbstractArrayListSet.java */
@@ -76,6 +30,9 @@ import java.util.function.Function;
 public abstract class MyAbstractArrayListSet<T> implements MySet<T> {
     protected final ArrayList<T> a;
 
+ 	/* un costruttore protetto significa che non posso istanziare
+ 	 * la classe stessa nel codice di un fantomatico main, ma 
+ 	 * che sono costretto ad ereditarla */
     protected MyAbstractArrayListSet() {
         this.a = new ArrayList<T>();
     }
@@ -140,6 +97,61 @@ public abstract class MyAbstractArrayListSet<T> implements MySet<T> {
     }
 }
 
+\end{lstlisting}
+
+
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: MyArrayListSet.java */
+/* è stata modificata la classe dell'altra volta*/
+
+import java.util.*;
+import java.util.function.Function;
+
+public class MyArrayListSet<T> extends MyAbstractArrayListSet<T> {
+
+    private final Comparator<T> p;
+
+    public MyArrayListSet(Comparator<T> p) {
+        super();
+        this.p = p;
+    }
+
+    @Override
+    protected void sort() {
+        Collections.sort(a, p);
+    }
+
+}
+
+\end{lstlisting}
+
+\noindent \textbf{ESEMPIO COMPARABLE}
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: MySortedSet.java */
+public interface MySortedSet<T extends Comparable<T>> extends MySet<T> {
+
+}
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: MyArrayListSortedSet.java */
+import java.util.*;
+import java.util.function.Function;
+
+public class MyArrayListSortedSet<T extends Comparable<T>>
+        extends MyAbstractArrayListSet<T> {
+
+    public MyArrayListSortedSet() {
+        super();
+    }
+
+    @Override
+    protected void sort() {
+        Collections.sort(a);
+    }
+
+}
 \end{lstlisting}
 
 \begin{lstlisting}[basicstyle=\small,]
