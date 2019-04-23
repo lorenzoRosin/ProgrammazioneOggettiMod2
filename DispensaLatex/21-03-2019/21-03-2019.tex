@@ -14,8 +14,7 @@
 \textbullet\ -> ITERABLE:Posso solo scorrere \newline
 \textbullet\ ---> COLLECTION: Posso scorrere, aggiungere e togliere \newline
 \textbullet\ -----> LIST: Posso scorrere e aggiungere o togliere con un indice \newline
-\textbullet\ -------> ARRAYLIST \newline
-ArrayList è sottotipo di list, in quanto è una classe che implementa list! \newline
+\textbullet\ -------> ARRAYLIST:è sottotipo di list, in quanto implementa list! \newline
 \digraph{ao}{rankdir=LR;
 
    a [label="Iterable" shape = "record"]; 
@@ -26,19 +25,25 @@ ArrayList è sottotipo di list, in quanto è una classe che implementa list! \ne
    f [label="ArrayList" shape = "record"];    
    b->a; e->b; f->e; d->c; c->b} \newline
 
-\noindent Caratteristiche dell'interfaccia set:\newline
-\textbullet\ Gli elementi non sono duplicati \newline
-\textbullet\ Gli elementi non sono ordinati in base a come sono inseriti \newline	
-\textbullet\ Non vengono inseriti metodi nuovi, eredita solo quelli del padre \newline
-\textbullet\ I metodi nuovi vengono messi nella classe che implementa l'interfaccia \newline
-
 \noindent Per evitare di riprodurre codice si usano le classi astratte dalle quali poi si erediterà. 
 
 \noindent Relazione di ordinamento: operatore binario che permette di mappare elementi di due insiemi diversi.
 
 \noindent Una classe con metodi tutti statici non si può costruire. Rappresenta dunque un contenitore di metodi (è un pezzo di libreria).
 
-\noindent \textbf{SET}\newline
+\noindent \textbf{CARATTERISTICHE DI SET}\newline
+\textbullet\ Gli elementi non sono duplicati \newline
+\textbullet\ Gli elementi non sono ordinati in base a come sono inseriti \newline	
+\textbullet\ Non vengono inseriti metodi nuovi, eredita solo quelli del padre \newline
+\textbullet\ I metodi nuovi vengono messi nella classe che implementa l'interfaccia \newline
+\textbullet\ Tiene un ordinamento che cerca di massimizzare le operazioni di ricerca ed estrazione \newline
+
+\noindent \textbf{CARATTERISTICHE DI LIST}\newline
+\textbullet\ Gli elementi possono essere duplicati \newline
+\textbullet\ Gli elementi sono ordinati in base all'ordine di inserimento \newline	
+\textbullet\ Rispetto ai metodi del padre ne aggiunge altri che permettono di leggere ed inserire elementi in un determinato indice \newline
+
+\noindent \textbf{CODICE DI ESEMPIO}\newline
 Il professore questo giorno ha caricato su github del codice chiamato: TinyJDK. Lo riporto per completezza:
 \begin{lstlisting}[basicstyle=\small,]
 /* Classe: MyIterable.java */
@@ -90,6 +95,9 @@ public interface MyList<T> extends MyCollection<T> {
 public interface MySet<T> extends MyCollection<T> {
 }
 \end{lstlisting}
+
+\noindent \textbf{ESEMPIO IMPLEMENTAZIONE LIST}\newline
+Vediamo un esempio di implementazione della classe List, collection in cui gli elementi vengono memorizzati in ordine di arrivo.
 
 \begin{lstlisting}[basicstyle=\small,]
 /* Classe: MyArrayList.java */
@@ -147,6 +155,9 @@ public class MyArrayList<T> implements MyList<T> {
     public static class NotFoundException extends Exception {
     }
 
+	/* ritorna l'indice in cui è memorizzato un oggetto
+	 * equivalente a quello passato come parametro di 
+	 * ingresso */
     @Override
     public int find(T x) throws NotFoundException {
         int cnt = 0;
@@ -255,6 +266,9 @@ public class MyArrayList<T> implements MyList<T> {
 
 }
 \end{lstlisting}
+
+\noindent \textbf{ESEMPIO IMPLEMENTAZIONE SET}\newline
+Vediamo un esempio di implementazione della classe Set, collection in cui gli elementi vengono inseriti secondo una certa logica interna. In questo caso gli elementi verranno tenuti secondo l'ordine imposto o da comparator o da comparable.
 
 \begin{lstlisting}[basicstyle=\small,]
 /* Classe: MyArrayListSet.java */
