@@ -2,7 +2,7 @@
 
 \newpage
 \section{28-03-2019: MAP}
-\noindent Affinchè due classi siano confrontabili devono implementare il metodo compare to \newline
+\noindent Affinchè due classi siano confrontabili devono implementare il metodo compareTo \newline
 Solitamente si usa il modificatore protected invece che private in modo tale che da fuori non possano essere modificate, ma possano essere viste quando vengono ereditate. \newline
 
 \noindent \textbf{MAPPE}\newline
@@ -52,7 +52,8 @@ public interface MyMap<K, V> extends MyCollection<Pair<K, V>> {
 }
 \end{lstlisting}
 
-\noindent Decidiamo di implementare la nostra mappa in due maniere diverse! 
+\noindent \textbf{IMPLEMENTAZIONE DI MAPPE}\newline
+\noindent Decidiamo di implementare la nostra mappa in due maniere diverse! La prima è la più facile che ci viene in mente:
 
 \begin{lstlisting}[basicstyle=\small,]
 /* Classe: MyListMap__old.java */
@@ -123,6 +124,8 @@ public class MyListMap__old<K, V> implements MyMap<K, V> {
 }
 \end{lstlisting}
 
+\noindent La sconda implementazione è la più coincisa:
+
 \begin{lstlisting}[basicstyle=\small,]
 /* Classe: MyListMap.java */
 public class MyListMap<K, V> extends MyArrayList<Pair<K, V>>
@@ -144,30 +147,6 @@ public class MyListMap<K, V> extends MyArrayList<Pair<K, V>>
     }
 }
 \end{lstlisting}
-
-\begin{lstlisting}[basicstyle=\small,]
-/* Classe: MyArrayListSortedSet.java */
-/* è stata modificata la classe dell'altra volta*/
-import java.util.*;
-import java.util.function.Function;
-
-public class MyArrayListSortedSet<T extends Comparable<T>>
-        extends MyAbstractArrayListSet<T>
-        implements MySortedSet<T> {
-
-    public MyArrayListSortedSet() {
-        super();
-    }
-
-    @Override
-    protected void sort() {
-        Collections.sort(a);
-    }
-
-}
-\end{lstlisting}
-
-
 
 \begin{lstlisting}[basicstyle=\small,]
 /* Classe: Main.java */

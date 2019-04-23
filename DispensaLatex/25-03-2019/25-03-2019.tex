@@ -140,7 +140,10 @@ import java.util.*;
 import java.util.function.Function;
 
 public class MyArrayListSortedSet<T extends Comparable<T>>
-        extends MyAbstractArrayListSet<T> {
+        extends MyAbstractArrayListSet<T>
+        implements MySortedSet<T> {
+        /* implements è stato aggiunto la lezione
+         * successiva */
 
     public MyArrayListSortedSet() {
         super();
