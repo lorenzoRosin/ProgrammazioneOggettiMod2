@@ -81,6 +81,10 @@ public class Main {
 package threads;
 
 public class SynchronizedMain {
+	/* Creando una istanza statica so per certo che
+	 * ogni thread farà riferimento a questa istanza
+	 * bisogna perciò essere sicuri che sia 
+	 * sincronizzata */ 
     public static final Counter counter = new Counter();
 
     private static class Counter {
@@ -96,7 +100,8 @@ public class SynchronizedMain {
             value = x;
         }
 
-        // questo metodo fa la lettura e il post-incremento in maniera ATOMICA
+        /* questo metodo fa la lettura e il post-incremento
+         * in maniera ATOMICA */
         public synchronized int getAndIncrement() {
             return value++;
         }
@@ -111,9 +116,12 @@ public class SynchronizedMain {
         }
     }
 
-    // usando i metodi get() e set() di Counter, non è garantita l'atomicità dell'operazione di incremento
-    // non c'è corruzione di memoria perché sia le letture (get) sia le scritture (set) sono atomiche
-    // tuttavia il comportamento non è quello atteso e produce in output più thread che contemporaneamente stampano lo stesso counter
+    /* usando i metodi get() e set() di Counter, non è garantita 
+     * l'atomicità dell'operazione  di incremento, non c'è 
+     * corruzione di memoria perché sia le letture (get) sia le  
+     * scritture (set) sono atomiche, tuttavia il comportamento non  
+     * è quello atteso e produce in output più thread che 
+     * contemporaneamente stampano lo stesso counter */
     private static void loop__BAD(int delay) {
         while (counter.get() < Counter.MAX) {
             printAndSleep(counter.get(), delay);
@@ -121,17 +129,27 @@ public class SynchronizedMain {
         }
     }
 
-    // qui invece usiamo un metodo apposito che legge e incrementa in modo ATOMICO
-    // in questo modo il comportamento è corretto
+    /* qui invece usiamo un metodo apposito che legge e  
+     * incrementa in modo ATOMICO in questo modo il 
+     * comportamento è corretto */
     private static void loop__GOOD(int delay) {
-        int i;  // occorre una variabile di appoggio: è un binding nello scope locale di una copia dell'intero post-incrementato
+        int i;  
+        /* occorre una variabile di appoggio: 
+         * è un binding nello scope locale di 
+         * una copia dell'intero 
+         * post-incrementato */
         while ((i = counter.getAndIncrement()) < Counter.MAX) {
-            printAndSleep(i, delay);    // se al posto della variabile di appoggio i usassimo direttamente counter.get() qui, potremmo ottenere un valore sbagliato        }
+            printAndSleep(i, delay);    
+            /* se al posto della variabile di appoggio 
+             * i usassimo direttamente counter.get() qui,
+             * potremmo ottenere un valore sbagliato   */
+           }
         }
     }
 
     private static void loop(int delay) {
-        // cambiare la chiamata per provare entrambe le versioni
+        /* cambiare la chiamata per provare entrambe
+         * le versioni */
         //loop__BAD(delay);
         loop__GOOD(delay);
     }
