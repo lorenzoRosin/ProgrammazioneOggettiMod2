@@ -9,9 +9,14 @@ Nella nostra versione: se il thread è presente nella coda lo usiamo e lo faccia
 L'interfaccia che più si avvicina alle nostre esigenze è: \textit{Queue<E>} 
 
 
-\noindent \textbf{Synchronized} \newline
-\textbullet\ \textit{Synchronized come firma del metodo:} é una keyword di java che inserita nella firma di un metodo garantisce la mutua esclusione del metodo in modo tale che venga eseguito da un thread alla volta. Il Sync di sotto è uguale a questo solo che usa this come oggetto per il mutex, perciò garantisce la mutua esclusione per tutti i metodi dello stesso oggetto (anche metodi differenti della stessa istanza sono sincronizzati sul this e quindi si aspettano a vicenda), oggetti differenti funzionano senza "sentire il mutex".\newline
-\textbullet\ \textit{Synchronized come mutex di un oggetto:} la stessa keyword può essere usata anche come segue:\textit{Synchronized(Object){azioni da sincronizzare}} questo implica che ogni oggetto può essere usato come un mutex (Object ha infatti i metodi "wait" e "notify"). \newline
+\noindent \textbf{SYNCHRONIZED} \newline
+La keyword Synchronized può essere usata per due scopi in java: \newline
+\textbullet\ Mutex: quindi la uso per evitare condizioni di race condition \newline
+\textbullet\ Consistenza della memoria: quando un thread modifica una variabile non è detto che un'altro thread possa visualizzare gli effetti della modifica. Se abbiamo un thread che incrementa una variabile ed un'altro thread che stampa il valore della stessa variabile, è possibile che il thread stampante stampi sempre lo stesso valore! Questo può essere dovuto a motivi di cache. Per evitare che questo succeda usiamo il syncronized! Il codice dentro ad un blocco sincronizzato viene sincronizzato il tutti i thread.
+
+\noindent \textbf{SYNCHRONIZED COME MUTEX} \newline
+\textbullet\ \textit{Synchronized come firma del metodo:} é una keyword di java che inserita nella firma di un metodo garantisce la mutua esclusione del metodo in modo tale che venga eseguito da un thread alla volta. Il Synchronized come mutex di un oggetto è uguale a questo Synchronized come firma del metodo solo che si usa this come oggetto per il mutex, perciò garantisce la mutua esclusione per tutti i metodi dello stesso oggetto (anche metodi differenti della stessa istanza sono sincronizzati sul this e quindi si aspettano a vicenda), oggetti differenti funzionano senza "sentire il mutex".\newline
+\textbullet\ \textit{Synchronized come mutex di un oggetto:} la stessa keyword può essere usata anche come segue:\textit{Synchronized(Object) \{azioni da sincronizzare\}} questo implica che ogni oggetto può essere usato come un mutex (Object ha infatti i metodi "wait" e "notify"). \newline
 Il miglior metodo per gestire la concorrenza è usare Synchronized all'iterno di un metodo e non nella sua firma. \newline
 Di sbagliato infatti c'è che non va mai bene proteggere tutto un metodo, ma andrebbe protetta soltanto la sezione critica!
 Notiamo che Synchronized è uno statement e non un'espressione, quindi al posto di un for useremo un while.
