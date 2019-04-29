@@ -2,7 +2,24 @@
 
 \newpage
 \section{18-04-2019}
-\noindent PLACE HOLDER
+\noindent \textbf{CONTINUAZIONE DEI THREAD} \newline
+Thread.currentThread() ritorna un oggetto di tipo thread che rappresenta se stesso. Ritorna una istanza della classe Thread in carica di eseguire il thread. \newline
+Il metodo run non può lanciare nessuna eccezione di tipo checked \newline
+Quando si usano i timeout si è soliti specificare quanto tempo e l'unità di misura. Essa si può specificare usando TimeUnit.UNITADIMISURA. \newline
+
+\noindent \textbf{ESPRESSIONI LAMBDA} \newline
+Sintassi: \newline
+\textbullet\ $ (\tau_{1} x_{1} , .... , \tau_{n} x_{n}) -> E $ Dove E è un'espressione \newline
+Vengono passati anche i tipi in quanto non c'è un type inference completo. Inoltre l'espressione della lambda può essere anche un blocco. \newline
+Vediamo degli esempi: \newline
+\textbullet\ $ (int n) -> (n+1) $ E' corretta \newline
+\textbullet\ $ (int x) -> return x+1 $ E' errata. infatti il return non è un'espressione, è uno statament, dunque ci vanno le graffe. \newline
+\textbullet\ $ (int x) -> {return x+1} $ E' corretta \newline
+\textbullet\ $ () -> 1 $ E' corretta \newline
+In generale se l'espressione lambda è semplice si possono omettere le graffe, mentre se ha uno statament bisogna metterci le graffe. \newline
+
+
+\noindent \textbf{CODICE DEL PROFESSORE} \newline
 
  
 
