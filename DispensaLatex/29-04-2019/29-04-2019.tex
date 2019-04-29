@@ -13,4 +13,86 @@ Un oggetto non viene preso in carico dal garbage collector quando è dentro una 
 \noindent \textbf{CODICE DEL PROFESSORE} \newline
  
 
+\begin{lstlisting}[basicstyle=\small,]
+package patterns.consumerproducer;
 
+import java.util.Random;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class Main {
+    private static BlockingQueue<String> q = new LinkedBlockingQueue<>();
+    private static Random rand = new Random();
+
+    public static class Consumer extends Thread{
+        @Override
+        public void run(){
+            while(true)
+                try{
+                    Thread.sleep(rand.nextInt(500));
+
+                    String s = q.take();
+                    System.out.println("Consumer: "+s);
+
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+        }
+    }
+
+    public static class Producer extends Thread{
+
+        @Override
+        public void run(){
+
+               /* ad ogni ciclio costruiamo un nuovo generatore
+                * di numeri casuali, ma non viene cambiato il 
+                * seme facciamo anche heap pllution (riempiamo
+                * lo heap di oggetti non referenziati) */
+               while(true){
+                   try {
+                       Thread.sleep(rand.nextInt(500));
+                       /* Random rand= new Random(); */
+                       int len= rand.nextInt(10); 
+                       /* produce un numero tra 0 e 100 */
+                       String s= ""; 
+                       /* rappresenta uno zucchero sintattico
+                        * per indicare una stringa statica
+                        * all'interno della classe.
+                        * la stringa vuota è un oggetto
+                        * già esistente. è immutabile */
+                       for(int i=0;i<len;i++) {
+                           /*
+                           s=s+String.format("%d",i); //usa l'opearndo string string
+                           s=s+i; //usa loprebado + con string int
+                           s=s+(Integer) i; //usa l'operando con string Integer
+                           s=s+((Integer)i).toString();
+                            */
+                           s = s + String.format("%d", i);
+                           /* ogni volta ne viene creata
+                            * una nuova.
+                            * s=s+i; */
+
+                           /* le variabili ospitano oggetti */
+                           
+
+                           /* s computa il contenuto della striga
+                            * String.format computa una nuova stinga
+                            */
+                       }
+                       System.out.println("Producer: "+s);
+                       q.add(s);
+                   }catch (Exception e){
+                       e.printStackTrace();
+                   }
+
+               }
+        }
+
+    }
+    public static void main(String[] args){
+        new Producer().start();
+        new Consumer().start();
+    }
+}
+\end{lstlisting}
