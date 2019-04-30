@@ -20,7 +20,10 @@
 \usepackage[pdf]{graphviz} 
 \graphicspath{{7-02-2019/},{4-02-2019/},{11-02-2019/}}
 \setlength{\parskip}{10pt plus 1pt minus 1pt}
-\definecolor{xanadu}{rgb}{0.45, 0.53, 0.47}
+\definecolor{javagreen}{rgb}{0.45, 0.53, 0.47}
+\definecolor{javared}{rgb}{0.6,0,0} % for strings
+\definecolor{javapurple}{rgb}{0.5,0,0.35} % keywords
+\definecolor{javadocblue}{rgb}{0.25,0.35,0.75} % javadoc
 \usepackage{amssymb}
 \usepackage{listings}
 \lstset{
@@ -42,8 +45,11 @@
     inputencoding=utf8,
     extendedchars=true,
     showstringspaces = false,
-    literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1 {è}{{\'e}}1 {ò}{{\'o}}1  {ù}{{\'u}}1 {à}{{\'a}}1 ,   
-    commentstyle=\color{xanadu},
+    literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1 {è}{{\'e}}1 {ò}{{\'o}}1  {ù}{{\'u}}1 {à}{{\'a}}1 , 
+    keywordstyle=\color{javapurple}\bfseries,
+	stringstyle=\color{javared},  
+    commentstyle=\color{javagreen},
+    morecomment=[s][\color{javagreen}]{/*}{*/},
     aboveskip=0cm,
     belowskip=0cm,
     float = h
