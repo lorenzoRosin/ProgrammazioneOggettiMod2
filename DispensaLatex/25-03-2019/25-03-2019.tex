@@ -8,7 +8,7 @@
 \textbullet\ \textit{Comparable}: è un'interfaccia con un unico metodo compareTo(T obj) che compara se stesso con un oggetto di tipo T. E' quindi interfaccia funzionale. \newline
 \textbullet\ \textit{Comparator}: è un interfaccia con molti metodi, il metodo compare(T a, T b) ci permette di realizzare una classe che compara oggetti tra di loro. \newline
 Vediamo un esempio di utilizzo preso dalla classe Sort: \newline
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 Sort(T a) /* Posso usare questo metodo quando gli oggetti sono 
 		   * sicuramente di tipo comparable. In fase di ordinamento
 		   * richiamerò il compare su ogni elemento */
@@ -22,7 +22,7 @@ Sort(T a, Comparator<T>) /* Uso questo metodo quando voglio rendere
 L'altra volta ho realizzato direttamente la classe \textit{MyArrayListSet.java} implementando \textit{MySet}.
 Un modo alternativo di farlo consiste nel creare una classe astratta con dei metodi di default ed estenderla. 
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MyAbstractArrayListSet.java */
 import java.util.*;
 import java.util.function.Function;
@@ -101,7 +101,7 @@ public abstract class MyAbstractArrayListSet<T> implements MySet<T> {
 
 
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MyArrayListSet.java */
 /* è stata modificata la classe dell'altra volta*/
 
@@ -127,14 +127,14 @@ public class MyArrayListSet<T> extends MyAbstractArrayListSet<T> {
 \end{lstlisting}
 
 \noindent \textbf{ESEMPIO COMPARABLE}
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MySortedSet.java */
 public interface MySortedSet<T extends Comparable<T>> extends MySet<T> {
 
 }
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MyArrayListSortedSet.java */
 import java.util.*;
 import java.util.function.Function;
@@ -157,7 +157,7 @@ public class MyArrayListSortedSet<T extends Comparable<T>>
 }
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: Main.java */
 import java.util.*;
 

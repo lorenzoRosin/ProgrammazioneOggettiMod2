@@ -26,16 +26,16 @@ Ad esempio ArrayList ha come superclasse abstract arrayList. ArrayList implement
 <? extends classe> e <? extends E> rappresentano un tipo. \newline
 La \textit{SUBSUMPTION} non funziona in genere sempre tra GENERICS. Per il parametro stesso c'è subsumption, ma non per le collection. Il tipo con il ? accetta sottotipi di parametri.\newline
 \textbullet\ Il TIPO ESTERNO gode sempre della subsumption.(List<Int>: List è tipo esterno)
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
  ArrayList<Int> è sottotipo di List<Int>
 \end{lstlisting}
 \noindent \textbullet\ Il TIPO INTERNO non gode mai della subsumption(cioè il tipo all'interno di <>). La subsumption si può fare solo usando i generics( quindi con <? extends E>)
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
  ArrayList<Iterable> non è sottotipo di ArrayList<Collection>
 \end{lstlisting}
 \noindent Si dice che abbiamo quindi "\textit{Invarianza del subtyping}": se ciò non fosse le subsumption funzionerebbero anche nel tipo interno e questo rischierebbe la totale spaccatura del linguaggio (senza l'invarianza si possono creare problemi di cast ed oggetti).\newline
 Se cosi non fosse in java non verrebbero mai rispettate le regole delle classi.
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Illegal code - because otherwise life would be Bad */
 List<Dog> dogs = new ArrayList<Dog>(); /* ArrayList implements List */
 List<Animal> animals = dogs; /*  Awooga awooga */

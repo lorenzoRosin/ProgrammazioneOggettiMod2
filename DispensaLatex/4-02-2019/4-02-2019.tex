@@ -4,12 +4,10 @@
 \section{4-02-2019: INTRO}
 \textbf{DICHIARAZIONE $\neq$ ASSEGNAMENTO} \newline
 L'assegnamento fa riferimento alla modifica di una variabile.
-\begin{lstlisting}[basicstyle=\small,]
-
+\begin{lstlisting}
 int n		   /* Dichiarazione */
 int m = n = 1; /* Inizializzazione */
 n = 2 		   /* Assegnamento */
-
 \end{lstlisting}
 
 \noindent \textbf{PROGRAMMAZIONE IMPEATTIVA VS FUNZIONALE} \newline
@@ -31,7 +29,7 @@ Questa separazione non conta niente per il linguaggio, si riflette solamente sul
 \textbullet\ Tutte le superclassi sono dei sovrainsiemi. 
 
 \noindent I linguaggi ad oggetti ci permettono di costruire \textit{tipi} e di definire \textit{valori}. 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	Animale a = new Animale();
 	/* in Java gli oggetti sono valori
 	 * dove: Animale -> tipo -> CLASSE
@@ -55,7 +53,7 @@ Un linguaggio si dice \textit{sound} quando il compilatore ti da la certezza che
 
 \noindent \textbf{PARAMETRO IMPLICITO} \newline
  Ogni metodo dichiarato ha sempre un parametro implicito (il parametro \textit{this}). Esso è sotto inteso e viene passato automaticamente, più eventuali parametri che vengono passati all'interno del metodo.
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	public class Animal {
 		private int peso;
 		...
@@ -72,7 +70,7 @@ Un linguaggio si dice \textit{sound} quando il compilatore ti da la certezza che
 L'eredità è un meccanismo che garantisce il funzionamento del \textit{polimorfismo}.\newline
 \textbullet\ Polimorfismo per \textit{SUBTYPING} o anche polimorfismo per inclusione: si riferisce al fatto che una espressione il cui tipo sia descritto da una classe A può assumere valori di un qualunque tipo descritto da una classe B sottoclasse di A (Vedi codice appena sopra)\newline 
 \textbullet\ Polimorfismo dei \textit{GENERICS}: si riferisce al fatto che il codice del programma può ricevere un tipo come parametro invece che conoscerlo a priori (polimorfismo parametrico). In questo modo non si perde il tipo originario passato dall'oggetto al metodo \newline
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	/* POLIMORFISMO SUBTYPING
 	 * basato sui sottotipi ereditarietà */
 	Object ident (Object x){

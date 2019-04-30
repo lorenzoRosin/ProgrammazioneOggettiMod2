@@ -45,7 +45,7 @@
 
 \noindent \textbf{CODICE DI ESEMPIO}\newline
 Il professore questo giorno ha caricato su github del codice chiamato: TinyJDK. Lo riporto per completezza:
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MyIterable.java */
 public interface MyIterable<E> {
 
@@ -55,7 +55,7 @@ public interface MyIterable<E> {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MyIterator.java */
 public interface MyIterator<E> {
     boolean hasNext();
@@ -63,7 +63,7 @@ public interface MyIterator<E> {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MyCollection.java */
 import java.util.Collection;
 import java.util.function.Function;
@@ -80,7 +80,7 @@ public interface MyCollection<T> extends MyIterable<T> {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MyList.java */
 
 public interface MyList<T> extends MyCollection<T> {
@@ -90,7 +90,7 @@ public interface MyList<T> extends MyCollection<T> {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MySet.java */
 public interface MySet<T> extends MyCollection<T> {
 }
@@ -99,7 +99,7 @@ public interface MySet<T> extends MyCollection<T> {
 \noindent \textbf{ESEMPIO IMPLEMENTAZIONE LIST}\newline
 Vediamo un esempio di implementazione della classe List, collection in cui gli elementi vengono memorizzati in ordine di arrivo.
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MyArrayList.java */
 import java.util.Collection;
 import java.util.function.Function;
@@ -269,7 +269,7 @@ public class MyArrayList<T> implements MyList<T> {
 \noindent \textbf{ESEMPIO IMPLEMENTAZIONE SET}\newline
 Vediamo un esempio di implementazione della classe Set, collection in cui gli elementi vengono inseriti secondo una certa logica interna. In questo caso gli elementi verranno tenuti secondo l'ordine imposto o da comparator o da comparable.
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MyArrayListSet.java */
 import java.util.ArrayList;
 import java.util.Arrays;

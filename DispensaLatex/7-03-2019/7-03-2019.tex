@@ -10,7 +10,7 @@ I tre tipi possibili di wildcards sono: \newline
 
 \noindent \textbf{TOP TYPE} \newline
 Il tipo "?" non può essere usato come tipo per una variabile quindi dichiarare"? x" non si può fare. Posso però dichiarare questo: "Object x = l1.get(..)"
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 List<?> l1 = new ArrayList<Cane>();
 /* Il "?" da solo indica un tipo che gerarchicamente
  * e più in alto di Object, viene detto top type.
@@ -41,7 +41,7 @@ l1.get(int index) /* il compilatore ritorna l'errore in
 \noindent \textbf{UPPER BOUNDED WILDCARDS} \newline
 "? extends Animale" indica che come parametro posso passare un qualsiasi tipo che sia figlio di Animale. \newline
 l2.get(0) -> ritorna un capture of ? extends Animale -> qualsiasi cosa figlia di animale (posso però fare Binding di qualcosa che sia al massimo Animale) \newline
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	List<Animale> t3 = new ArrayList<Gatto>();
 	/* è errato, si può subscrivere solamente il guscio
 	 * esterno,per farlo con il guscio (tipo) interno
@@ -50,14 +50,14 @@ l2.get(0) -> ritorna un capture of ? extends Animale -> qualsiasi cosa figlia di
 	List<? extends Animale> t3 = new ArrayList<Gatto>();
 \end{lstlisting}
 Vediamo ora un'altro esempio:
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	List<?> l1 = new ArrayList<Cane>();
 	List<? extends Animale> l2 = new ArrayList<Gatto>();
 	l1 = l2 /* è assegnazione valida */
 	l2 = l1 /* NON è assegnazione valida */
 \end{lstlisting}
 \noindent Continua a valere il discorso del top type. Data una lista di un upper bounded type il compilatore non mi lascia aggiungerci elementi perchè semplicemente non può verificare la loro correttezza! Un esempio è il seguente:
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	List<Gatto> l1 = new ArrayList<Gatto>();
 	l1.add(new Gatto("bianco"));
 	List<? extends Animale> l2 = l1; /* operazione valida */
@@ -73,7 +73,7 @@ Vediamo ora un'altro esempio:
 In questo caso posso passare animale a tutto quello che sta sopra. \newline
 l2.add(new Animale) -> ?? non compila perchè... \newline
 Questo genere di wildcards sono molto utili, perchè permettono di essere passati ad una funzione, la quale poi andrà ad aggiungerci dati. Vediamone un esempio:
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	public static aFunc(List<? super Cane> l){
 		l.add(new Cane("nero")); /* valido */
 		l.add(new PastoreTedesco(nero)); /* valido */
@@ -88,11 +88,11 @@ Questo genere di wildcards sono molto utili, perchè permettono di essere passat
 
 \noindent \textbf{ESEMPI} \newline
 \noindent Riprenderemo la map vista nella lezione scorsa.
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 public static <A,B> List<B> map(List<A> I, Func<A,B> f)();
 \end{lstlisting}
 Ad esempio, per trasformare animali in piante: 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 public static class Vegetale{}
 
 public static void main_map(){
@@ -108,7 +108,7 @@ public static void main_map(){
 \end{lstlisting}
 \noindent Questa funzione riportata sopra non compila in quanto i \textit{generics} non sono soggetti alla subsumption. Per farla compilare modifichiamo la funzione map come segue: 
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 public static  <x, y> List<x> map(List<x>, Func(? super <x, y> f)){
 ...
 
@@ -117,7 +117,7 @@ public static  <x, y> List<x> map(List<x>, Func(? super <x, y> f)){
 
 \noindent Riporto anche una versione il più generale possibile: \newline
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
     public static <X, Y> List<Y> map(List<X> l, Func<? super X, ? extends Y> f) {
         List<Y> r = new ArrayList<>();
         for (X x : l) {
@@ -128,7 +128,7 @@ public static  <x, y> List<x> map(List<x>, Func(? super <x, y> f)){
 \end{lstlisting}
 
 \noindent \textbf{NESTED CLASS}\newline
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 public class Main__Functional {
 	public static void main__filter() {
 		...
@@ -144,7 +144,7 @@ Se una classe innestata non ha relazioni con la enclosing class è meglio farla 
 \noindent \textbf{OVERLOADING} \newline
 Il meccanismo dell'overloading permette di definire metodi con stesso nome ma firma diversa. 
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 public static class c{
 	public int m(){
 		return 1;
@@ -168,13 +168,13 @@ public static class c{
 
 \noindent L'overloading è del tutto gestito dal compilatore, e \textbf{non} viene quindi fatto durante la run-time.
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 public Number m(Number x){
 	return x;
 }
 \end{lstlisting}
 Vediamo un esempio:
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	int foo(){...};
 	float foo(){...};
 	...

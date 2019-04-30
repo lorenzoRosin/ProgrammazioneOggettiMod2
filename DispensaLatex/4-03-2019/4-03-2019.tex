@@ -9,7 +9,7 @@
 \noindent \textbf{CLASSI ANONIME} \newline
 Le classi \textit{lambda} servono per fare funzioni al "volo",senza quindi avere il bisogno di implementare delle interfacce in classi separate. Vediamone un esempio:
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 interface HelloWorld {
 	public void greet();
     public void greetSomeone(String someone);
@@ -33,7 +33,7 @@ public static void main (String args[]) {
 \noindent \textbf{LAMBDA ASTRAZIONI} \newline
 Le espressioni \textit{lambda} servono per fare funzioni al "volo",senza quindi avere il bisogno di implementare delle interfacce in classi separate, classi anonime e classi innestate. Si ricorda che le espressioni lambda possono essere usate solo per implementare interfacce funzionali (cioè interfacce che possiedono un solo metodo astratto). Vediamone un esempio:
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 interface MyString {
 	String myStringFunction(String str);
 }
@@ -49,7 +49,7 @@ public static void main (String args[]) {
 
 \noindent \textbf{FUNZIONI DI ORDINE SUPERIORE} \newline
 Sono delle funzioni che prendono delle funzioni come parametri di ingresso 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* questa interfaccia è equivalente all'interfaccia java.util.Functional
  * essa infatti espone una serie di funzioni, senza implementazione, tra 
  * cui anche le call-back */
@@ -73,14 +73,14 @@ public static <A,B> List<B> map(List<A> I, Func<A,B> f){
 \end{lstlisting}
 A e B sono \textit{generics} locali al metodo(e solo al metodo) \newline
 I generics sulle classi servono per parametrizzare, non per fare polimorfismo \newline
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 public static <A,B> List<B> map(List<A> I, Func<A,B> f){
 /* dove in "public static <A,B>" dichiaro i parametri che useremo
  * mentre in "List<a> .. Func <A,B>" "uso" i parametri */
 \end{lstlisting}
 
 \noindent Funzione FILTER: 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* questa funzione è simile alla funzione Func definita sopra
  * solo che rende più chiaro il suo scopo: filtrare degli elementi
  * da aggiungere in una lista */
@@ -95,7 +95,7 @@ public static <A> List<A> Filter (List<A> l, Func<A,Boolean> p){
 
 \noindent La seguente \textit{Filter2} NON funziona perché usa la \textit{remove()} delle Collection, ma non è possibile rimuove un elemento in fase di scorrimento (è scritto nella documentazione)
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 public static <A> void Filter2 (List<A>, Func<A, Boolean> p){
 	for(A a: l)   /* il for each in Java essere zucchero sintattico */
 		if(p.execute(a))
@@ -105,7 +105,7 @@ public static <A> void Filter2 (List<A>, Func<A, Boolean> p){
 \end{lstlisting}
 Se non posso rimuovere come ho fatto sopra un elemento posso invece chiedere all'iteratore di rimuovere l'elemento stesso, esso rimuoverà quello a cui stiamo puntando. Quindi invece di usare un ciclo for come sopra, uso l'iteratore per scorrere la lista usando in metodo \textit{hasNext}.
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* questo funziona perchè chiama la remove() dell'iteratore
  * mentre prima chiamavo il remove della lista */
 public static <A> void Filter2 (List<A>l, Func<A, Boolean> p){
@@ -124,7 +124,7 @@ public static <A> void Filter2 (List<A>l, Func<A, Boolean> p){
 \noindent Posso usare Function<A,B> di java come funziona Func? \newline
 Esempio di chiamata:
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 public static void main(String argv[]){
 	List<String> strings = new ArrayList<>();
 	string.add("ciao");
@@ -150,7 +150,7 @@ public static void main(String argv[]){
 
 \noindent La seguente funzione data una lista di interi scarta gli elementi minori di zero: questo è il modo per non usare un for con un ciclo if innestato.
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 public static void main__filter(){
 	 List<Integer> interi  = new ArrayList<>();
 	 interi.add(89);
@@ -171,7 +171,7 @@ public static void main__filter(){
 
 \noindent Oppure 
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	Filter2 (interi , new Func<Integer, Boolean>(){
 		@Override
 		public Boolean execute (Integer a)
@@ -181,7 +181,7 @@ public static void main__filter(){
 
 \noindent \textbf{GENERICS LOCALI (Polimorfismo parametrico di primo ordine)} 
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
     public static Object ident__ugly(Object o) {
         return o;
     }   
@@ -197,7 +197,7 @@ public static void main__filter(){
      * ritorno */
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	public static void main__ident	(){
 		Cane fido = new Cane();
 		Cane c = (Cane) ident__ugly(fido); /* ritorna un cane 

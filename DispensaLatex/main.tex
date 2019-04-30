@@ -25,7 +25,8 @@
 \usepackage{listings}
 \lstset{
     language=JAVA, %% Troque para PHP, C, Java, etc... bash é o padrão
-    basicstyle=\ttfamily\footnotesize ,
+    %% basicstyle=\ttfamily\scriptsize ,
+    basicstyle=\fontsize{9}{9}\ttfamily,
     numberstyle=\footnotesize,
     numbers=left,
     backgroundcolor=\color{gray!10},
@@ -36,13 +37,16 @@
     escapeinside={\%*}{*)},
     breaklines=true,
     breakatwhitespace=true,
-    framextopmargin=2pt,
-    framexbottommargin=2pt,
+    framextopmargin=1pt,
+    framexbottommargin=1pt,
     inputencoding=utf8,
     extendedchars=true,
     showstringspaces = false,
     literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1 {è}{{\'e}}1 {ò}{{\'o}}1  {ù}{{\'u}}1 {à}{{\'a}}1 ,   
     commentstyle=\color{xanadu},
+    aboveskip=0cm,
+    belowskip=0cm,
+    float = h
 }
 
 \begin{document}

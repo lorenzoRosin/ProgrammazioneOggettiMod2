@@ -11,7 +11,7 @@ Una classe si dice astratta quando ha almeno un metodo astratto, essa serve per 
 \noindent \textbf{VTABLE E DIMENSIONE DI UNA CLASSE} \newline
 Una virtual Table, o dispatching table, è un meccanismo utilizzato per supportare il dynamic dispatching (o anche chiamato run-time method binding).Quando una classe definisce dei metodi virtuali, il compilatore nasconde all'interno dei membri della classe una variabile che punta ad un array di puntatori a funzioni. Questi puntatori sono poi usati a runtime per invocare l'implementazione della funzione appropiata, questo perchè in compile-time non è detto che si sappia se la funzione richiamata sia quella del tipo definito o sia derivata da un'altra classe.
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 public static class Animale(){
 	private int peso;
 }

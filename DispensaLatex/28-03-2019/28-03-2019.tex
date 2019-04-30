@@ -18,7 +18,7 @@ Super può essere usato per il costruttore o per metodi che eredito, non è di p
 \noindent Durante la lezione il professore ha aggiunto nel repository di github il seguente codice: 
 
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: Pair.java */
 public class Pair<A, B> {
     private A a;
@@ -35,13 +35,13 @@ public class Pair<A, B> {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: NotFoundException.java */
 public class NotFoundException extends Exception {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MyMap.java */
 public interface MyMap<K, V> extends MyCollection<Pair<K, V>> {
 	/*K = sono le chiavi */
@@ -55,7 +55,7 @@ public interface MyMap<K, V> extends MyCollection<Pair<K, V>> {
 \noindent \textbf{IMPLEMENTAZIONE DI MAPPE}\newline
 \noindent Decidiamo di implementare la nostra mappa in due maniere diverse! La prima è la più facile che ci viene in mente:
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MyListMap__old.java */
 import java.util.function.Function;
 
@@ -126,7 +126,7 @@ public class MyListMap__old<K, V> implements MyMap<K, V> {
 
 \noindent La seconda implementazione è la più coincisa:
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: MyListMap.java */
 public class MyListMap<K, V> extends MyArrayList<Pair<K, V>>
         implements MyMap<K, V> {
@@ -148,7 +148,7 @@ public class MyListMap<K, V> extends MyArrayList<Pair<K, V>>
 }
 \end{lstlisting}
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: Main.java */
 /* è stata modificata la classe dell'altra volta*/
 /* riporto solo la modifica: ha aggiunto main2 */

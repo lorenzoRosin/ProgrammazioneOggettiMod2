@@ -8,11 +8,11 @@ Per cercare si esegue l'hash di quello che voglio cercare (per esempio hashare u
 Le l'hash map sono però inefficienti in termini di memoria. 
 
 \noindent Il costruttore dell' hash map è il seguente: 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	HashMap(int initalcapacity, float loadFactor)
 \end{lstlisting}
 Esso costruisce una hash map vuota con una capacità iniziale uguale a quella specificatta e con un fattore di carico anch'esso specificato. Il fattore di carico (load factor) specifica di quanto si deve moltiplicare quando si ingrandisce la mappa. 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	HashMap(Map<? extends k, ? extends v> m)
 \end{lstlisting}
 Costruisce una nuova hash map, popolandola con i valori della mappa passata. Viene chiamato costruttore per copia.
@@ -25,7 +25,7 @@ Costruisce una nuova hash map, popolandola con i valori della mappa passata. Vie
 
 \noindent Il professore ha aggiunto il seguente codice nel suo repository github quel giorno: 
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: Main.java */
 /* è stata modificata la classe dell'altra volta */
 /* Ha aggiunto solo l'hashCode e il main3(), la

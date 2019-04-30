@@ -3,7 +3,7 @@
 \newpage
 \section{15-02-2019: INTERFACCE}
 \textbf{INTERFACCE}
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	public interface Iterator<T>{}
 \end{lstlisting}
 L'interfaccia è un contratto, nel senso che mette a disposizione una serie di metodi che ogni classe che estende quell'interfaccia deve obbligatoriamente implementare, pena un errore durante la fase di compilazione.In java quindi si può scrivere del codice ancora prima di sapere come si potrebbe implementare.
@@ -14,7 +14,7 @@ L'interfaccia è un contratto, nel senso che mette a disposizione una serie di m
 \textbullet\ void remove()\newline
 Data una certa classe che può non essere sotto al nostro controllo non abbiamo bisogna sapere necessariamente come sono stati implementati i suoi metodi, ma ci ti basta sapere che esistono per poter dire se sia o meno un iteratore. \newline
 Esempio di definizione di un metodo con iteratore come input: 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	public statics void scorri(Iteratore <Integer> it){
 		while(it.hasnext()){
 			integer n = it.next();
@@ -22,7 +22,7 @@ Esempio di definizione di un metodo con iteratore come input:
 	}
 \end{lstlisting}
 Esempio di utilizzo 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 	scorri(new Iterator<>(){
 		...
 		...

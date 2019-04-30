@@ -16,7 +16,7 @@ L'ultima formula non è covariante, se fosse possibile si avrebbe una doppia sub
 
 \noindent \textbf{CONTROVARIANZA} \newline
 Quando eredito un metodo di una classe posso sovrascriverlo usando l'overriding. Quando lo faccio un linguaggio di programmazione si dice controvariante se mi è possibile far scendere (specializzare) il tipo di ritorno, e al contempo mi è possibile far salire (rendere più generico) l'argomento di ingresso. Vediamo un esempio (\textit{NON VALIDO IN JAVA}):
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Data questa gerarchia di classi: */
   public class Cane extends Animale{
 	/* nella classe Cane faccio l'override
@@ -43,7 +43,7 @@ Quando eredito un metodo di una classe posso sovrascriverlo usando l'overriding.
 \noindent Detto questo è bene specificare che Java supporta i solo i tipi di ritorno controvarianti, è possibile controvariare SOLO il tipo di ritorno del metodo, ed è possibile farlo solamente scendendo (sottotipo). Ed è possibile Fare questo nella fase di overriding, non in quella di overloading. In caso di overloading il tipo di ritorno deve essere lo stesso.
 
 \noindent Il seguente è l'esempio corretto in java:
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 public Cane m (Cane c){return c;}
 
 @Override
@@ -57,12 +57,12 @@ Un esempio di SOUND JAVA è il seguente:in java è possibile avvenga un segmenta
 
 \noindent \textbf{WILDCARDS} \newline
 \noindent Recentemente è stato inserito un pattern che permette anche in Java la covarianza: sono i generics con i wildcards. 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 Arraylist<? extends Animale> m = new List<Cane>();
 \end{lstlisting}
 \noindent Da questo si capisce che la covarianza può essere usata, ma solamente se esplicitata con il wildcard. \newline
 Sono molto usati perchè i wildcard non sono tipi del primo ordine, infatti il \textit{tipo} "? extends classe" non esiste!!!Non posso definire una variabile come segue: 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 ? extends Animale m = new Cane();
 /* questa sintassi si può usare solo come type argument */
 \end{lstlisting}

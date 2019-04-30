@@ -21,7 +21,7 @@ Il miglior metodo per gestire la concorrenza è usare Synchronized all'iterno di
 Di sbagliato infatti c'è che non va mai bene proteggere tutto un metodo, ma andrebbe protetta soltanto la sezione critica!
 Notiamo che Synchronized è uno statement e non un'espressione, quindi al posto di un for useremo un while.
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: Main.java */
 /* è stata modificata la classe dell'altra volta  */
 /* Ha rimosso il run ed aggiunto i due syncronize */
@@ -76,7 +76,7 @@ public class Main {
 
 \noindent Vediamo un modo migliore di sincronizzare il thread:
 
-\begin{lstlisting}[basicstyle=\small,]
+\begin{lstlisting}
 /* Classe: SynchronizedMain.java */
 package threads;
 
