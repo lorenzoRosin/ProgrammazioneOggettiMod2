@@ -114,10 +114,14 @@ public class ThreadPool {
         MyThread th1 = new MyThread(500);
         th1.start();    // spawn thread 1
 
-        // non serve conservare l'oggetto thread in una variabile se non è necessario
-        new Thread(() -> loop(400)).start();    // spawn thread 2 con un runnable in costruzione
+        /* non serve conservare l'oggetto thread 
+         * in una variabile se non è necessario.
+         * Spawn thread 2 con un runnable in
+         * costruzione */
+        new Thread(() -> loop(400)).start();    
 
-        // esegue lo stesso codice anche col main thread
+        /* esegue lo stesso codice anche
+         * col main thread */
         loop(300);  
     }
 
