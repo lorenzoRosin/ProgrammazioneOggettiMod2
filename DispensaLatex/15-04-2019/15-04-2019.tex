@@ -1,7 +1,7 @@
 
 
 \newpage
-\section{15-04-2019}
+\section{15-04-2019: THREAD POOL}
 \noindent \textbf{APPUNTI PRESI IN CLASSE} \newline
 Nel codice visto a lezione abbiamo usato i seguenti imprt :
 \begin{lstlisting}[basicstyle=\small,]
@@ -13,11 +13,207 @@ Cosi facendo abbiamo accesso a delle nuove features! \newline
 \textbullet\ notnullness: \textit{@NotNull} con questa annotazione assicuriamo che l'elemento non sia mai null. \newline
 
 \noindent \textbf{CODICE DEL PROFESSORE} \newline
-\noindent Non ho aggiunto tutto il codice perchè una parte penso sia solo il risultato finale e lo farà prossimamente
+\noindent Ci sono due implementazione della classe ThreadPool. \newline
+
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: PoolMain.java */
+/* Usa il ThreadPool presente in
+ * TINIJDK/threads */
+package threads;
+
+import java.util.Random;
+import java.util.concurrent.TimeoutException;
+
+public class PoolMain {
+
+    public static void main(String[] args) {
+        ThreadPool pool = new ThreadPool(10, 3);
+        while (true) {
+            ThreadPool.print("%s", pool);
+            try {
+                Thread t = pool.acquire(() -> {
+                    final long now = System.currentTimeMillis();
+                    sleep(500);
+                    ThreadPool.print("took %d ms", System.currentTimeMillis() - now);
+                });
+                sleep(100);
+            } catch (InterruptedException | TimeoutException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static Random rand = new Random();
+
+    private static void sleep(int ms) {
+        try {
+            Thread.sleep(rand.nextInt(ms));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+\end{lstlisting}
+
+
+
 \begin{lstlisting}[basicstyle=\small,]
 /* Classe: ThreadPool.java */
-/* Ha modificato la classe */
-/* In modo da completarla, la riporto tutta */
+/* Ha modificato la classe che
+ * stava in TINJJDK/threads */
+
+package threads;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+public class ThreadPool {
+    private static final long DEFAULT_ACQUIRE_TIMEOUT_MS = 500L;
+    @NotNull
+    private final BlockingQueue<PooledThread> q;
+    private final int max;
+    private int total = 0;
+
+    @Override
+    public String toString() {
+        return String.format("ThreadPool[available:%d total:%d max:%d]", available(), total(), max);
+    }
+
+    private synchronized void incrementTotal() {
+        ++total;
+    }
+
+    private synchronized void decrementTotal() {
+        --total;
+    }
+
+    public ThreadPool(int max, int prespawn) {
+        q = new LinkedBlockingQueue<>(max);
+        this.max = max;
+        for (int i = 0; i < Math.min(max, prespawn); ++i) {
+            q.add(spawn());
+        }
+    }
+
+    public ThreadPool(int max) {
+        this(max, 0);
+    }
+
+    private static void print(String s) {
+        System.out.println(String.format("%s: %s", Thread.currentThread(), s));
+    }
+
+    public static void print(String fmt, Object... o) {
+        print(String.format(fmt, o));
+    }
+
+    protected class PooledThread extends Thread {
+        @Nullable
+        private Runnable currentRunnable;
+
+        @Override
+        public String toString() {
+            return String.format("[%s:%d]", getName(), getId());
+        }
+
+        @Override
+        public void run() {
+            incrementTotal();
+            synchronized (ThreadPool.this) {
+                total++;
+            }
+
+            try {
+                while (true) {
+//                    print("entering wait state...");
+                    @NotNull Runnable r;
+                    synchronized (this) {
+                        wait();
+                        r = Objects.requireNonNull(currentRunnable);
+//                        print("awaken: executing custom runnable...");
+                    }
+                    try {
+                        r.run();
+                    } catch (Throwable e) {
+                        print("exception caught during execution of custom runnable");
+                        e.printStackTrace();
+                    }
+                    synchronized (this) {
+                        currentRunnable = null;
+                    }
+                    if (!q.offer(this)) {
+                        print("cannot requeue due to space limit");
+                        break;
+                    }
+                }
+            } catch (InterruptedException e) {
+                print("interrupted exception");
+                e.printStackTrace();
+            }
+            print("exiting");
+            decrementTotal();
+        }
+    }
+
+    public int available() {
+        return q.size();
+    }
+
+    public synchronized int total() {
+        return total;
+    }
+
+    @NotNull
+    private PooledThread spawn() {
+        PooledThread p = new PooledThread();
+        p.start();
+        print("spawned new thread %s", p);
+        return p;
+    }
+
+    @NotNull
+    public Thread acquire(@NotNull Runnable cb, long time, @NotNull TimeUnit unit) throws InterruptedException, TimeoutException {
+        @NotNull final PooledThread p;
+        if (q.isEmpty()) {
+            if (total() < max)
+                p = spawn();
+            else {
+                print("pool max reached: waiting for an available thread...");
+                PooledThread tmp = q.poll(time, unit);
+                if (tmp == null)
+                    throw new TimeoutException();
+                p = tmp;
+            }
+        } else {
+            p = q.poll();
+        }
+        synchronized (p) {
+            p.currentRunnable = cb;
+            p.notify();
+        }
+        return p;
+    }
+
+    @NotNull
+    public Thread acquire(@NotNull Runnable cb) throws InterruptedException, TimeoutException {
+        return acquire(cb, DEFAULT_ACQUIRE_TIMEOUT_MS, TimeUnit.MILLISECONDS);
+    }
+
+}
+
+
+\end{lstlisting}
+ 
+\begin{lstlisting}[basicstyle=\small,]
+/* Classe: ThreadPool.java */
+/* Ha modificato la classe che
+ * stava in work */
 
 package threads.work_in_progress;
 
@@ -95,9 +291,6 @@ public class ThreadPool {
     private static void print(String s) {
         System.out.println(String.format("%s: %s", Thread.currentThread(), s));
     }
-}
+} 
 
 \end{lstlisting}
- 
-
-

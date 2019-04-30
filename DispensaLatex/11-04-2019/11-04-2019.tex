@@ -31,10 +31,13 @@ Bisogna inanzitutto sapere che wait e notify per funzionare devono essere usati 
     }
 \end{lstlisting}
 
-\noindent Sucecssivamente è tornato a concentrarsi sui thread pool.
+\noindent Sucecssivamente è tornato a concentrarsi sui thread pool. \newline
+Ha creato due classi di thread pool diverse con una diversa implementazione!
 
 \begin{lstlisting}[basicstyle=\small,]
 /* Classe: ThreadPool.java */
+/* IMPLEMENTAZIONE FATTA IN 
+ * TINYJDK/threads */
 package threads;
 
 public class ThreadPool implements Queue<Thread> {
@@ -50,6 +53,9 @@ public class ThreadPool implements Queue<Thread> {
 /* Questa classe non è ancora completa 
  * é una bozza, verrà completata nelle prossime
  * lezioni */
+/* IMPLEMENTAZIONE FATTA IN CLASSE 
+ * SOTTO A WORK */
+ 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
