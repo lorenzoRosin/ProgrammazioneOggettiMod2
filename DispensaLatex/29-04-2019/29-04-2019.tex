@@ -10,9 +10,18 @@ Le stringhe in java non sono mutabili. \newline
 Tutte le strutture che implementano cose bloccanti sono anche thread safe. \newline
 Un oggetto non viene preso in carico dal garbage collector quando è dentro una variabile e quando è dentro ad una struttura dati. Questo, se non si presta attenzione, può portare al fenomeno della memory leak (ingrossamento della memoria a dismisura). \newline
 
-\noindent \textbf{CODICE DEL PROFESSORE} \newline
- 
+\noindent \textbf{CODE BLOCCANTI} \newline
+Per trattare il tema produttore consumatore andremo ad utilizzare delle code bloccanti. Questo perchè abbiamo due problemi: il primo è che non possiamo aggiungere dati alla coda se essa è piena, il secondo è che non possiamo retribuire dati da una coda se essa è vuota. Le code bloccanti risolvono questi problemi esportando le seguenti api: \newline
+\textbullet\ put(): inserisce un elemento nella coda aspettando che ci sia uno slot libero. \newline
+\textbullet\ add(): inserisce un elemento nella coda e ritorna true, se non riesce ad inserirlo (coda piena) ritorna false. \newline
+\textbullet\ take(): prende un elemento dalla testa della coda aspettando, in maniera bloccante, che la coda non sia vuota. \newline
+\textbullet\ poll(timeout): prende un elemento dalla testa della coda aspettando, per un certo timeout.\newline
 
+\noindent \textbf{CODE BLOCCANTI VS NON } \newline
+Abbiamo già visto un esempio di coda non bloccante: ConcurrentLinkedQueue \newline
+La differenza tra le due è che una blocca le richieste di inserimento ed accesso ai dati, aspettando che le condizioni necessarie vengano soddisfatte, mentre l'altra ritorna false nel caso non riuscisse a svolgere subito le sue operazioni.\newline
+
+\noindent \textbf{CODICE DEL PROFESSORE} \newline
 \begin{lstlisting}[basicstyle=\small,]
 package patterns.consumerproducer;
 
