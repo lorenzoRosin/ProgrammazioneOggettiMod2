@@ -6,9 +6,19 @@
 Aggiunto appunti miei... ConcurrentLinkedQueue è semplicemente una coda di tipo FIFO, che può essere usata da più thread contemporaneamente.Essa ci garantisce che se un thread aggiunge un elemento mentre un'altro thread ne sta aggiungendo un'altro non si verifichino problemi di memoria. Nulla vieta però che se la coda ha un elemento e cerchiamo di leggerlo, un'altro thread non l'abbia già letto e ci ritroviamo a leggere da una coda vuota. La lettura di una coda vuota ritorna null.
 
 \noindent \textbf{WAIT AND NOTIFY} \newline
-Bisogna inanzitutto sapere che wait e notify per funzionare devono essere usati all'interno di blocchi sincronizzati sullo stesso oggetto! nel caso vengano usati al di fuori di blocchi sincronizzati tirano delle eccezioni. \newline
+Bisogna inanzitutto sapere che wait e notify per funzionare \textbf{devono} essere usati all'interno di blocchi sincronizzati sullo stesso oggetto! nel caso vengano usati al di fuori di blocchi sincronizzati tirano delle eccezioni. \newline
 \textbullet\ \textit{wait():} Forza il thread corrente ad aspettare. Il thread viene sospeso fino a che qualcuno non chiama notify \newline
-\textbullet\ \textit{notify():} Risveglia e mette in run i thread che erano stati fermati con wait.
+\textbullet\ \textit{notify():} Risveglia e mette in run i thread che erano stati fermati con wait. \newline
+E' importante notare come il wait rilascia anche i LOCK acquisiti dal syncronize. Mentre una semplice chiamata a sleep fa attendere il thread ma senza rilasciare i suoi lock, la chiamata a wait sospende il thread rilasciando il lock usato dal synchronized.\newline
+I metodi wait e notify vanno chiamati sulla stessa istanza dell'oggetto che detiene il synchronized, chiamandoli su un oggetto si forza il thread dove vengono richiamati i metodi ad aspettare.
+\begin{lstlisting}
+Object obj = new Object();
+synchronized(obj){
+	/* forzo il thread corrente ad aspettare
+	 * ed a rilasciare il lock */
+	obj.wait();
+}
+\end{lstlisting}
 
 \noindent \textbf{CODICE VISTO A LEZIONE} \newline
 \noindent Gli appunti dell'altra volta sono gli stessi di questa lezione, il professore ha aggiunto un po di codice.
