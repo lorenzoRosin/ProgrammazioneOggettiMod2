@@ -19,21 +19,35 @@ Per l'esame bisogna studiare: \newline
 
 
 \subsection{COLLECTION}
+\noindent Le collection le chiamano anche contenitori.
 
-\subsection{THREAD}
-
-\subsection{THREADPOOL}
 
 \subsection{FACTORY}
 
-\subsection{SINGLETON}
 
 \subsection{COMMAND}
+Questo design pattern prevede di fare un decoupling tra un attore che produce azioni ed un consumatore.
 
-\subsection{LAMBDA}
 
-\subsection{ANONYMUS CLASSES}
 
 \subsection{FUNCTION OBJECT}
+\noindent Sono oggetti usati solo come funzioni. Essi magari implementano un'interfaccia funzionale e poi vengono passati nel codice ed usati solo per il loro unico metodo. Questi oggetti non si memorizzano variabili interne ma elaborano solamente i dati in ingresso al loro metodo. vediamone un esempio:
+\begin{lstlisting}
+	public interface Function{
+		public int exec(int param);
+	}
+	
+	public class SumTwo implements Function{
+		@Override
+		public int exec(int param){
+			return param+2;
+		}
+	}
+	
+	public static void main(String[] strings){
+		SumTwo obj = new SumTwo();
+		System.out.println(obj.exec(10));
+	}
+\end{lstlisting}
 
 

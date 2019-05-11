@@ -1,13 +1,9 @@
 
 
 \newpage
-\section{2-05-2019}
-\noindent mancano gli appunti della lezione.
-
-
+\section{2-05-2019: STRING BUILDER}
 \noindent \textbf{ESAME 4-09-2018: SINGLETON} \newline
-Riporto il codice fatto in classe dal professore, che risolve il primo esercizio dell'esame del 4-09-2018. \newline
-
+Riporto il codice fatto in classe dal professore, che risolve il primo esercizio dell'esame del 4-09-2018.
 \begin{lstlisting}
 /* Classe: RandomSingleton.java */
 
@@ -74,6 +70,12 @@ public class Main {
 
 }
 \end{lstlisting}
+
+\noindent \textbf{STRING BUILDER} \newline
+Anche lo standard output usa dei mutex per evitare che vari thread si sovrascrivano del tutto quando usano delle funzioni come \textit{println}. \newline
+System è una classe, con all'interno dei campi statici. Out è un oggetto messo dentro un oggetto statico della classe System.out, che ha tipo Printstream. \newline
+StrinBuilder è una classe già esistente di java che permette di appendere in una coda stringhe in modo efficiente, senza doverne generare di nuove ogni volta. Infatti la semplice operazione: s = s + "ciao" va a creare varie stringhe! 
+
 
 \noindent \textbf{CODICE FATTO IN CLASSE: CONSUMER-PRODUCER} \newline
 Riporto il codice fatto in classe dal professore. \newline

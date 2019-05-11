@@ -1,8 +1,23 @@
 
 
 \newpage
-\section{6-05-2019}
-\noindent mancano gli appunti della lezione.
+\section{6-05-2019: MULTI PRODUCER AND MULTI CONSUMER}
+\noindent \textbf{APPUNTI DELLA LEZIONE} \newline
+Solitamente quando il main thread esce/ritorna, anche tutti gli altri thread da esso generato vengono terminati. In java invece questo non succede: il main thread può terminare ma la Java Virtual Machine termina solo quando sono terminati anche gli altri thread generati dal Main.\newline
+Il senso di fare binding (cioè salvare degli oggetti in una variabile) è quello di chiamare più metodi. \newline
+Per fare in modo che il main non termini prima degli altri thread da esso generato si può usare il \textit{join}, che invocato su un'oggetto ritorna quando esso viene terminato.
+\begin{lstlisting}
+Thread t1 = new Thread(new EventThread("e1"));
+t1.start();
+try {
+	  /* ritorna con quando t1 termina */
+      t1.join();
+} catch (InterruptedException e) {
+      e.printStackTrace();
+}
+\end{lstlisting}
+\noindent Come wait e notify, bisogna mettere dentro ad un try e catch anche join. \newline
+Usare operazioni di stampa come print in java è un'operazione critica e lenta, perchè vengono richiamati parecchi passaggi. Quindi è meglio non usare mai operazioni di stampa in sezioni critiche.
 
 
 \noindent \textbf{CODICE FATTO IN CLASSE} \newline
