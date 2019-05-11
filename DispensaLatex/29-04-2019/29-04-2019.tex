@@ -21,6 +21,27 @@ Per trattare il tema produttore consumatore andremo ad utilizzare delle code blo
 Abbiamo già visto un esempio di coda non bloccante: ConcurrentLinkedQueue \newline
 La differenza tra le due è che una blocca le richieste di inserimento ed accesso ai dati, aspettando che le condizioni necessarie vengano soddisfatte, mentre l'altra ritorna false nel caso non riuscisse a svolgere subito le sue operazioni.\newline
 
+\noindent \textbf{CLASSE RANDOM } \newline
+La classe Random ci aiuta a generare numeri casuali in Java. Essa possiede due costruttori, uno vuoto ed uno che prende come parametro un tipo intero long. Visto che le i generatori di numeri casuali non producono effettivamente numeri veramente casuali impostare un certo seed ci permette di settare lo stato iniziale del generatore di numeri casuali. Dati due generatori Random con lo stesso stato iniziale (o quindi lo stesso seed) otterremo in uscita una sequenza di numeri identica.
+\begin{lstlisting}
+/* Sceglie un seed casuale */
+public Random();
+/* Imposto io un seed */
+public Random(long seed);
+\end{lstlisting}
+\noindent tra i metodi di questa classe troviamo :
+\begin{lstlisting}
+/* Ritorna un numero della sequenza pseudo
+ * casuale che può variare da 0 al massimo
+ * numero rappresentabile da un int */
+public int nextInt();
+/* Ritorna un numero della sequenza pseudo
+ * casuale che può variare da 0 ad un massimo
+ * di bound -1 */
+public int nextInt(int bound);
+\end{lstlisting}
+
+
 \noindent \textbf{CODICE DEL PROFESSORE} \newline
 \begin{lstlisting}
 /* Classe: Main.java */
