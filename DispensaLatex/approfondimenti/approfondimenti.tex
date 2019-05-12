@@ -10,7 +10,7 @@ Per l'esame bisogna studiare: \newline
 \textbullet\ Collection \newline
 \textbullet\ Thread \newline
 \textbullet\ ThreadPool \newline
-\textbullet\ Design pattern: factory \newline
+\textbullet\ Design pattern: factory (sul sit ha scritto: metodi statici come costruttori)\newline
 \textbullet\ Design pattern: singleton \newline
 \textbullet\ Design pattern: command \newline
 \textbullet\ Programmazione funzionale: lambda \newline
@@ -23,15 +23,159 @@ Per l'esame bisogna studiare: \newline
 
 
 \subsection{FACTORY}
+Esistono 3 implementazioni con nomi diverse di questo design pattern, le quali vengono chiamate anche: Smart Constructor. \newline
+\subsubsection{FACTORY}
+\begin{lstlisting}
+/* Lo scopo è nascondere l'implementazione e come
+ * viene effettivamente creato un oggetto */
+class FruitFactory {
 
+  /* we can use this */
+  public static Apple makeApple() {
+    // Code for creating an Apple here.
+  }
 
+  public static Orange makeOrange() {
+    // Code for creating an orange here.
+  }
+  /* or we can use this */
+  public static makeFruint(enum wichFruit){
+  	switch(wichFruit){
+  		case mandarin: return new Mandarin();
+  	}
+  }
+}
+\end{lstlisting}
+\subsubsection{FACTORY METHODS}
+\begin{lstlisting}
+abstract class FruitPicker {
+
+  protected abstract Fruit makeFruit();
+
+  public void pickFruit() {
+    private final Fruit f = makeFruit(); // The fruit we will work on..
+    <bla bla bla>
+  }
+}
+
+class OrangePicker extends FruitPicker {
+
+  @Override
+  protected Fruit makeFruit() {
+    return new Orange();
+  }
+}
+\end{lstlisting}
+\subsubsection{ABSTRACT FACTORY}
+\begin{lstlisting}
+interface PlantFactory {
+
+  Plant makePlant();
+
+  Picker makePicker(); 
+
+}
+
+public class AppleFactory implements PlantFactory {
+  Plant makePlant() {
+    return new Apple();
+  }
+
+  Picker makePicker() {
+    return new ApplePicker();
+  }
+}
+
+public class OrangeFactory implements PlantFactory {
+  Plant makePlant() {
+    return new Orange();
+  }
+
+  Picker makePicker() {
+    return new OrangePicker();
+  }
+}
+\end{lstlisting}
+\subsubsection{STATIC FACTORY METHODS}
+\noindent Non penso centri con questo tipo di design pattern, ma è comunque un metodo con un nome simile.
+\begin{lstlisting}
+/* Il costruttore di una classe ha sempre il 
+ * nome della classe stessa, posso quindi avere
+ * costruttori che differiscono solo per il numero
+ * parametri presenti. Con l'utilizzo delle funzioni 
+ * statiche posso avere metodi di istanza con nomi 
+ * esemplificativi che ritornano istanze della 
+ * classe. 
+ * Con costruttori statici posso anche cachare 
+ * gli oggetti che creo, non devo per forza
+ * ritornare istanze sempre diverse di oggetti
+ * un'altro vantaggio è che posso cambiare 
+ * l'implementazione interna senza dover cambiare
+ * le API esposte. */
+ 
+ /* ESEMPIO SENZA METODI STATICI */
+class Color {
+    private final int hex;
+    Color(String rgb) {
+        this(Integer.parseInt(rgb, 16));
+    }
+    Color(int red, int green, int blue) {
+        this(red << 16 + green << 8 + blue);
+    }
+    Color(int h) {
+        this.hex = h;
+    }
+}
+
+/* ESEMPIO CON METODI STATICI */
+
+class Color {
+    private final int hex;
+    static Color makeFromRGB(String rgb) {
+        return new Color(Integer.parseInt(rgb, 16));
+    }
+    static Color makeFromPalette(int red, int green, int blue) {
+        return new Color(red << 16 + green << 8 + blue);
+    }
+    static Color makeFromHex(int h) {
+        return new Color(h);
+    }
+    private Color(int h) {
+        return new Color(h);
+    }
+} 
+
+\end{lstlisting}
 \subsection{COMMAND}
-Questo design pattern prevede di fare un decoupling tra un attore che produce azioni ed un consumatore.
+Questo design pattern prevede di fare un decoupling tra un attore che produce azioni ed un consumatore. Genereremo infatti vari comandi che nascondono all'utilizzatore la loro implementazione, permettendo anche al codice di essere il più mantenibile possibile. \newline
+Creando vari oggetti che implementano vari azioni abbiamo anche la possibilità di salvarli in liste, code etc.. Questo design prevede vari attori: \newline
+\textbullet\ Command: E' l'implementazione del comando che verrà eseguito \newline
+\textbullet\ Receiver: E' la classe responsabile dell'esecuzione dei comandi \newline
+\textbullet\ Invoker: E' la classe che triggera l'esecuzione del comando \newline
+\textbullet\ Client: E' la classe che istanzia i comandi e le azione che vengono eseguite dal Receiver. \newline
+\begin{lstlisting}
+/* COMMAND */
+public interface Command{
+	public void execute();
+}
 
+/* RECEIVER */
+public void performAction(Command e){
+	e.execute();
+}
 
+/* CLIENT */
+public void startAfter100Mills(){
+	setTimer(()->{
+		System.out.println("100 Mill sec as gone");
+	});
+}
 
+/* INVOKER */
+/* E' l'oggetto che invoca dopo 100 ms performAction*/
+\end{lstlisting}
 \subsection{FUNCTION OBJECT}
-\noindent Sono oggetti usati solo come funzioni. Essi magari implementano un'interfaccia funzionale e poi vengono passati nel codice ed usati solo per il loro unico metodo. Questi oggetti non si memorizzano variabili interne ma elaborano solamente i dati in ingresso al loro metodo. vediamone un esempio:
+\noindent Bisogna inanzi tutto precisare che non è un vero design pattern, ma una implementazione. I functional objects sono oggetti usati solo come funzioni. Essi magari implementano un'interfaccia funzionale e poi vengono passati nel codice ed usati solo per il loro unico metodo. Questi oggetti non si memorizzano variabili interne ma elaborano solamente i dati in ingresso al loro metodo. vediamone un esempio:
 \begin{lstlisting}
 	public interface Function{
 		public int exec(int param);
