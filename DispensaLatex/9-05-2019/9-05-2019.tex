@@ -2,9 +2,45 @@
 
 \newpage
 \section{9-05-2019}
-\noindent mancano gli appunti della lezione.
+\noindent \textbf{APPUNTI DELLA LEZIONE} \newline
+Qunado si ha a che fare con la sincronizzazione è meglio lasciare risolvere questi problemi alla struttura dati che scegliamo di usare, come quando si sceglie di usare una blockingLinkedQueue, dove la sincronizzazione avviene al suo interno. \newline
+Il problema dei generics si può risolvere da dentro, mettendo un vincolo sui generics dicendo che devono implementare comparable. Oppure da fuori, fornendo una primitiva che permetta il confronto: comparator. \newline
+\begin{lstlisting}
+/* eccone un esempio da dentro */
+static <T extends Comparable<T>> void quickSort(List<T>l)
+/* eccone un esempio da fuori */
+static <T> void quickSort(List<T>l,  BiFunction<T, T, Integer> f){
+	T a = l.get(0), b = l.get(1);
+	if(f.apply(a,b)<0)
+	.......
+}
+\end{lstlisting}
 
+\noindent Esempi di wrapping
+\begin{lstlisting}
+static <T> void quickSort(List<T> l, comparable<T> f){
+	T a = l.get(0), b = l.get(1);
+	if(f.comparable(a,b)<0)
+	.......
+}
 
+static <T> void quickSort2(List<T> l, BiFunction<T, T, Integer> f){
+	quickSort(l, new Comparator<T>(){
+		public int Compare(T o1, T, o2){
+			return f.apply(01,02);
+		}
+	});
+}
+
+static <T> void quickSort(List<T> l, BiFunction<T, T, Boolean> f){
+	quickSort(l, new Comparator<T>(){
+		public int Compare(T o1, T, o2){
+			return f.apply(01,02)? -1 : 1;
+		}
+	});
+}
+
+\end{lstlisting}
 \noindent \textbf{CODICE FATTO IN CLASSE} \newline
 
 \noindent Ha modificato ulteriormente la classe dell'altra volta aggiungendo del codice in testa. Riporto solo il codice nuovo.
