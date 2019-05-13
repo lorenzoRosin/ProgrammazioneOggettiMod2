@@ -43,6 +43,7 @@ public class FruitFactory {
 }
 \end{lstlisting}
 \subsubsection{FACTORY METHODS}
+\noindent il factory  methods di prima è bello perchè il cliente ha la sola dipendenza dalla classe FruitFactory. Se c'è però bisogno di aggiungere un frutto bisognerà modificare quella classe. Questo va contro al principio di "estendere senza modificare". Per fare ciò è stato inventato il seguente design pattern, che permette di aggiungere funzionalità estendendo le classi, senza bisogno di modificarle.
 \begin{lstlisting}
 abstract class FruitPicker {
 
