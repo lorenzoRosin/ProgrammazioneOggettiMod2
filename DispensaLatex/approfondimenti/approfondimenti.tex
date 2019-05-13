@@ -28,20 +28,16 @@ Esistono 3 implementazioni con nomi diverse di questo design pattern, le quali v
 \begin{lstlisting}
 /* Lo scopo è nascondere l'implementazione e come
  * viene effettivamente creato un oggetto */
-class FruitFactory {
+public class FruitFactory {
 
-  /* we can use this */
-  public static Apple makeApple() {
-    // Code for creating an Apple here.
+  public enum FruitType{
+  	orange, apple, mandarin
   }
-
-  public static Orange makeOrange() {
-    // Code for creating an orange here.
-  }
-  /* or we can use this */
-  public static makeFruint(enum wichFruit){
+  public static Fruit makeFruint(FruitType wichFruit){
   	switch(wichFruit){
   		case mandarin: return new Mandarin();
+  		case apple:    return new Apple();
+  		case orange:   return new Orange();
   	}
   }
 }
