@@ -109,7 +109,7 @@ public static void main_map(){
 \noindent Questa funzione riportata sopra non compila in quanto i \textit{generics} non sono soggetti alla subsumption. Per farla compilare modifichiamo la funzione map come segue: 
 
 \begin{lstlisting}
-public static  <x, y> List<x> map(List<x>, Func(? super <x, y> f)){
+public static  <x, y> List<x> map(List<x>, Func<? super x, y> f){
 ...
 
 }
