@@ -1,9 +1,208 @@
 
 
 \newpage
-\section{13-05-2019}
-\noindent PLACE HOLDER
+\section{13-05-2019: GENERICS}
+\noindent \textbf{CODICE FATTO IN CLASSE} \newline
+Tutto il codice quicksort è stato rimosso dalla classe dell'altra volta, modificato ed inserito in una nuova classe che ora riporto qui sotto:
+\begin{lstlisting}
+package sort;
 
+import java.util.*;
+import java.util.function.BiFunction;
+
+public class GenericSort {
+
+
+    static <T> void quicksort8(List<? extends Comparable<T>> l) {
+
+    }
+
+    static <T extends Comparable<T>> void quicksort8(List<T> l) {
+        T a = l.get(0), b = l.get(1);
+         /* if (a.compareTo(b) < 0) ... */
+
+    }
+
+    static void quicksort3(List<? extends Comparable<?>> l) {
+        Object a = l.get(0), b = l.get(1);
+        if (a.< 0)
+
+    }
+
+    static <T> void quicksort(List<T> l, Comparator<T> f) {
+        T a = l.get(0), b = l.get(1);
+        if (f.compare(a, b) < 0)
+        /* algo */
+    }
+
+    static <T> void quicksort__compare(List<T> l, BiFunction<T, T, Integer> f) { 
+       /* TODO: stessa erasure di BiFunction<T, T, Boolean> */
+        quicksort(l, new Comparator<T>() {
+            @Override
+            public int compare(T a, T b) {
+                return f.apply(a, b);
+            }
+        });
+    }
+
+    static <T> void quicksort__predicate(List<T> l, BiFunction<T, T, Boolean> isLessThan) {
+        quicksort(l, new Comparator<>() {
+            @Override
+            public int compare(T a, T b) {
+                return a.equals(b) ? 0 : isLessThan.apply(a, b) ? -1 : 1;
+            }
+        });
+    }
+
+    /* TODO LEZIONE: migliorare e generalizzare sto algoritmo */
+    int partition(int arr[], int left, int right) {
+        int i = left, j = right;
+        int tmp;
+        int pivot = arr[(left + right) / 2];
+
+        while (i <= j) {
+            while (arr[i] < pivot)
+                i++;
+
+            while (arr[j] > pivot)
+                j--;
+
+            if (i <= j) {
+                tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+                i++;
+                j--;
+            }
+        }
+        return i;
+    }
+
+    void quickSort(int arr[], int left, int right) {
+        int index = partition(arr, left, right);
+        if (left < index - 1)
+            quickSort(arr, left, index - 1);
+        if (index < right)
+            quickSort(arr, index, right);
+    }
+}
+\end{lstlisting}
+\noindent Successivamente ha modificato il codice di due funzioni. Le due funzione erano:
+\begin{lstlisting}
+    static void quicksort3(List<? extends Comparable<?>> l) {
+       Object a = l.get(0), b = l.get(1);
+       if (a.< 0)
+   }
+
+     static <T> void quicksort__compare(List<T> l, BiFunction<T, T, Integer> f) { 
+     /* TODO: stessa erasure di BiFunction<T, T, Boolean> */
+       quicksort(l, new Comparator<T>() {
+           @Override
+           public int compare(T a, T b) {
+               return f.apply(a, b);
+           }
+       });
+   }  
+\end{lstlisting}
+
+\noindent E adesso le ha fatte diventare:
+\begin{lstlisting}
+   static void quicksort__wildcards(List<? extends Comparable<?>> l) {
+       Object a = l.get(0), b = l.get(1);
+       if (a.< 0)
+   }
+    
+   /* non può essere overload perché ha la stessa erasure di BiFunction<T, T, Boolean> */
+   static <T> void quicksort__compare(List<T> l, BiFunction<T, T, Integer> f) {
+       quicksort(l, new Comparator<T>() {
+           @Override
+           public int compare(T a, T b) {
+               return f.apply(a, b);
+           }
+       });
+   } 
  
+\end{lstlisting}
+\noindent Successivamente ha fatto diventare tutto il codice ancora più generico, riporto tutto perchè è stato modificato tutto:
+\begin{lstlisting}
+package sort;
 
+import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
+public class GenericSort {
+
+    static <T> void sort(List<T> l, BiFunction<T, T, Integer> f) {
+        sort(l, new Comparator<T>() {
+            @Override
+            public int compare(T a, T b) {
+                return f.apply(a, b);
+            }
+        });
+    }
+
+    static <T> void sort__predicate(List<T> l, BiFunction<T, T, Boolean> isLessThan) {
+        sort(l, new Comparator<>() {
+            @Override
+            public int compare(T a, T b) {
+                return a.equals(b) ? 0 : isLessThan.apply(a, b) ? -1 : 1;
+            }
+        });
+    }
+
+    public static <T> void sort(List<T> l, Comparator<T> cmp) {
+        Object[] a = new Object[l.size()];
+        /* noinspection unchecked */
+        sort((T[]) l.toArray(a), cmp);
+        for (int i = 0; i < a.length; ++i) { /* TODO: migliorare performance */
+            l.set(i, (T) a[i]);
+        }
+    }
+
+    public static <T extends Comparable<T>> void sort(List<T> l) {
+        sort(l, new Comparator<T>() {
+            @Override
+            public int compare(T o1, T o2) {
+                return o1.compareTo(o2);
+            }
+        });
+    }
+
+    public static <T> void sort(T[] arr, Comparator<T> cmp) {
+        quickSort(arr, 0, arr.length - 1, cmp);
+    }
+
+    ///////////////////////
+
+    private static <T> int partition(T[] arr, int left, int right, Comparator<T> cmp) {
+        int i = left, j = right;
+        T pivot = arr[(left + right) / 2];
+
+        while (i <= j) {
+            while (cmp.compare(arr[i], pivot) < 0) /*  while (arr[i] < pivot) */
+                i++;
+
+            while (cmp.compare(arr[j], pivot) > 0)
+                j--;
+
+            if (i <= j) {
+                T tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+                i++;
+                j--;
+            }
+        }
+        return i;
+    }
+
+    private static <T> void quickSort(T[] arr, int left, int right, Comparator<T> cmp) {
+        int index = partition(arr, left, right, cmp);
+        if (left < index - 1)
+            quickSort(arr, left, index - 1, cmp);
+        if (index < right)
+            quickSort(arr, index, right, cmp);
+    }
+}
+\end{lstlisting}
