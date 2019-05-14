@@ -14,7 +14,7 @@ Un oggetto non viene preso in carico dal garbage collector quando è dentro una 
 Per trattare il tema produttore consumatore andremo ad utilizzare delle code bloccanti. Questo perchè abbiamo due problemi: il primo è che non possiamo aggiungere dati alla coda se essa è piena, il secondo è che non possiamo retribuire dati da una coda se essa è vuota. Le code bloccanti risolvono questi problemi esportando le seguenti api: \newline
 \textbullet\ put(): inserisce un elemento nella coda aspettando che ci sia uno slot libero. \newline
 \textbullet\ add(): inserisce un elemento nella coda e ritorna true, se non riesce ad inserirlo (coda piena) ritorna false. \newline
-\textbullet\ take(): prende un elemento dalla testa della coda aspettando, in maniera bloccante, che la coda non sia vuota. \newline
+\textbullet\ take(): prende e rimuove un elemento dalla testa della coda aspettando, in maniera bloccante, che la coda non sia vuota. \newline
 \textbullet\ poll(timeout): prende un elemento dalla testa della coda aspettando, per un certo timeout.\newline
 
 \noindent \textbf{CODE BLOCCANTI VS NON } \newline

@@ -108,7 +108,11 @@ public class OrangeFactory implements PlantFactory {
  * ritornare istanze sempre diverse di oggetti
  * un'altro vantaggio è che posso cambiare 
  * l'implementazione interna senza dover cambiare
- * le API esposte. */
+ * le API esposte. 
+ * Un altro vantaggio è che posso ritornare qualsiasi
+ * tipo che voglio, anche sottotipi, contrariamente
+ * ai costruttori che ritornano lo stesso tipo della
+ * classe */
  
  /* ESEMPIO SENZA METODI STATICI */
 class Color {
@@ -191,4 +195,93 @@ public void startAfter100Mills(){
 	}
 \end{lstlisting}
 
+\subsection{EQUALS, HASCODE E TOSTRING}
+\noindent \textbullet\ \textit{equals}: se non sovrascritto ritorna true quando due classi sono esattamente la stessa istanza. E' bene sovrascriverlo ogni volta che una classe può avere condizioni di equità logiche. Ad esempio due stringhe identiche ma instanziate separatamente risultano uguali usando equals solo perchè esso è sovrascritto dalla classe String. Consiglio: 
+\begin{lstlisting}
+public class Complex{
+...
+	@Override
+	public boolean equals(Object o){
+		if(o == this)
+			return true;
+		if(!(o instanceof Complex))
+			return false;
+		Complex c = (Complex) o;
+		... /* elaborazioni */	
 
+	}
+}
+\end{lstlisting}
+\noindent \textbullet\ \textit{hashCode}: Quando faccio over-ride di equals devo farlo anche di hashCode perchè due classi, che secondo il metodo equals sono uguali, devono avere anche lo stesso hashCode. Non è richiesto però che due istanze diverse abbiano hasCode diversi! 
+\textbullet\ \textit{toString}: E' implementato nella classe object e quindi in ogni classe da noi sviluppata. E' meglio però sovrascriverlo sempre.
+
+\subsection{ENUM}
+\noindent Esempi di enum:
+\begin{lstlisting}
+	public enum Prova{
+		prova1, prova2, prova3
+	}
+	
+	public void esempio(Prova var){
+		for(Prova temp: Prova.values()){
+			if(temp.equals(prova1))
+		}
+	}
+	
+	public enum Planet{
+		MERCURY(10, 30),
+		VENUS(33, 44);
+		private final mass;
+		private final radius;
+		/*Costruttore*/
+		Planet(int pro, int vola){
+			mass = pro;
+			radius = vola;
+		}
+	}
+\end{lstlisting}
+
+\subsection{CLASSI IMMUTABILI}
+\noindent Ricorda: cerca di non tornare reference a strutture dati anche se sono final, perchè è facile modificarle lo stesso! Cerca di lavorare con classi immutabili, che una volta costruite non possono variare, agevolando cosi anche la programmazione multi-thread che non richiede più la sincronizzazione! Per fare questo, se un metodo ha bisogno di modificare lo stato della mia istanza, invece che modificarla veramente posso ritornare un nuovo oggetto con un nuovo stato iniziale. Implemento quindi il costruttore-copia.
+
+\subsection{THREAD}
+\noindent Ricorda che la sincronizzazione serve non solo per i mutex ma anche per la gestione della memoria!
+\begin{lstlisting}
+/* Cosi non funziona!!!! */
+public class StopThread{
+	private static boolean stopRequested;
+	
+	public static main(String[] args){
+	Thread temp = new Thread(()->{
+		int i=0;
+		while(!stopRequested)
+		i++;
+	});
+	temp.start();
+	stopRequested = true;
+	}
+}
+
+/* Cosi funziona!!!! */
+public class StopThread{
+	private static boolean stopRequested;
+	private static synchronized void stop(){
+		stopRequested = true;
+	}
+	private static synchronized boolean isStop(){
+		return stopRequested;
+	}	
+	public static main(String[] args){
+	Thread temp = new Thread(()->{
+		int i=0;
+		while(!isStop())
+		i++;
+	});
+	temp.start();
+	stop();
+	}
+}
+\end{lstlisting}
+
+\noindent Ricordati che l'operazione ++ non è atomica! Mentre incrementa la variabile potrebbe partire un'altro thread. Bisogna quindi usare la synchronized in questi casi. \newline
+Ricordarsi che se viene invocato un \textit{notify()} e poi un \textit{wait()} il wait continua ad aspettare, per questo è auspicabile mettere il \textit{wait()} all'interno di un ciclo while (o anche un if) che ne controlla continuamente la condizione anche prima di entrare in pausa. Sarebbe meglio usare un while che cosi posso controllare la correttezza sia in ingresso che in uscita.
