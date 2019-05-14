@@ -212,7 +212,7 @@ public class Complex{
 	}
 }
 \end{lstlisting}
-\noindent \textbullet\ \textit{hashCode}: Quando faccio over-ride di equals devo farlo anche di hashCode perchè due classi, che secondo il metodo equals sono uguali, devono avere anche lo stesso hashCode. Non è richiesto però che due istanze diverse abbiano hasCode diversi! 
+\noindent \textbullet\ \textit{hashCode}: Quando faccio over-ride di equals devo farlo anche di hashCode perchè due classi, che secondo il metodo equals sono uguali, devono avere anche lo stesso hashCode. Non è richiesto però che due istanze diverse abbiano hasCode diversi! \newline
 \textbullet\ \textit{toString}: E' implementato nella classe object e quindi in ogni classe da noi sviluppata. E' meglio però sovrascriverlo sempre.
 
 \subsection{ENUM}
@@ -285,3 +285,15 @@ public class StopThread{
 
 \noindent Ricordati che l'operazione ++ non è atomica! Mentre incrementa la variabile potrebbe partire un'altro thread. Bisogna quindi usare la synchronized in questi casi. \newline
 Ricordarsi che se viene invocato un \textit{notify()} e poi un \textit{wait()} il wait continua ad aspettare, per questo è auspicabile mettere il \textit{wait()} all'interno di un ciclo while (o anche un if) che ne controlla continuamente la condizione anche prima di entrare in pausa. Sarebbe meglio usare un while che cosi posso controllare la correttezza sia in ingresso che in uscita.
+
+\subsection{ALTRO}
+\noindent Quando lanci eccezioni fai operazioni etc.. sarebbe meglio non lasciare l'oggetto in uno stato inconsistente. E' sempre meglio lanciare eccezioni in posizioni dove l'oggetto non è ancora stato modificato, in modo da non comprometterlo: è giusto quindi fare dei check iniziali di alcune variabili critiche e lanciare le eccezioni da li. 
+\begin{lstlisting}
+/* cosi rimane consistente! */
+public Object[] popTotObject(int num ){
+	if(num>size)
+		throw new TooPopPerTime();
+	size -= num;
+	....
+}
+\end{lstlisting}
