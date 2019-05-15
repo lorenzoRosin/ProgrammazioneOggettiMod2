@@ -35,6 +35,7 @@ public class GenericSort {
         /* algo */
     }
 
+	/* non può essere overload perché ha la stessa erasure di BiFunction<T, T, Boolean> */
     static <T> void quicksort__compare(List<T> l, BiFunction<T, T, Integer> f) { 
        /* TODO: stessa erasure di BiFunction<T, T, Boolean> */
         quicksort(l, new Comparator<T>() {
@@ -87,41 +88,20 @@ public class GenericSort {
     }
 }
 \end{lstlisting}
-\noindent Successivamente ha modificato il codice di due funzioni. Le due funzione erano:
+\noindent Successivamente ha modificato il codice di una funzione. La funzione era:
 \begin{lstlisting}
     static void quicksort3(List<? extends Comparable<?>> l) {
        Object a = l.get(0), b = l.get(1);
        if (a.< 0)
-   }
-
-     static <T> void quicksort__compare(List<T> l, BiFunction<T, T, Integer> f) { 
-     /* TODO: stessa erasure di BiFunction<T, T, Boolean> */
-       quicksort(l, new Comparator<T>() {
-           @Override
-           public int compare(T a, T b) {
-               return f.apply(a, b);
-           }
-       });
-   }  
+   } 
 \end{lstlisting}
 
-\noindent E adesso le ha fatte diventare:
+\noindent E adesso è:
 \begin{lstlisting}
    static void quicksort__wildcards(List<? extends Comparable<?>> l) {
        Object a = l.get(0), b = l.get(1);
        if (a.< 0)
-   }
-    
-   /* non può essere overload perché ha la stessa erasure di BiFunction<T, T, Boolean> */
-   static <T> void quicksort__compare(List<T> l, BiFunction<T, T, Integer> f) {
-       quicksort(l, new Comparator<T>() {
-           @Override
-           public int compare(T a, T b) {
-               return f.apply(a, b);
-           }
-       });
    } 
- 
 \end{lstlisting}
 \noindent Successivamente ha fatto diventare tutto il codice ancora più generico, riporto tutto perchè è stato modificato tutto:
 \begin{lstlisting}

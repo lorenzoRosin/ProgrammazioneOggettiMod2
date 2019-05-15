@@ -18,9 +18,9 @@ static <T> void quickSort(List<T>l,  BiFunction<T, T, Integer> f){
 
 \noindent Esempi di wrapping
 \begin{lstlisting}
-static <T> void quickSort(List<T> l, comparable<T> f){
+static <T> void quickSort(List<T> l, Comparator<T> f){
 	T a = l.get(0), b = l.get(1);
-	if(f.comparable(a,b)<0)
+	if(f.compare(a,b)<0)
 	.......
 }
 

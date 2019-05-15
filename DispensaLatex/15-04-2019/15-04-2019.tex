@@ -136,7 +136,8 @@ public class ThreadPool {
                     synchronized (this) {
                         wait();
                         r = Objects.requireNonNull(currentRunnable);
-//                        print("awaken: executing custom runnable...");
+						/* penso io: lo mettiamo qui dentro per il problema della
+						 * memoria consistente!!! */
                     }
                     try {
                         r.run();
@@ -194,7 +195,7 @@ public class ThreadPool {
             p = q.poll();
         }
         synchronized (p) {
-            p.currentRunnable = cb;
+            p.currentRunnable = cb; /* serve anche per sync memoria, non solo mutex */
             p.notify();
         }
         return p;
