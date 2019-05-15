@@ -55,7 +55,11 @@ public class GenericSort {
         });
     }
 
-    /* TODO LEZIONE: migliorare e generalizzare sto algoritmo */
+    /* TODO LEZIONE: migliorare e generalizzare sto algoritmo 
+     * Questo algoritmo prende un array e lavora soltanto tra
+     * le posizioni comprese dal parametro left e quello right
+     * calcola un pivot, e sposta tutti gli elementi più piccoli 
+     * a sinistra e quelli più grandi a destra */
     int partition(int arr[], int left, int right) {
         int i = left, j = right;
         int tmp;
