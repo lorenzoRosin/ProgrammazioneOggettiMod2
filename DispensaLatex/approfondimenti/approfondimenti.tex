@@ -286,6 +286,95 @@ public class StopThread{
 \noindent Ricordati che l'operazione ++ non è atomica! Mentre incrementa la variabile potrebbe partire un'altro thread. Bisogna quindi usare la synchronized in questi casi. \newline
 Ricordarsi che se viene invocato un \textit{notify()} e poi un \textit{wait()} il wait continua ad aspettare, per questo è auspicabile mettere il \textit{wait()} all'interno di un ciclo while (o anche un if) che ne controlla continuamente la condizione anche prima di entrare in pausa. Sarebbe meglio usare un while che cosi posso controllare la correttezza sia in ingresso che in uscita.
 
+\subsection{GENERCIS}
+\noindent Ricordati che i metodi generici possono avere dei bound anche senza usare i wildcards, basta che siano declarati all'inizio:
+\begin{lstlisting}
+/* NON VA BENE */
+	public static <T> metodo(List< T extends Comparable<T> > var)
+	public static <T> metodo2(T extends Comparable<T> var)
+/* VA BENE */
+	public static <T extends Comparable<T> > metodo(List<T> var)
+	public static <T extends Comparable<T>> metodo2(T var)	
+	
+/* I WILDCARD VA BENE DICHIARARLI DOPO INVECE */
+	public static <T> metodo(List<? extends Comparable<T> > var)
+\end{lstlisting}
+\noindent I bounded wildcards servono sopratutto per aumetare la flessibilità delle nostre API, vediamo un esempio:
+\begin{lstlisting}
+public class Stack<E>{
+	public void push(E e)
+	public void pushAll(Iterable<E> e);
+	public E pop();
+	public void popAll(Collection<E> collection);
+}
+/* push e pop vanno sempre perchè che subtiping */
+Stack<Numeri> prova = new Stack<>();
+prova.push(new Interi()); /* funziona perchè c'è il cast */
+Interi temp = prova.pop();
+
+/* pushAll e popAll hanno problemi! */
+prova.pushAll(new Iterable<Interi>()); /* Non consentito dal compilatore */
+/* posso pushare solo Collezioni con lo stesso identico parametro,
+   avrei lo stesso problema con il popAll... Facendo come segue funziona */
+prova.pushAll(new Iterable<Numeri>()); /* Va benone */ 
+
+/*per fare in modo di aumentare la flessibilità di chi usa le nostre api,
+ * e quindi di poter inserire anche sottotipi della classe generata 
+ * posso usare i Bounded WildCards */
+public class Stack<E>{
+	public void push(E e)
+	public void pushAll(Iterable<? extends E> e);
+	public E pop();
+	public void popAll(Collection<? super E> collection);
+}
+
+\end{lstlisting}
+\noindent Vediamo un altro esempio per incrementare la flessibilità dei metodi:
+\begin{lstlisting}
+public static<E> Set<E> union(Set<E> s1, Set<E> s2)
+/* un metodo del genere ci costringe ad usare gli stessi
+ * identici tipi su tutti e due i set, megli ofare come segue: */
+public static<E> Set<E> union(Set<? extends E> s1, Set<? extends E> s2);
+Set<Integer> int = ..
+Set<Double> double = ...
+set<Number> numb = union (int, double);
+\end{lstlisting}
+\noindent Vediamo un altro esempio per incrementare la flessibilità dei metodi:
+\begin{lstlisting}
+public static <T extends Comparable<T>> T max(List<T> list)
+/* poco flessibile...meglio farlo cosi */
+public static <T extends Comparable<? super T>> T max(List<? extends T> list)
+/* la parte semplice è questa: List<? extends T> list, cioè do la possibilità
+ * di passare in ingresso anche una lista di sottotipi di T */
+/* ad esempio se proviamo a fare cosi usando la prima dichiarazione
+ * il tutto non funziona, con la seconda dichiarazione si */
+ List<ScheduledFuture<?>> schedule = max(...);
+/* questo perchè ScheduledFuture non implementa 
+ * Comaprable<ScheduledFuture>, invece però è sotto interfaccia 
+ * di Delayed, che estende Comparable<Delayed>. Quindi
+ * ScheduledFuture non è direttamente comparabile con
+ * se stessa, ma lo con ogni istanza di Delayed */
+\end{lstlisting}
+
+
+
+
+\noindent Vediamo un altro esempio per incrementare la flessibilità dei metodi:
+\begin{lstlisting}
+/* sono identiche, solo che la seconda è più bella da vedere */
+public static <E> void swap(List<E> list, int i, int j);
+public static     void swap(List<?> list, int i, int j){
+	list.set(i, list.set(j, list.get(i)))
+}
+/* la seconda per funzionare ha però bisogno di un metodo di help,
+ * perchè non possiamo aggiugnere niente ad una lista Unbounded */
+public static void swap(List<?> list, int i, int j){
+	swapHelp(list,i,j);
+}
+private static <E> void swapHelp(List<E> list, int i, int j){
+	list.set(i, list.set(j, list.get(i)))
+}
+\end{lstlisting}
 \subsection{ALTRO}
 \noindent Quando lanci eccezioni fai operazioni etc.. sarebbe meglio non lasciare l'oggetto in uno stato inconsistente. E' sempre meglio lanciare eccezioni in posizioni dove l'oggetto non è ancora stato modificato, in modo da non comprometterlo: è giusto quindi fare dei check iniziali di alcune variabili critiche e lanciare le eccezioni da li. 
 \begin{lstlisting}
