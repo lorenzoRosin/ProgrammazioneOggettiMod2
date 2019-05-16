@@ -341,19 +341,39 @@ set<Number> numb = union (int, double);
 \end{lstlisting}
 \noindent Vediamo un altro esempio per incrementare la flessibilità dei metodi:
 \begin{lstlisting}
-public static <T extends Comparable<T>> T max(List<T> list)
-/* poco flessibile...meglio farlo cosi */
-public static <T extends Comparable<? super T>> T max(List<? extends T> list)
-/* la parte semplice è questa: List<? extends T> list, cioè do la possibilità
- * di passare in ingresso anche una lista di sottotipi di T */
-/* ad esempio se proviamo a fare cosi usando la prima dichiarazione
- * il tutto non funziona, con la seconda dichiarazione si */
- List<ScheduledFuture<?>> schedule = max(...);
-/* questo perchè ScheduledFuture non implementa 
- * Comaprable<ScheduledFuture>, invece però è sotto interfaccia 
- * di Delayed, che estende Comparable<Delayed>. Quindi
- * ScheduledFuture non è direttamente comparabile con
- * se stessa, ma lo con ogni istanza di Delayed */
+public class Alta implements Comparable<Alta>{
+
+}
+
+public class Bassa extends Alta{
+	/* inherith
+	 * public int compareTo(Alta){
+	 *	...
+	 * }  */
+}
+
+/* Date queste classi il seguente codice funziona */
+Bassa prova = new Bassa();
+prova.compraTo(new Alta());
+
+/* Adesso vediamo il seguente metodo */
+public static <T extends Comparable<T>> void provametodo(List<T> var)
+/* Ci permette di confrontare solamente classi che implementano
+ * direttamente l'interfaccia Comparable! Nel nostro caso Bassa non
+ * implementa Comparable<Bassa> ma la eredità soltanto dalla sua classe 
+ * madre */
+
+List<Alta> temp = new ArrayList<Alta>();
+provametodo(temp); /* questo funziona */
+
+List<Bassa> temp = new ArrayList<Bassa>();
+provametodo(temp); /* questo mi da errore in compilazione */
+
+/* Per risolvere bisogna fare come segue */ 
+public static <T extends Comparable<? super T>> void provametodo2(List<T> var)
+
+List<Bassa> temp = new ArrayList<Bassa>();
+provametodo2(temp); /* questo cosi funziona! */
 \end{lstlisting}
 
 
@@ -374,6 +394,73 @@ public static void swap(List<?> list, int i, int j){
 private static <E> void swapHelp(List<E> list, int i, int j){
 	list.set(i, list.set(j, list.get(i)))
 }
+\end{lstlisting}
+
+\noindent Wildcards su multilivelli. Riprendiamo le regole per l'assegnamento dei generics \newline
+\textbullet\ X<A> è sottotipo di X<B> solo se A = B \newline
+\textbullet\ X<A> è assegnabile a X<?> \newline
+\textbullet\ X<A> è assegnabile a X<? extends T> se A è sotto insieme di T \newline
+\textbullet\ X<A> è assegnabile a X<? super T> se A è super insieme di T \newline
+
+\begin{lstlisting}
+Collection<Pair<String,Long>> c1 = new ArrayList<Pair<String,Long>>();
+
+Collection<Pair<String,Long>> c2 = c1; // ok
+
+/* Non funziona perchè riguardando le regole e ponendo
+ * A = Pair<String, Long> e B = Pair<String, ?>
+ * abbiamo che A non è uguale a B.
+ * le regole non sono transitive e quindi 
+ * X<X<A>> non è assegnabile a X<X<?>> */
+Collection<Pair<String,?>> c3 = c1;  /* NON VA */
+
+/* Funziona perchè riguardando le regole e ponendo
+ * A = Pair<String, ?> possiamo assegnarlo a
+ * B = ? extends Pair<String,Long> */
+Collection<? extends Pair<String,?>> c4 = c1; /*VA*/
+
+
+/* Altro esempio: */
+List<String> è assegnabile a List<?>
+List<List<String>> non assegnabile a List<List<?>>
+List<List<String>> è assegnabile a List<? extends List<?>>
+
+/* Altro esempio: */
+List<List<?>> lolAny = new ArrayList<List<?>>();
+lolAny.add(new ArrayList<Integer>());
+lolAny.add(new ArrayList<String>());
+// lolAny = new ArrayList<List<String>>(); // DOES NOT COMPILE!!
+List<? extends List<?>> lolSome;
+lolSome = new ArrayList<List<String>>();
+lolSome = new ArrayList<List<Integer>>();
+
+/* Altro esempio: */
+List<List<? extends Number>> lolAnyNum = new ArrayList<List<? extends Number>>();
+
+lolAnyNum.add(new ArrayList<Integer>());
+lolAnyNum.add(new ArrayList<Float>());
+// lolAnyNum.add(new ArrayList<String>());     // DOES NOT COMPILE!!
+// lolAnyNum = new ArrayList<List<Integer>>(); // DOES NOT COMPILE!!
+List<? extends List<? extends Number>> lolSomeNum;
+lolSomeNum = new ArrayList<List<Integer>>();
+lolSomeNum = new ArrayList<List<Float>>();
+// lolSomeNum = new ArrayList<List<String>>(); // DOES NOT COMPILE!!
+\end{lstlisting}
+
+
+\begin{lstlisting}
+List<?> can CC List<String>
+List<? extends Number> can CC List<Integer>
+List<? extends Number> can NOT CC List<String>
+
+List<List<?>> can NOT CC List<List<String>>
+List<? extends List<?>> can CC List<List<String>>
+
+List<? extends List<? extends Number>> can CC List<List<Integer>>
+List<? extends List<? extends Number>> can NOT CC List<List<Integer>>
+
+
+https://stackoverflow.com/questions/3546745/multiple-wildcards-on-a-generic-methods-makes-java-compiler-and-me-very-confu
 \end{lstlisting}
 \subsection{ALTRO}
 \noindent Quando lanci eccezioni fai operazioni etc.. sarebbe meglio non lasciare l'oggetto in uno stato inconsistente. E' sempre meglio lanciare eccezioni in posizioni dove l'oggetto non è ancora stato modificato, in modo da non comprometterlo: è giusto quindi fare dei check iniziali di alcune variabili critiche e lanciare le eccezioni da li. 
