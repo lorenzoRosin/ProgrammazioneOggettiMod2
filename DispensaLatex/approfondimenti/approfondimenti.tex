@@ -23,7 +23,7 @@ Per l'esame bisogna studiare: \newline
 
 
 \subsection{FACTORY}
-Esistono 3 implementazioni con nomi diverse di questo design pattern, le quali vengono chiamate anche: Smart Constructor. \newline
+Esistono 3 implementazioni con nomi diversi di questo design pattern, le quali vengono chiamate anche: Smart Constructor. \newline
 \subsubsection{FACTORY}
 \begin{lstlisting}
 /* Lo scopo è nascondere l'implementazione e come
@@ -287,18 +287,19 @@ public class StopThread{
 Ricordarsi che se viene invocato un \textit{notify()} e poi un \textit{wait()} il wait continua ad aspettare, per questo è auspicabile mettere il \textit{wait()} all'interno di un ciclo while (o anche un if) che ne controlla continuamente la condizione anche prima di entrare in pausa. Sarebbe meglio usare un while che cosi posso controllare la correttezza sia in ingresso che in uscita.
 
 \subsection{GENERCIS}
-\noindent Ricordati che i metodi generici possono avere dei bound anche senza usare i wildcards, basta che siano declarati all'inizio:
+\noindent Ricordati che i metodi generici possono avere dei bound anche senza usare i wildcards, basta che siano dichiarati all'inizio:
 \begin{lstlisting}
 /* NON VA BENE */
-	public static <T> metodo(List< T extends Comparable<T> > var)
-	public static <T> metodo2(T extends Comparable<T> var)
+	public static <T> void metodo(List< T extends Comparable<T> > var)
+	public static <T> void metodo2(T extends Comparable<T> var)
 /* VA BENE */
-	public static <T extends Comparable<T> > metodo(List<T> var)
-	public static <T extends Comparable<T>> metodo2(T var)	
+	public static <T extends Comparable<T>> void metodo(List<T> var)
+	public static <T extends Comparable<T>> void metodo2(T var)	
 	
 /* I WILDCARD VA BENE DICHIARARLI DOPO INVECE */
 	public static <T> metodo(List<? extends Comparable<T> > var)
 \end{lstlisting}
+\subsubsection{GENERCIS E FLESSIBILITA'}
 \noindent I bounded wildcards servono sopratutto per aumetare la flessibilità delle nostre API, vediamo un esempio:
 \begin{lstlisting}
 public class Stack<E>{
@@ -314,7 +315,7 @@ Interi temp = prova.pop();
 
 /* pushAll e popAll hanno problemi! */
 prova.pushAll(new Iterable<Interi>()); /* Non consentito dal compilatore */
-/* posso pushare solo Collezioni con lo stesso identico parametro,
+/* posso pushare solo Iteratori con lo stesso identico parametro,
    avrei lo stesso problema con il popAll... Facendo come segue funziona */
 prova.pushAll(new Iterable<Numeri>()); /* Va benone */ 
 
@@ -333,12 +334,14 @@ public class Stack<E>{
 \begin{lstlisting}
 public static<E> Set<E> union(Set<E> s1, Set<E> s2)
 /* un metodo del genere ci costringe ad usare gli stessi
- * identici tipi su tutti e due i set, megli ofare come segue: */
+ * identici tipi su tutti e due i set, meglio fare come segue: */
 public static<E> Set<E> union(Set<? extends E> s1, Set<? extends E> s2);
 Set<Integer> int = ..
 Set<Double> double = ...
 set<Number> numb = union (int, double);
 \end{lstlisting}
+
+\subsubsection{COMPARABLE E GENERCIS}
 \noindent Vediamo un altro esempio per incrementare la flessibilità dei metodi:
 \begin{lstlisting}
 public class Alta implements Comparable<Alta>{
@@ -347,7 +350,7 @@ public class Alta implements Comparable<Alta>{
 
 public class Bassa extends Alta{
 	/* inherith
-	 * public int compareTo(Alta){
+	 * public int compareTo(Alta var){
 	 *	...
 	 * }  */
 }
@@ -355,6 +358,7 @@ public class Bassa extends Alta{
 /* Date queste classi il seguente codice funziona */
 Bassa prova = new Bassa();
 prova.compraTo(new Alta());
+prova.compraTo(new Bassa()); /* Funziona grazie al cast */
 
 /* Adesso vediamo il seguente metodo */
 public static <T extends Comparable<T>> void provametodo(List<T> var)
@@ -376,18 +380,20 @@ List<Bassa> temp = new ArrayList<Bassa>();
 provametodo2(temp); /* questo cosi funziona! */
 \end{lstlisting}
 
-
-
-
-\noindent Vediamo un altro esempio per incrementare la flessibilità dei metodi:
+\noindent Vediamo un altro esempio di utilizzo di wildcards che aumentano la flessibilità dei nostri metodi.
 \begin{lstlisting}
-/* sono identiche, solo che la seconda è più bella da vedere */
-public static <E> void swap(List<E> list, int i, int j);
-public static     void swap(List<?> list, int i, int j){
+/* sono funzioni scritte sotto identiche, solo che la 
+ * seconda è più bella da vedere */
+public static <E> void swap(List<E> list, int i, int j){
 	list.set(i, list.set(j, list.get(i)))
 }
-/* la seconda per funzionare ha però bisogno di un metodo di help,
- * perchè non possiamo aggiugnere niente ad una lista Unbounded */
+public static     void swap(List<?> list, int i, int j){
+	list.set(i, list.set(j, list.get(i))) /* errore compilazione */
+}
+
+/* bisogna comunque tenere conto  che la seconda per funzionare
+ * ha però bisogno di un metodo di help per funzionare. Questo
+ * perchè non possiamo aggiungere niente ad una lista Unbounded */
 public static void swap(List<?> list, int i, int j){
 	swapHelp(list,i,j);
 }
@@ -396,72 +402,63 @@ private static <E> void swapHelp(List<E> list, int i, int j){
 }
 \end{lstlisting}
 
-\noindent Wildcards su multilivelli. Riprendiamo le regole per l'assegnamento dei generics \newline
+\subsubsection{NESTED GENERCIS}
+\noindent Per capire i wildcards su multi-livelli bisogna riprendere le regole per l'assegnamento dei generics e ragionarci sù:\newline
 \textbullet\ X<A> è sottotipo di X<B> solo se A = B \newline
 \textbullet\ X<A> è assegnabile a X<?> \newline
 \textbullet\ X<A> è assegnabile a X<? extends T> se A è sotto insieme di T \newline
 \textbullet\ X<A> è assegnabile a X<? super T> se A è super insieme di T \newline
-
+\noindent Vediamo degli esempi:
 \begin{lstlisting}
-Collection<Pair<String,Long>> c1 = new ArrayList<Pair<String,Long>>();
-
-Collection<Pair<String,Long>> c2 = c1; // ok
+/* Questa funziona */
+Collection<Pair<String,Long>> c2 =  new ArrayList<Pair<String,Long>>(); 
 
 /* Non funziona perchè riguardando le regole e ponendo
  * A = Pair<String, Long> e B = Pair<String, ?>
  * abbiamo che A non è uguale a B.
  * le regole non sono transitive e quindi 
  * X<X<A>> non è assegnabile a X<X<?>> */
-Collection<Pair<String,?>> c3 = c1;  /* NON VA */
+Collection<Pair<String,?>> c3 =  new ArrayList<Pair<String,Long>>(); 
 
 /* Funziona perchè riguardando le regole e ponendo
  * A = Pair<String, ?> possiamo assegnarlo a
  * B = ? extends Pair<String,Long> */
-Collection<? extends Pair<String,?>> c4 = c1; /*VA*/
+Collection<? extends Pair<String,?>> c4 =  new ArrayList<Pair<String,Long>>(); 
 
+/* Funziona */
+List<?> c = new List<String>;
 
-/* Altro esempio: */
-List<String> è assegnabile a List<?>
-List<List<String>> non assegnabile a List<List<?>>
-List<List<String>> è assegnabile a List<? extends List<?>>
+/* Non funziona */
+List<List<?>> c = new List<List<String>>();
 
-/* Altro esempio: */
-List<List<?>> lolAny = new ArrayList<List<?>>();
-lolAny.add(new ArrayList<Integer>());
-lolAny.add(new ArrayList<String>());
-// lolAny = new ArrayList<List<String>>(); // DOES NOT COMPILE!!
-List<? extends List<?>> lolSome;
-lolSome = new ArrayList<List<String>>();
-lolSome = new ArrayList<List<Integer>>();
+/* Funziona */
+List<List<?>> c = new ArrayList<List<?>>();
+/* Funziona pure l'aggiunta */
+c.add(new ArrayList<Integer>());
+c.add(new ArrayList<String>());
 
-/* Altro esempio: */
-List<List<? extends Number>> lolAnyNum = new ArrayList<List<? extends Number>>();
+/* Funziona */
+List<? extends List<?>> c = new List<List<String>>();
+List<? extends List<?>> c = new List<List<Integer>>();
 
-lolAnyNum.add(new ArrayList<Integer>());
-lolAnyNum.add(new ArrayList<Float>());
-// lolAnyNum.add(new ArrayList<String>());     // DOES NOT COMPILE!!
-// lolAnyNum = new ArrayList<List<Integer>>(); // DOES NOT COMPILE!!
-List<? extends List<? extends Number>> lolSomeNum;
-lolSomeNum = new ArrayList<List<Integer>>();
-lolSomeNum = new ArrayList<List<Float>>();
-// lolSomeNum = new ArrayList<List<String>>(); // DOES NOT COMPILE!!
+/* Funziona */
+List<List<? extends Number>> c = new ArrayList<List<? extends Number>>();
+c.add(new ArrayList<Integer>());
+c.add(new ArrayList<Float>());
+/* Questo metodo invece non funziona */
+c.add(new ArrayList<String>());   
+
+/* Non funziona */
+List<List<? extends Number>> c = new ArrayList<List<Integer>>(); 
+
+/* Funziona */
+List<? extends List<? extends Number>> c = new ArrayList<List<Integer>>();
+List<? extends List<? extends Number>> c = new ArrayList<List<Float>>();
+
+/* Non funziona */
+List<? extends List<? extends Number>> = new ArrayList<List<String>>(); 
 \end{lstlisting}
 
-
-\begin{lstlisting}
-List<?> can CC List<String>
-List<? extends Number> can CC List<Integer>
-List<? extends Number> can NOT CC List<String>
-
-List<List<?>> can NOT CC List<List<String>>
-List<? extends List<?>> can CC List<List<String>>
-
-List<? extends List<? extends Number>> can CC List<List<Integer>>
-List<? extends List<? extends Number>> can NOT CC List<List<Integer>>
-
-
-https://stackoverflow.com/questions/3546745/multiple-wildcards-on-a-generic-methods-makes-java-compiler-and-me-very-confu
-\end{lstlisting}
 \subsection{ALTRO}
 \noindent Quando lanci eccezioni fai operazioni etc.. sarebbe meglio non lasciare l'oggetto in uno stato inconsistente. E' sempre meglio lanciare eccezioni in posizioni dove l'oggetto non è ancora stato modificato, in modo da non comprometterlo: è giusto quindi fare dei check iniziali di alcune variabili critiche e lanciare le eccezioni da li. 
 \begin{lstlisting}
