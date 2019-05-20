@@ -1,9 +1,48 @@
-
-
 \newpage
-\section{16-05-2019}
-\noindent PLACE HOLDER
+\section{16-05-2019: ULTIMA LEZIONE}
+\noindent Mancano gli appunti dell'ultima mezzora, ma ormai penso sia impossibile recuperarli. \newline
+\noindent \textbf{SUBTIPING} \newline
+\textbullet\ \textit{Subtyping}: polimorfismo verticale, si eredità. I tipi si allargano. \newline
+\textbullet\ \textit{Generics}: polimorfismo orizzontale \newline
 
  
+\noindent Esempio:
+\begin{lstlisting}
+public static object ident(Object o){
+	return o;
+}
+/* posso passare qualsiasi cosa ma.. */
+String s = "ciao";
+
+/* Questomi da errore in quanto ident restituisce Object */
+String s2 = ident(s); 
+
+/* posso risolvere con un down cast */
+String s3 = (String) ident(s);
+
+/* Andare su con i tipi è gratuito, scendere no*/
+ public static <T> T ident(T o){
+ 	return o;
+ }
+/* T è un tipo generale e può essere diverso ad ogni
+ * invocazione */
+\end{lstlisting}
 
 
+\noindent Ogni volta che si chiama un metodo con i generics questo viene sostituito con il vero tipo, in tutta la firma del metodo.
+\begin{lstlisting}
+/* in questo caso T sarà sostituito con String*/
+String s4 = ident(s);
+
+
+/* Esempio: posso passare String ma anche sottotipi di
+ * String  */
+public static <T extends String> T ident (T o)
+\end{lstlisting}
+
+\noindent \textbf{COLLECTION} \newline
+Le interfacce esprimono contratti ma tramite il type system non si può definire cosa poi farà il metodo (anche se ne definisco il comportamento).\newline
+Un'interfaccia è una classe astratta in cui tutti i metodi sono non implementati. \newline
+un metodo di default è un'implementazione di metodo nell'interfaccia. \newline
+Quando si parla di ereditarietà multipla si intende l'ereditarietà tra le classi (PER ESAME) \newline
+Eccezioni: oggetti che si possono lanciare tramite il costrutto throw, servono a rappresentare stati d'errore.
