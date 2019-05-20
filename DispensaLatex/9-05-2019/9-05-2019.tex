@@ -3,7 +3,7 @@
 \newpage
 \section{9-05-2019: WRAPPING}
 \noindent \textbf{APPUNTI DELLA LEZIONE} \newline
-Qunado si ha a che fare con la sincronizzazione è meglio lasciare risolvere questi problemi alla struttura dati che scegliamo di usare, come quando si sceglie di usare una blockingLinkedQueue, dove la sincronizzazione avviene al suo interno. \newline
+Qunado si ha a che fare con la sincronizzazione è meglio lasciare risolvere questi problemi alla struttura dati che scegliamo di usare, come quando si sceglie di usare una \textit{LinkedBlockingQueue}, dove la sincronizzazione avviene al suo interno. \newline
 Il problema dei generics si può risolvere da dentro, mettendo un vincolo sui generics dicendo che devono implementare comparable. Oppure da fuori, fornendo una primitiva che permetta il confronto: comparator. \newline
 \begin{lstlisting}
 /* eccone un esempio da dentro */
@@ -41,10 +41,10 @@ static <T> void quickSort(List<T> l, BiFunction<T, T, Boolean> f){
 }
 
 \end{lstlisting}
-\noindent \textbf{CODICE FATTO IN CLASSE} \newline
 
+
+\noindent \textbf{CODICE FATTO IN CLASSE} \newline
 \noindent Ha modificato ulteriormente la classe dell'altra volta aggiungendo del codice in testa. Riporto solo il codice nuovo.
- 
 \begin{lstlisting}
 package patterns.consumer_producer;
 

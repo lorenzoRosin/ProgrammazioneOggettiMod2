@@ -2,9 +2,7 @@
 
 \newpage
 \section{APPROFONDIMENTI}
-In questa sezione inserirò il materiale utile trovato nel libro e/o su internet sotto forma di approfondimento. 
-
-
+In questa sezione inserirò il materiale utile trovato nel libro e/o su internet sotto forma di approfondimento. \newline
 \noindent \textbf{COSA STUDIARE BENE} \newline
 Per l'esame bisogna studiare: \newline
 \textbullet\ Collection \newline
@@ -17,10 +15,8 @@ Per l'esame bisogna studiare: \newline
 \textbullet\ Programmazione funzionale: anonymus classes \newline
 \textbullet\ Programmazione funzionale: function objects \newline
 
-
 \subsection{COLLECTION}
 \noindent Le collection le chiamano anche contenitori.
-
 
 \subsection{FACTORY}
 Esistono 3 implementazioni con nomi diversi di questo design pattern, le quali vengono chiamate anche: Smart Constructor. \newline
@@ -42,6 +38,7 @@ public class FruitFactory {
   }
 }
 \end{lstlisting}
+
 \subsubsection{FACTORY METHODS}
 \noindent il factory  methods di prima è bello perchè il cliente ha la sola dipendenza dalla classe FruitFactory. Se c'è però bisogno di aggiungere un frutto bisognerà modificare quella classe. Questo va contro al principio di "estendere senza modificare". Per fare ciò è stato inventato il seguente design pattern, che permette di aggiungere funzionalità estendendo le classi, senza bisogno di modificarle.
 \begin{lstlisting}
@@ -63,6 +60,7 @@ class OrangePicker extends FruitPicker {
   }
 }
 \end{lstlisting}
+
 \subsubsection{ABSTRACT FACTORY}
 \begin{lstlisting}
 interface PlantFactory {
@@ -93,6 +91,7 @@ public class OrangeFactory implements PlantFactory {
   }
 }
 \end{lstlisting}
+
 \subsubsection{STATIC FACTORY METHODS}
 \noindent Non penso centri con questo tipo di design pattern, ma è comunque un metodo con un nome simile.
 \begin{lstlisting}
@@ -147,6 +146,7 @@ class Color {
 } 
 
 \end{lstlisting}
+
 \subsection{COMMAND}
 Questo design pattern prevede di fare un decoupling tra un attore che produce azioni ed un consumatore. Genereremo infatti vari comandi che nascondono all'utilizzatore la loro implementazione, permettendo anche al codice di essere il più mantenibile possibile. \newline
 Creando vari oggetti che implementano vari azioni abbiamo anche la possibilità di salvarli in liste, code etc.. Questo design prevede vari attori: \newline
@@ -175,6 +175,7 @@ public void startAfter100Mills(){
 /* INVOKER */
 /* E' l'oggetto che invoca dopo 100 ms performAction*/
 \end{lstlisting}
+
 \subsection{FUNCTION OBJECT}
 \noindent Bisogna inanzi tutto precisare che non è un vero design pattern, ma una implementazione. I functional objects sono oggetti usati solo come funzioni. Essi magari implementano un'interfaccia funzionale e poi vengono passati nel codice ed usati solo per il loro unico metodo. Questi oggetti non si memorizzano variabili interne ma elaborano solamente i dati in ingresso al loro metodo. vediamone un esempio:
 \begin{lstlisting}
@@ -299,6 +300,7 @@ Ricordarsi che se viene invocato un \textit{notify()} e poi un \textit{wait()} i
 /* I WILDCARD VA BENE DICHIARARLI DOPO INVECE */
 	public static <T> metodo(List<? extends Comparable<T> > var)
 \end{lstlisting}
+
 \subsubsection{GENERCIS E FLESSIBILITA'}
 \noindent I bounded wildcards servono sopratutto per aumetare la flessibilità delle nostre API, vediamo un esempio:
 \begin{lstlisting}
@@ -503,7 +505,7 @@ public <T extends Sad> T foo(T emotion) {
  * compile time. Sfortunatamente il compilatore
  * non ha conoscenza dei tipi in fase di compilazione
  * e per mantenere la compatibilità con vecchie 
- * versioni di java fa sparire i generics /	
+ * versioni di java fa sparire i generics /*	
 \end{lstlisting}
 
 
@@ -517,4 +519,18 @@ public Object[] popTotObject(int num ){
 	size -= num;
 	....
 }
+\end{lstlisting}
+
+\noindent Quando si fa overload la firma del metodo deve essere diversa. la firma non comprende il tipo di ritorno. Quindi java non supporto metodi con firme uguali e tipi di ritorno diversi nemmeno durante la fase di compilazione!
+\begin{lstlisting}
+
+/* Il codice scritto cosi ritornerebbe un 
+ * errore di compilazione */
+	public void foo(int emotion) {
+		return;
+	}   
+	
+	public int foo(int emotion) {
+		return emotion;
+	}   
 \end{lstlisting}
