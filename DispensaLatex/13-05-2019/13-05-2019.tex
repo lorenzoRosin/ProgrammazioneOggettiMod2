@@ -2,6 +2,11 @@
 
 \newpage
 \section{13-05-2019: GENERICS}
+\noindent \textbf{APPUNTI DELLA LEZIONE} \newline
+Ricorda che se non serve usare il this, metti tutto come static. \newline
+Gli array possono essere sub-sunti in modo speciale.
+
+
 \noindent \textbf{CODICE FATTO IN CLASSE} \newline
 Tutto il codice quicksort è stato rimosso dalla classe dell'altra volta, modificato ed inserito in una nuova classe che ora riporto qui sotto:
 \begin{lstlisting}
@@ -13,6 +18,11 @@ import java.util.function.BiFunction;
 public class GenericSort {
 
 
+	/* le due funzioni quicksort8 riportate sotto
+	 * non compilerebbero assieme, perchè hanno la 
+	 * stessa type erasure, anche se con i vincoli
+	 * in firma fanno cose leggermente diverse.
+	 * la firma diventa: quicksort8(List l) */
     static <T> void quicksort8(List<? extends Comparable<T>> l) {
 
     }
@@ -35,9 +45,11 @@ public class GenericSort {
         /* algo */
     }
 
-	/* non può essere overload perché ha la stessa erasure di BiFunction<T, T, Boolean> */
+	/* Le due funzioni seguenti hanno nomi diversi perchè
+	 * non potrebbero lavorare assieme, avrebbero la stessa
+	 * type erasure:
+	 * static void quicksort__compare(Listl, BiFunction f) */
     static <T> void quicksort__compare(List<T> l, BiFunction<T, T, Integer> f) { 
-       /* TODO: stessa erasure di BiFunction<T, T, Boolean> */
         quicksort(l, new Comparator<T>() {
             @Override
             public int compare(T a, T b) {

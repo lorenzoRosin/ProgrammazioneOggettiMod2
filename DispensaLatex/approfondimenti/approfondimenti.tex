@@ -459,6 +459,54 @@ List<? extends List<? extends Number>> c = new ArrayList<List<Float>>();
 List<? extends List<? extends Number>> = new ArrayList<List<String>>(); 
 \end{lstlisting}
 
+\noindent \subsubsection{OVERLOAD DI GENERCIS}
+\noindent Vediamo due regole su il type erasure dei SINGOLI tipi dei generics (quindi non di quelli innestati dentro ad altri tipi, come ad esempio delle liste). \newline
+\textbullet\ \textit{?} -> diventa Object \newline
+\textbullet\ \textit{? extends Number} -> diventa Number \newline
+\textbullet\ \textit{? super Number} -> diventa Object \newline
+Queste regole non valgono per la type erasure di tipi come \textit{List<T>} che vengono posti a \textit{List}.
+\begin{lstlisting}
+/* VA BENE, questi due metodi possono stare in overload
+ * perchè la type erasure della prima funzione è:
+ * Happy foo(Happy emotion), e quello della seconda è:
+ * Sad foo(Sad emotion) */
+public <T extends Happy> T foo(T emotion) {
+}   
+
+public <T extends Sad> T foo(T emotion) {
+
+} 
+
+/* NON VA BENE, questi due metodi hanno lo stesso
+ * erasure type: Integer foo(List emotion) e
+ * Double foo(List emotion) */
+	public <T extends Integer> T foo(List<T> emotion) {
+		return emotion;
+	}   
+	
+	public <T extends Double> T foo(List<T> emotion) {
+		return emotion;
+	} 
+	
+/* NON VA BENE, hanno la stessa erasure type
+ * public void foo(List emotion) */
+	public void foo(List<Number> emotion) {
+		return emotion;
+	}   
+	
+	public void foo(List<Integer> emotion) {
+		return emotion;
+	} 
+	
+/* Abbiamo questi problemi con Arraylist<Qualcosa>
+ * perchè sono generics, e vengono risolti in
+ * compile time. Sfortunatamente il compilatore
+ * non ha conoscenza dei tipi in fase di compilazione
+ * e per mantenere la compatibilità con vecchie 
+ * versioni di java fa sparire i generics /	
+\end{lstlisting}
+
+
 \subsection{ALTRO}
 \noindent Quando lanci eccezioni fai operazioni etc.. sarebbe meglio non lasciare l'oggetto in uno stato inconsistente. E' sempre meglio lanciare eccezioni in posizioni dove l'oggetto non è ancora stato modificato, in modo da non comprometterlo: è giusto quindi fare dei check iniziali di alcune variabili critiche e lanciare le eccezioni da li. 
 \begin{lstlisting}
