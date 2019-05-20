@@ -1,0 +1,95 @@
+\newpage
+\section{16-05-2019: ULTIMA LEZIONE}
+\noindent Il prof, pur non essendoci lezione, ha caricato altro codice, non so il perchè.. \newline
+
+\noindent \textbf{CODICE DEL PROFESSORE} \newline
+
+
+\begin{lstlisting}
+package misc;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
+
+public class ErrorInInvoke {
+    public static void run() {
+        throw new AbstractMethodError("Not really, just testing");
+    }
+
+    public static void main(String[] args) {
+        Method m;
+
+        try {
+            m = ErrorInInvoke.class.getMethod("run", new Class[]{});
+        } catch (Throwable t) {
+            throw new RuntimeException("Test failed (getMethod() failed");
+        }
+
+        try {
+            m.invoke(null, null);
+        } catch (AbstractMethodError e) {
+            throw new RuntimeException("Test failed (AbstractMethodError passed through)");
+        } catch (InvocationTargetException e) {
+            Throwable t = e.getTargetException();
+            if (!(t instanceof AbstractMethodError)) {
+                throw new RuntimeException("Test failed (InvocationTargetException didn't wrap AbstractMethodError)");
+            }
+        } catch (Throwable t) {
+            throw new RuntimeException("Test failed (Unexpected exception)");
+        }
+    }
+}
+\end{lstlisting}
+
+
+\begin{lstlisting}
+package misc;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+public class AbstractErrors {
+
+    public static abstract class A {
+
+        public A() {
+            System.out.println("Constructing A");
+            virtual();
+        }
+
+        public abstract void virtual();
+    }
+
+    public static class B extends A {
+        public B() {
+            System.out.println("Constructing B");
+        }
+
+        @Override
+        public void virtual() {
+            System.out.println("Using B");
+        }
+    }
+
+
+    public static void main(String[] args) {
+        callToAbstract();
+    }
+
+    public static void constructorOrder() {
+        new B();
+    }
+
+    public static void callToAbstract() {
+        try {
+            Class<A> cl = A.class;
+            Constructor<A> cons = cl.getConstructor(new Class[] {});
+            A a = cons.newInstance();   // se si può costruire, l'invocazione appena sotto sarà ad un metodo astratto!
+            a.virtual();
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+\end{lstlisting}
